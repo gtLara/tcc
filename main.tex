@@ -1,0 +1,152 @@
+\documentclass[
+    a4paper,          % Tamanho da folha A4
+    12pt,             % Tamanho da fonte 12pt
+    chapter=TITLE,    % Todos os capitulos devem ter caixa alta
+    section=Title,    % Todas as secoes devem ter caixa alta somente na primeira letra
+    subsection=Title, % Todas as subsecoes devem ter caixa alta somente na primeira letra
+    oneside,          % Usada para impressao em apenas uma face do papel
+    english,          % Hifenizacoes em ingles
+    spanish,          % Hifenizacoes em espanhol
+    brazil           % Ultimo idioma eh o idioma padrao do documento
+   % fleqn             % Comente esta linha se quiser centralizar as equacoes. Comente também a linha 65 abaixo
+]{abntex2}
+
+\input{lib/preambulo}
+
+\trabalhoacademico{tccgraduacao}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define se o trabalho e uma qualificacao
+% Coloque 'nao' para versao final do trabalho
+
+\ehqualificacao{nao}
+
+% Remove as bordas vermelhas e verdes do PDF gerado
+% Coloque 'sim' pare remover
+
+\removerbordasdohyperlink{sim}
+
+% Adiciona a cor Azul a todos os hyperlinks
+
+\cordohyperlink{sim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%         Informacao sobre a instituicao          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ies{Universidade Federal de Minas Gerais}
+\iessigla{UFMG}
+\centro{Center of What}
+\departamento{Departamento de Engenharia Eletrônica}
+
+\graduacaoem{Electrical Engineering}
+\habilitacao{Bachelors}
+
+% AVISO: Caso necessario alterar o texto de apresenta-
+% cao da Especializacao, ir a pasta "lib", arquivo
+% "ufctex.sty" na linha 512.
+
+% AVISO: Caso necessario alterar o texto de apresenta-
+% cao da Especializacao, ir a pasta "lib", arquivo
+% "ufctex.sty" na linha 517.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Informacoes relacionadas ao trabalho       %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\autor{Gabriel Teixeira Lara Chaves}
+\titulo{Processamento de Representação de Séries Temporais Multivariadas e Não
+Estacionárias}
+\data{2023}
+\local{Belo Horizonte}
+
+% Exemplo: \dataaprovacao{6th September 2019}
+\dataaprovacao{31th August 2023}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%           Informação sobre o Orientador         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\orientador{Prof. Dr. Frederico Gualberto Coelho}
+\orientadories{Universidade Federal de Minas Gerais}
+\orientadorfeminino{sim} % Coloque 'sim' se for do sexo feminino
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%          Informação sobre o Coorientador        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Deixe o nome do coorientador em branco para remover do documento
+
+\coorientador{Prof. Dr. ?}
+\coorientadories{Universidade Federal de Minas Gerais}
+% \coorientadorcentro{Centro do Coorientador (SIGLA)}
+\coorientadorfeminino{nao} % Coloque 'sim' se for do sexo feminino
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%              Informação sobre a banca           %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Atenção! Deixe em branco o nome do membro da banca para remover da folha de aprovacao
+
+% Exemplo de uso:
+% \membrodabancadois{Prof. Dr. Fulano de Tal}
+% \membrodabancadoisies{Universidade Federal do Ceará - UFC}
+
+\membrodabancadois{Prof. Dr. Antônio de Pádua Braga}
+\coorientadories{Universidade Federal de Minas Gerais}
+% \membrodabancatres{Prof. Dr. Xxxxxxx Xxxxxx Xxxxxxx}
+% \membrodabancatrescentro{Centro de Ciências e Tecnologia (CCT)}
+% \membrodabancatresies{Universidade do Membro da Banca Três (SIGLA)}
+% \membrodabancaquatro{Prof. Dr. Xxxxxxx Xxxxxx Xxxxxxx}
+% \membrodabancaquatrocentro{Centro de Ciências e Tecnologia (CCT)}
+% \membrodabancaquatroies{Universidade do Membro da Banca Quatro (SIGLA)}
+% \membrodabancacinco{Prof. Dr. Xxxxxxx Xxxxxx Xxxxxxx}
+% \membrodabancacincocentro{Teste}
+% \membrodabancacincoies{Universidade do Membro da Banca Cinco (SIGLA)}
+% \membrodabancaseis{Prof. Dr. Xxxxxxx Xxxxxx Xxxxxxx}
+% \membrodabancaseiscentro{}
+% \membrodabancaseisies{Universidade do Membro da Banca Seis (SIGLA)}
+
+\begin{document}
+
+    \selectlanguage{english} % Colocando em inglês
+    \bibliographystyle{lib/abntex2-alf} % Ajustes das referências em inglês
+
+	% Elementos pré-textuais
+    \imprimircapatcc{Undergraduate}
+	\imprimirfolhaderosto{}
+	\imprimirfolhadeaprovacao
+	\imprimiragradecimentos{1-pre-textuais/agradecimentos}
+	\imprimirepigrafe{1-pre-textuais/epigrafe}
+	\imprimirabstract{1-pre-textuais/abstract}
+	\imprimirresumo{1-pre-textuais/resumo}
+	\imprimirlistadeilustracoes
+	\imprimirlistadetabelas
+	%\imprimirlistadequadros
+	%\imprimirlistadealgoritmos
+	% \imprimirlistadecodigosfonte
+	% \imprimirlistadeabreviaturasesiglas TODO: make this work !
+	\imprimirlistadesimbolos{1-pre-textuais/lista-de-simbolos}
+	\imprimirsumario
+
+	\setcounter{table}{0}% Deixe este comando antes da primeira tabela.
+
+	%Elementos textuais
+	\input{2-textuais/1-introducao}
+    \input{2-textuais/2-teoria_classica_st}
+	\input{2-textuais/3-teoria_classica_ssp}
+	\input{2-textuais/4-resultados}
+	\input{2-textuais/5-conclusao}
+
+	%Elementos pós-textuais
+	\bibliography{3-pos-textuais/referencias}
+	% \imprimirglossario
+	\imprimirapendices
+		\input{3-pos-textuais/apendices/apendice-a}
+	\imprimiranexos
+		\input{3-pos-textuais/anexos/anexo-a}
+	\imprimirindice
+
+\end{document}

@@ -1,0 +1,666 @@
+\part{Teoria Clássica de Séries Temporais}
+\label{cap:teorica_classica_series_temporais}
+
+
+\chapter*{Introdução}
+\label{sec:teorica_classica_series_temporais_introducao}
+
+\chapter{Definições e Propriedades}
+\label{sec:teorica_classica_series_temporais_definicoes}
+
+\section{Série Temporal}\label{ssec:definition}
+
+Uma série temporal é um conjunto de observações realizadas sequencialmente no
+tempo, indexadas de acordo com o momento em que foram observadas. As observações
+são tipicamente de um mesmo processo, tal que cada uma represente o resultado
+de uma amostragem. A natureza do processo subjacente é relevante para análise e
+modelagem de qualquer série temporal, como será visto nas próximas seções.
+
+Assume-me, na linguagem de~\cite{hamilton}, que um conjunto de amostras
+$\mathbf{y}_t = (y_1, y_2, y_3 \dots y_T)$ pode ser interpretado como um
+segmento finito de uma sequência duplamente infinita:
+
+$${\mathbf{y}}_{t=-\infty}^{\infty} = ({\dots, y_{-1},y_0, \overbrace{y_1, y_2, y_3, \dots, y_T}^{\text{Série Observada}}, y_{T+1}, y_{T+2}}\dots)$$
+
+\vspace{1cm}
+
+Apesar de parecer pouco tangível, de fato qualquer série trabalhada pela II
+é satisfatoriamente descrita dessa forma: o valor de uma variável de processo
+é zero até a planta ser construída e entrar em operação, assume valores
+representativos ou não da dinâmica de interesse (assumindo valores irrelevantes
+quando a planta não está em operação plena), e tendendo ao infinito retorna a
+zero quando a planta for desativada.
+
+Essa interpretação de uma série temporal é importante ao implicitamente
+insinuar que o processo existe em um intervalo temporal mais abrangente do que
+o observado. É portanto necessário se questionar sobre quanto os
+dados representam o processo analisado e em quais intervalos de tempo.
+
+
+TODO: Séries temporais são inerentemente diferentes de dados de corte
+transversal por representarem amostras discretas de um mesmo processo ao invés
+de amostras aleatórias de uma população.
+
+A forma mais natural de analisar uma série temporal é visualizar seus valores
+no tempo, como ilustra a imagem~\ref{fig:example}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figuras/white_noise.png}
+    \caption{Visualização no tempo de ruído branco}
+    \label{fig:example}
+\end{figure}
+
+
+\section{Operador de Atraso(\emph{Lag})}
+
+É importante introduzir o operador de atraso que será referido nesse texto
+como operador \emph{lag}.
+
+Dadas as séries $\mathbf{y}_t = (y_1, y_2, y_3 \dots y_T)$ e
+$\mathbf{x}_t = (x_0, x_1, x_2 \dots x_{T-1})$ tal que
+
+$$ \mathbf{y}_t = \mathbf{x}_{t-1}$$
+
+isso é,
+
+$$ y_1 = x_0 $$
+$$ y_2 = x_1 $$
+$$ \vdots $$
+$$ y_T = x_{T-1} $$
+
+Podemos definir $\mathbf{x}_t$ em função de $\mathbf{y}_t$ como:
+
+$$ \mathbf{x}_t = L\mathbf{y}_t $$
+
+tal que
+
+$$\boxed{\mathbf{y}_{t-1} = L\mathbf{y}_t}$$
+
+Observamos que o operador de atraso atrasa uma série temporal em uma unidade
+de tempo. Uma breve divagação matemática~\cite{hamilton} permite definir o
+operador com propriedades muito semelhantes à multiplicação, como
+associatividade, comutatividade e distribuição. Para atrasar múltiplas unidades
+de tempo temos que:
+
+\vspace{1cm}
+
+$$L(L(\mathbf{y_t})) = L(\mathbf{y}_{t-1}) = \mathbf{y}_{t-2} = L^2 \mathbf{y}_{t}$$
+
+\vspace{1cm}
+
+de forma que
+
+$$ L^n {\mathbf{y}} =  \mathbf{y}_{t-n}$$
+
+\vspace{1cm}
+
+Um uso importante do operador, decorrente de suas propriedades algébricas, é
+exemplificado na seguinte expansão
+
+$$ (aL^2 + bL^3) \mathbf{y}_{t} =  a\mathbf{y}_{t-2} + b\mathbf{y}_{t-3}$$
+
+Conhecimento do operador de atraso é importante para compreender a literatura
+de séries temporais e facilita comunicação objetiva de análises cotidianas.
+Esse estudo usa do operador para descrever uma série de modelos.
+
+Como nota final é importante mencionar que alguns livros~\cite{chatfield}
+~\cite{stoffer} usam a letra $B$ para denotar o operador de atraso e que na
+maior parte dos recursos \emph{online} o operador é referido por seu nome em
+inglês, \emph{lag}.
+
+\section{Operador de Diferença}\label{sec:diff}
+
+O operador de diferenças $\nabla$ ou  $\Delta$, dependendo do autor, é o
+equivalente discreto da operação contínua de diferenciação e opera sob uma
+série temporal $\mathbf{y}_t$ da seguinte forma:
+
+$$ \nabla \mathbf{y}_t = (1 - L)\mathbf{y}_t = \mathbf{y}_t - L\mathbf{y}_t = \mathbf{y}_t - \mathbf{y}_{t-1} $$
+
+O operador possui propriedades de associatividade e distribuição, tal que
+
+$$ \nabla^2 \mathbf{y}_t = \nabla(\nabla(\mathbf{y}_t)) = \nabla(\mathbf{y}_t - \mathbf{y}_{t-1}) = \nabla \mathbf{y}_t - \nabla \mathbf{y}_{t-1} = \mathbf{y}_t - 2 \mathbf{y}_{t-1} + \mathbf{y}_{t-2} $$
+
+\section{Tendência(\emph{Trend})}
+
+A variação do valor esperado do processo gerador de uma série temporal ou a
+variação da média móvel de suas observações é denominado tendência. A imagem
+~\ref{fig:trend} ilustra uma série com tendência linear. Observa-se que ao
+longo do tempo a média das observações cresce linearmente. Tendências de séries
+reais frequentemente seguem um perfil logarítmico~\cite{chatfield}, como na
+figura~\ref{fig:log_trend}. Nesse caso uma transformação exponencial da série,
+isso é, a aplicação de uma função exponencial a cada observação, tornaria a
+tendência linear.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figuras/trend.png}
+    \caption{Série temporal com tendência linear}
+    \label{fig:trend}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figuras/log_trend.png}
+    \caption{Série temporal com tendência logarítmica}
+    \label{fig:log_trend}
+\end{figure}
+
+\section{Sazonalidade}\label{sec:seasonality}
+
+A variação periódica de média móvel das observações de uma série temporal é
+denominada sazonalidade. Em séries no contexto de finanças sazonalidade
+frequentemente segue ciclos de calendário como anual, mensal, semestral, etc.
+No contexto mais amplo de séries temporais sazonalidade apresenta período
+arbitrário, apesar da linguagem em torno dessa propriedade estar muito
+associada aos períodos anteriormente mencionados.
+
+Um exemplo de série temporal com sazonalidade é ilustrado na
+figura~\ref{fig:seasonality}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figuras/seasonality.png}
+    \caption{Série temporal com sazonalidade senoidal de período arbitrário}
+    \label{fig:seasonality}
+\end{figure}
+
+Na presença de tendência sazonalidade pode ser considerada aditiva, se sua
+variação for constante em torno da tendência, e multiplicativa, se sua variação
+depender o valor da tendência. Exemplos de sazonalidade aditiva e
+multiplicativa são dados pelas figuras~\ref{fig:add_seasonality} e
+~\ref{fig:mult_seasonality}, respectivamente. Discernir entre os dois tipos de
+sazonalidade é importante para modelagem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figuras/add_seasonality.png}
+    \caption{Série temporal com sazonalidade aditiva}
+    \label{fig:add_seasonality}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figuras/mult_seasonality.png}
+    \caption{Série temporal com sazonalidade multiplicativa}
+    \label{fig:mult_seasonality}
+\end{figure}
+
+\section{Autocorrelação}
+
+Autocorrelação surge no contexto de séries temporais como a correlação amostral
+entre uma série $\mathbf{y}_t$ e sua versão atrasada em um número arbitrário de
+$k$ atrasos $L^k \mathbf{y}_t$. Podemos definir a autocorrelação $r_k$ de um
+atraso $k$ diretamente a partir da definição de correlação amostral por meio da
+equação~\ref{eq:autocorr} sob as seguintes premissas:
+
+\begin{enumerate}
+    \item A média $\bar{y}$ de $\mathbf{y}_t$ é constante no tempo
+    \item O número de observações  $N$ de $\mathbf{y}_t$ é suficientemente
+    grande ($N \approx 100$)
+\end{enumerate}
+
+\vspace{1cm}
+
+\begin{equation}\label{eq:autocorr}
+    r_k = \frac{\sum_{t=1}^{N-k}(y_t - \bar{y})(y_{t+k}-\bar{y})}{\sum_{t=1}^{N}(y_t - \bar{y})^2}  , \hspace{1cm} k = 0, 1, 2, \dots
+\end{equation}
+
+\vspace{1cm}
+
+\subsection{Autocorrelação Parcial}
+
+É interessante mencionar a existência de autocorrelação parcial nessa seção,
+mas sua definição será apresentada na seção~\ref{ssec:AR(p)} seguindo a
+prática de~\cite{chatfield}.
+
+Dissertar mais!
+
+\subsection{Correlalograma}\label{ssec:correlalogram}
+
+Um correlalograma é um gráfico de barras representativo da autocorrelação em
+$k$ amostras de uma série temporal ($k=0, 1, 2, \dots$), de forma que a
+primeira barra represente a autocorrelação entre $y_t$ e si mesmo (sempre igual
+à 1), a segunda entre $y_t$ e $y_{t-1}$, a terceira entre $y_t$ e $y_{t-2}$, e
+assim por diante. O correlalograma da série visualizada pela
+figura~\ref{fig:trend} é ilustrado na figura~\ref{fig:correlalogram}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{figuras/corr_trend.png}
+    \caption{Visualização de correlalograma de série com tendência linear.
+    Observe que as autocorrelações decaem lentamente ao decorrer dos atrasos,
+    comportamento típico de tendências determinísticas.}
+    \label{fig:correlalogram}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{figuras/corr_seasonality.png}
+    \caption{Visualização de correlalograma de série com sazonalidade.
+    Observe que o padrão senoidal da série é reproduzido nas autocorrelações,
+    apesar do alto valor de atraso necessário para o padrão se tornar visível.}
+    \label{fig:corr_season}
+\end{figure}
+
+A figura~\ref{fig:correlalogram} informa um intervalo de relevância dado por um
+sombreamento vermelho. Qualquer valor de autocorrelação dentro desse intervalo
+é estatisticamente insignificante e pode ser considerado igual a zero.
+
+O correlalograma é uma ferramenta indispensável em análise de séries temporais
+para tarefas como detecção de estacionariedade, identificação de sazonalidade,
+análise de resíduo, engenharia de características, escolha de modelo e
+identificação de ruído branco(seção~\ref{sec:white_noise}), entre outros.
+
+É importante mencionar que o correlalograma de uma série com tendência
+determinística, como a da figura~\ref{fig:correlalogram}, apresenta o
+comportamento observado de autocorrelações altas com pouca atenuação ao longo
+dos atrasos. De forma análoga o correlalograma de uma série com sazonalidade
+apresenta periodicidade que reproduz seu padrão temporal, como ilustra a
+figura~\ref{fig:corr_season}, correlalograma da série da
+figura~\ref{fig:seasonality}. Ambos correlalogramas são informativos sobre suas
+respectivas séries até certo ponto: eles informam simplesmente que as séries
+apresentam tendência e sazonalidade. Para analisar tais séries de forma mais
+produtiva, a fim de elaborar um possível modelo, por exemplo, é importante que
+a série seja estacionária (seção~\ref{sec:stationarity}). É inclusive afirmado
+em \cite{chatfield}\cite{hamilton}\cite{box}, que um correlalograma só faz
+sentido se a série associada for estacionária, observação mais geral e rigorosa
+das restrições de uso da equação~\ref{eq:autocorr}.
+
+\section{Correlação Cruzada}
+
+\section{Raízes Unitárias}\ref{sec:unit_roots}
+
+\section{Estacionariedade}\label{sec:stationarity}
+
+Uma série temporal $\mathbf{x}_t$ gerada por um processo $\mathbf{X}(t)$ é
+considerada estacionária se atender às seguintes três condições:
+
+\begin{enumerate}
+    \item $E(\mathbf{X}(t)) = \mu$
+    \item $Var(\mathbf{X}(t)) = \sigma^2$
+    \item $Cov[\mathbf{X}(t), \mathbf{X}(t+\tau)] = \gamma(\tau)$
+\end{enumerate}\vspace{.5cm}
+
+Que podem ser interpretadas da seguinte forma
+
+\begin{enumerate}
+    \item A média da série $\mathbf{x}_t$ é constante ao longo do tempo
+    \item A variância da série $\mathbf{x}_t$ é constante ao longo do tempo
+    \item A série não apresenta sazonalidade
+\end{enumerate}\vspace{.5cm}
+
+Uma interpretação mais formal do ponto 3 pode ser resumida pela necessidade  da
+autocorrelação de $\mathbf{x}_t$ depender apenas do atraso e não do tempo.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figuras/stationary.png}
+    \caption{Conjunto de séries demonstrando diferentes níveis de
+    estacionariedade.}
+    \label{fig:stationarity}
+\end{figure}
+
+Um bom exemplo de graus de estacionariedade em séries temporais dado por
+Athanasopoulos e Hyndman~\cite{athana} é ilustrado pela
+figura~\ref{fig:stationarity}. As séries das figuras~\ref{fig:stationarity}.a,
+~\ref{fig:stationarity}.e e~\ref{fig:stationarity}.i demonstram clara
+tendência, sendo portanto não estacionárias. As séries das figuras
+~\ref{fig:stationarity}.d, ~\ref{fig:stationarity}.h, ~\ref{fig:stationarity}.i
+são igualmente não estacionárias por apresentarem clara sazonalidade, enquanto
+a série da figura~\ref{fig:stationarity}.g aparenta ser sazonal mas apresenta
+picos aperiódicos de intensidade muito distinta, sendo considerada estacionária
+pelos autores. O caso da série da figura~\ref{fig:stationarity}.g é um
+complicado por aparentar também violar o requisito de variância constante. Para
+concluir assim como os autores que a série é estacionária é necessário mais do
+que uma investigação visual; o texto que discute a série leva em conta seu
+processo gerador~\cite{athana}.
+
+As séries das figuras~\ref{fig:stationarity}.c e ~\ref{fig:stationarity}.f são
+aparentemente não estacionárias no intervalo observado por demonstrarem
+variação em sua média móvel mas podem ser um caso de raízes unitárias.
+
+Por eliminação temos que apenas as séries ilustradas pelas
+figuras~\ref{fig:stationarity}.b e ~\ref{fig:stationarity}.g são estacionárias,
+o caso de ~\ref{fig:stationarity}.b contendo uma clara anomalia.
+
+O exemplo de análise de estacionariedade da figura~\ref{fig:stationarity}
+demonstra a imprecisão da abordagem visual para essa tarefa. Torna-se
+necessário o estabelecimento de procedimentos mais objetivos para detecção de
+estacionariedade (seção ~\ref{ssec:stationarity_tests}).
+
+\subsection{Importância de Estacionariedade}
+
+Estacionariedade é uma propriedade desejável de se observar em uma série
+temporal para fins analíticos e de modelagem.
+
+TODO: Reposicionar seguinte parágrafo
+
+Como mencionado na seção~\ref{ssec:correlalogram}, análise de uma série por
+meio de correlalograma é informativa apenas se a série for estacionária, uma
+vez que o correlalograma de uma série não estacionária comunica essencialmente
+apenas isso - informação sobre tendência (as autocorrelações permanecerem
+altas através de vários \emph{lags}) ou sazonalidade (as autocorrelações
+refletem em magnitude a periodicidade da série temporal). O correlalograma de
+uma série não estacionária dificilmente seria útil para identificar sua não
+estacionariedade caso isso não seja imediatamente visível no domínio do tempo.
+
+Há algumas formas de compreender como estacionariedade colabora para a
+modelagem bem sucedida de uma série temporal.
+
+Podemos pensar na propriedade de estacionariedade como um tipo de estrutura de
+dependência. Se as amostras $X_1, X_2, \dots, X_N$ de um conjunto $\mathbf{X}$
+forem independentes entre si temos formas interessantes de modelar a função
+geradora de $\mathbf{X}$ como o teorema do limite central, lei dos grandes
+números, etc. Há apenas uma forma de um conjunto amostral ser independente mas
+muitas formas de ser dependente, tornando difícil o estabelecimento de recursos
+eficientes para modelagem geral de processes dependentes. Séries temporais
+sendo naturalmente observações de processos dependentes
+(seção~\ref{ssec:definition}) é interessante definir estruturas de dependência
+que permitam o uso de tais recursos. Estacionariedade é uma estrutura de
+dependência que permite aplicar propriedades úteis de independência em séries
+temporais. Abordando a mesma ideia mais intuitivamente podemos pensar no
+seguinte exemplo: se um processo possui valor esperado e variância constante e
+não apresenta sazonalidade podemos por meio da lei dos grandes números estimar
+seu valor esperado e variância com cada vez mais confiança a partir da média e
+variância amostral, respectivamente. O mesmo argumento intuitivo se estende
+analogamente para o caso de aprendizado de máquina, no qual por meio de teoria
+de aprendizado estatístico é possível argumentar que uma série estacionária é
+``mais fácil'' de aprender.
+
+De forma mais quantitativa o teorema de decomposição de Wold~\cite{chatfield}
+conclui que qualquer série temporal estacionária pode ser representada pela
+seguinte combinação linear
+
+$$\mathbf{y}_t = \sum_{j=0}^\infty b_j Z_{t-j} + \eta_t$$
+
+No qual $\eta$ representa uma série determinística e $Z_t$ um processo
+puramente aleatório (seção~\ref{sec:white_noise}). O leitor reconhecerá parte da expressão
+acima como um processo $MA(\infty)$ (seção~\ref{ssec:MA}). Esse resultado tem
+como consequência a importante conclusão que qualquer série estacionária é
+possivelmente aproximável por um modelo MA e portanto, via invertibilidade,
+modelos AR e ARMA (seção~\ref{sec:stationary_models}).
+
+Por fim estacionariedade permite o uso de uma série de modelos que serão
+discutidos na seção sobre modelos estacionários. Esses métodos são bem
+compreendidos e implementados, facilitando sua interpretação, uso e
+sustentação.
+
+\subsection{Categorias Básicas de Não Estacionariedade}\label{ssec:taxonomy}
+
+Como extensão do argumento sobre estruturas de dependência na seção anterior
+podemos afirmar que, sendo estacionariedade um padrão de dependência, temos
+infinitas formas de não estacionariedade, retornando ao caso de dependência
+generalizada. É interessante identificar nesse universo de dependência padrões
+de séries não estacionárias que são facilmente transformadas em séries
+estacionárias. (Incluir essa divagação?)
+
+Uma série temporal com presença de tendência determinística, como ilustrada na
+figura~\ref{fig:trend}, pode ser representada pela seguinte expressão:
+
+$$  y_t = e_t + f(t) + \varepsilon_t  \hspace{1cm}\text{onde} \hspace{.4cm}\varepsilon_t \sim \hspace{.2cm}\text{i.i.d.} \hspace{.2cm}\mathcal{N}(0, \sigma^2)$$
+
+Na qual $e_t$ representa uma série estacionária, $f(t)$ uma função
+determinística do tempo e $\varepsilon_t$ ruído
+branco(seção~\ref{sec:white_noise}). Nota-se que $f(t)$ é uma função
+monotônica arbitrária tal que $y_t$ seja uma série não estacionária. No caso da
+figura~\ref{fig:trend} temos $f(t)$ linear e na figura ~\ref{fig:log_trend}
+logarítmica. Uma série temporal demonstrando esse tipo de não estacionariedade
+é considerada \textbf{tendência-estacionária}, uma vez que simplesmente
+removendo a tendência $f(t)$ temos estacionariedade. Isso pode ser feito de
+várias formas, talvez com maior simplicidade diferenciando a série. Métodos
+mais sofisticados incluem decomposição ETS (seção~\ref{sec:decomposition}) e
+regressão com finalidade de modelar $f(t)$ de forma que o resíduo represente
+uma a série estacionária $e_t + \varepsilon_t$.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{figuras/random_walk.png}
+    \caption{Visualização de caminhada aleatória com $y_0=5$}
+    \label{fig:random_walk}
+\end{figure}
+
+Uma série com presença de tendência estocástica pode ser classificada de
+maneira semelhante. O exemplo mais simples de tal série é gerada por um
+passeio aleatório, definido pelo seguinte processo, visualizado pela figura
+~\ref{fig:random_walk}:
+
+$$  y_t = y_{t-1} + \varepsilon_t  \hspace{1cm}\text{onde} \hspace{.4cm}\varepsilon_t \sim \hspace{.2cm}\text{i.i.d.} \hspace{.2cm}\mathcal{N}(0, \sigma^2)$$
+
+Por meio de um desenvolvimento recursivo do processo podemos escrever:
+
+$$ y_t = (y_{t-2} + \varepsilon_{t-1}) + \varepsilon_{t} $$
+$$ y_t = ((y_{t-3} + \varepsilon_{t-2}) + \varepsilon_{t-1}) + \varepsilon_{t} $$
+$$ \vdots $$
+$$ y_t = \sum_{j=0}^{N-1} \varepsilon_{t-j} + y_0$$
+\vspace{1cm}
+
+Resultado a partir do qual a não estacionariedade de $y_t$ se torna evidente,
+uma vez que
+
+$$ var(y_t) = \sigma^2 t $$
+
+Além da covariância ser dependente do tempo.
+
+Uma forma simples de tornar a série estacionária é diferenciá-la em primeira
+ordem, isso é, aplicar o operador de diferença primeira(seção~\ref{sec:diff}):
+
+$$ \nabla y_t = y_t - y_{t-1} $$
+$$ y_t - y_{t-1} = \varepsilon_t$$
+$$ \nabla y_t =  \varepsilon_t$$
+
+Sabemos pela seção~\ref{sec:white_noise} que ruído branco é um processo
+estacionário.
+
+A caminhada aleatória é denominada uma série \textbf{diferença-estacionária}
+pelo fato da operação de diferença introduzir estacionariedade. Essa é uma
+forma tão comum de não estacionariedade que a ideia de ``diferenciar uma
+série antes de fazer qualquer coisa'' é proeminente entre profissionais de
+dados, apesar de que geralmente necessita-se apenas de estacionariedade
+\footnote{essa prática é parcialmente justificada considerando que a maior
+parte das séries temporais ``reais'' são não estacionárias e frequentemente
+diferencialmente estacionárias}.
+
+É igualmente possível que uma série diferença-estacionária seja estacionária em
+sua $n$-ésima diferença, tal que estacionariedade seja observada por uma
+operação de diferenças de ordem $n$. A ideia de tirar sucessivas diferenças
+até atingir estacionariedade é fundamental no método de Box-Jenkins, por
+exemplo.
+
+Séries diferença-estacionárias apresentam raízes unitárias e os dois termos são
+frequentemente usados nos mesmos contextos.
+
+Podemos resumir as definições das categorias de não estacionariedade abordadas
+nessa seção assim como suas implicações como segue:
+
+\begin{enumerate}
+    \item \textbf{Estacionariedade em Tendência}: Uma série é considerada
+        tendência-estacionária se apresentar uma tendência determinística. No
+        caso de anomalias ou eventos de perturbação séries com esse tipo de
+        tendência retornam ao valor da tendência ao longo do tempo,
+        ``esquecendo'' o evento perturbador. Esse tipo de série se torna
+        estacionária pela remoção da tendência determinística, processo
+        realizado por meio de regressão da tendência, por diferenciação, por
+        decomposição, etc.
+    \item \textbf{Estacionariedade Diferenciável}: Uma série é considerada
+        diferença-estacionária ou se apresentar uma tendência estocástica. No
+        caso de anomalias ou eventos de perturbação séries com esse tipo de
+        tendência são irreversivelmente afetadas,
+        ``lembrando'' do evento perturbador. Esse tipo de série se torna
+        estacionária por diferenciação em ordem $n$. Possui raízes unitárias
+        e é frequentemente discutida nessa linguagem.
+
+\end{enumerate}
+
+TODO: retomar estacionarização de séries em capítulo ou apêndice dedicado?
+
+\subsection{Detecção de Estacionariedade}\label{ssec:stationarity_tests}
+
+Espera-se que as discussões das seções anteriores tenham estabelecido motivação
+suficiente para o início de uma exploração de métodos de detecção de
+estacionariedade mais objetivos que simples análise visual. As seguintes
+subseções abordam esses métodos, a maioria dos quais são testes paramétricos.
+
+\subsubsection{Análise de Correlalograma}
+
+Apesar de pouco formal e altamente sujeito a erro alguns autores e muitos
+praticantes~\cite{chatfield}~\cite{metcalfe} apontam para a possibilidade de
+identificar não estacionariedade a partir de análise visual do correlalograma
+de uma série temporal. Como mencionado na seção~\ref{ssec:correlalogram}
+séries que violam os requisitos de estacionariedade por tendência
+determinística ou sazonalidade apresentam correlalogramas distintos -
+autocorrelações altas e persistentes no caso de tendência determinística e
+autocorrelações periódicas ao longo de valores altos de atraso no caso de
+sazonalidade. No entanto séries cuja não estacionariedade for facilmente
+detectada via correlalograma também são frequentemente notavelmente não
+estacionárias via simples análise temporal.
+
+\subsubsection{Teste de \emph{Dickey-Fuller}}
+
+Os testes de \emph{Dickey-Fuller} testam a hipótese nula de presença de raízes
+unitárias no processo gerador de uma série temporal com a hipótese alternativa
+de estacionariedade.
+
+O teste mais simples de \emph{Dickey-Fuller} assume que o processo gerador da
+série temporal em questão é dado pela equação~\ref{eq:ad}, na qual
+$\varepsilon$ é ruído branco.
+
+\begin{equation}\label{eq:ad}
+    y_t = \phi y_{t-1} + \varepsilon_t
+\end{equation}
+
+A hipótese nula do teste é a presença de raízes unitárias em $\mathbf{y}_t$,
+isso é, $\phi = 1$, e a hipótese alternativa é $\phi < 1$, correspondente à
+estacionariedade.
+
+$$
+\begin{cases}
+    H_0: \phi = 1, \text{não estacionariedade (raízes unitárias, possível diferença-estacionariedade)} \\
+    H_1: \phi < 1, \text{estacionariedade}
+\end{cases}
+$$
+
+Em seguida $Ly_t$ é subtraído de ambos os lados da equação~\ref{eq:ad},
+resultando no desenvolvimento a seguir:
+
+$$ y_t - y_{t-1} = \phi y_{t-1} - y_{t-1} + \varepsilon $$
+$$ \nabla y_t = (\phi - 1) y_{t-1}  + \varepsilon $$
+$$ \nabla y_t = \delta y_t  + \varepsilon $$
+
+As hipóteses do teste são agora reformuladas para as seguintes
+
+$$
+\begin{cases}
+    H_0: \delta = 0, \text{não estacionariedade (raízes unitárias, diferença-estacionariedade)} \\
+    H_1: \delta < 0, \text{estacionariedade}
+\end{cases}
+$$
+
+A estatística de teste é computada e comparada com um valor crítico proveniente
+da distribuição de \emph{Dickey-Fuller} (geralmente sob $p=0.5$) para rejeição
+ou não da hipótese nula.
+
+O modelo da série temporal, dado explicitamente pela equação~\ref{eq:ad}, pode
+ser alterado para testar raízes unitárias com constante e com constante e
+tendência determinística no tempo por meio das equações~\ref{eq:ad_constant} e
+~\ref{eq:ad_constant_trend}, respectivamente. Note que ambas as equações são
+apresentadas em função de $\delta$. É mais comum testar por apenas raízes
+unitárias, uma vez que uma análise subjetiva visual, por correlalograma ou
+decomposição juntamente de remoção de tendência ou sazonalidade é tipicamente
+realizada antes de um teste estatístico de estacionariedade.
+
+\begin{equation}\label{eq:ad_constant}
+    \nabla y_t = \delta y_{t-1} + u_t + a_0
+\end{equation}
+
+\begin{equation}\label{eq:ad_constant_trend}
+    \nabla y_t = \delta y_{t-1} + u_t + a_0 + a_1 t
+\end{equation}
+
+O teste aumentado de \emph{Dickey-Fuller}(ADF) modela o processo de forma mais
+geral, incluindo na equação~\ref{eq:ad} termos representativos de processos
+estacionários arbitrários. O teste aumentado é projetado para remover
+autocorrelação do processo de validação de hipótese. De forma identicamente
+análoga ao teste de DF temos expansões do ADF para incluir constantes e
+tendências como nas equações~\ref{eq:ad_constant} e
+~\ref{eq:ad_constant_trend} apesar de que, como no teste de DF, essas
+variações são pouco usadas. A estatística de teste do ADF é negativa, isso é,
+quanto menor seu valor maior a rejeição da hipótese nula de não
+estacionariedade (maior certeza de estacionariedade).
+
+Como em qualquer teste de hipótese um valor $p$ maior que $0.05$ indica falha
+em rejeitar a hipótese nula, nesse caso correspondendo à impossibilidade de
+constatar estacionariedade. Um valor $p$ menor ou igual a $0.05$ indica
+rejeição da hipótese nula, correspondendo à conclusão que a série sob análise
+é estacionária.
+
+Na prática o teste mais usado é o ADF que é uma simples extensão mais robusta
+do teste de \emph{Dickey-Fuller}. Implementações eficiente e populares existem
+para \verb+R+ e \verb+Python+.
+
+\subsubsection{Teste \emph{Kwiatkowski-Phillips-Schmidt-Shin} (KPSS)}
+
+O teste KPSS desempenha uma função semelhante ao ADF com a relevante
+diferença de inerentemente modelar uma tendência linear no tempo por meio da
+equação~\ref{eq:KPSS}. Seu desenvolvimento matemático é análogo porém mais
+trabalhoso que o caso do ADF e será portanto omitido.
+
+\begin{equation}\label{eq:KPSS}
+    y_t = \phi y_{t-1} + \varepsilon_t + \beta t
+\end{equation}
+
+Com $\varepsilon_t$ representando ruído branco. O teste em seguida define as
+seguintes hipóteses:
+
+$$
+\begin{cases}
+    H_0: \text{a série apresenta tendência-estacionariedade} \\
+    H_1: \text{a série apresenta raízes unitárias}
+\end{cases}
+$$
+
+Como em qualquer teste de hipótese um valor $p$ maior que $0.05$ indica falha
+em rejeitar a hipótese nula, nesse caso correspondendo à impossibilidade de
+constatar que a série não apresenta tendência estacionariedade, boa evidência
+de que a série é tendência-estacionária. Um valor $p$ menor ou igual a $0.05$
+indica rejeição da hipótese nula, correspondendo à conclusão que a série sob
+análise possui raízes unitárias e é portanto não estacionária.
+
+TODO: reescrever esse parágrafo !!
+
+Observe que há uma diferença crítica: a alternativa nula não postula não
+estacionariedade, como no caso do ADF, mas sim tendência-estacionariedade
+(seção ~\ref{ssec:taxonomy}) decorrente diretamente da inclusão de tendência
+linear no modelo da equação~\ref{eq:KPSS}. A diferença principal da alteração
+da hipótese nula é que o KPSS é usado para investigar presença de
+estacionariedade sob uma tendência determinística (tendência-estacionariedade)
+e o ADF (tipicamente) de estacionariedade propriamente dita. O KPSS é bem
+implementado em \verb+R+ e \verb+Python+.
+
+\section{Ruído Branco}\label{sec:white_noise}
+
+Uma série temporal $\mathbf{x}_t$ gerada por um processo $\mathbf{X}(t)$ é
+considerada ruído branco ou um processo puramente aleatório se atender às
+seguintes três condições:
+
+\begin{enumerate}
+    \item $E(\mathbf{X}(t)) = 0$
+    \item $Var(\mathbf{X}(t)) = \sigma^2$
+    \item $Cov[\mathbf{X}(t), \mathbf{X}(t+\tau)] = 0$
+\end{enumerate}\vspace{.5cm}
+
+Que podem ser interpretadas da seguinte forma
+
+\begin{enumerate}
+    \item A média da série $\mathbf{x}_t$ é nula ao longo do tempo
+    \item A variância da série $\mathbf{x}_t$ é constante ao longo do tempo
+    \item Não há correlação entre as amostras de $\mathbf{x}_t$
+\end{enumerate}\vspace{.5cm}
+
+Observa-se que ruído branco é um caso específico de estacionariedade, se
+diferenciando pela especificação do valor esperado e autocorrelação entre
+quaisquer amostras em zero. A compreensão da definição e capacidade de
+identificação de ruído branco é importante para análise de resíduos, detalhado
+na seção~\ref{ssec:residual_analysis}.
+
+\subsection{Detecção de ruído branco}
