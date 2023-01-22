@@ -1,0 +1,35 @@
+# Non critical files
+time_series
+doc
+# Latex stuff
+*.out
+*.aux
+*.alg
+*.acr
+*.dvi
+*.gls
+*.log
+*.bbl
+*.blg
+*.ntn
+*.not
+*.lof
+*.lot
+*.toc
+*.loa
+*.lsg
+*.nlo
+*.nls
+*.ilg
+*.ind
+*.ist
+*.glg
+*.glo
+*.xdy
+*.acn
+*.idx
+*.loq
+# Python stuff
+__pycache__/
+*.py[cod]
+.mypy_cache/
