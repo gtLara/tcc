@@ -31,6 +31,7 @@ doc
 *.acn
 *.idx
 *.loq
+*.pdf
 # Python stuff
 __pycache__/
 *.py[cod]
