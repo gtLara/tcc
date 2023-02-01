@@ -30,7 +30,9 @@ if __name__ == "__main__":
 
             # Next few lines imports image generator function from each file
 
-            spec = importlib.util.spec_from_file_location(generator_name, file_path)
+            spec = importlib.util.spec_from_file_location(generator_name,
+                                                          file_path)
+
             generator_class = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(generator_class)
             generate = getattr(generator_class, generator_name)
