@@ -202,12 +202,19 @@ sazonalidade é importante para modelagem.
     \label{fig:mult_seasonality}
 \end{figure}
 
+\section{Correlação Cruzada}
+
+TODO: start here !
+
 \section{Autocorrelação}
 
-Autocorrelação surge no contexto de séries temporais como a correlação amostral
-entre uma série $\mathbf{y}_t$ e sua versão atrasada em um número arbitrário de
-$k$ atrasos $L^k \mathbf{y}_t$. Podemos definir a autocorrelação $r_k$ de um
-atraso $k$ diretamente a partir da definição de correlação amostral por meio da
+TODO: rewrite basically from scratch. analogy with convolution would be kinda
+cool.
+
+Autocorrelação pode ser definida como a correlação amostral entre uma série
+$\mathbf{y}_t$ e sua versão atrasada em um número arbitrário de $k$ atrasos
+$L^k \mathbf{y}_t$. Podemos definir a autocorrelação $r_k$ de um atraso $k$
+diretamente a partir da definição de correlação amostral por meio da
 equação~\ref{eq:autocorr} sob as seguintes premissas:
 
 \begin{enumerate}
@@ -226,19 +233,25 @@ equação~\ref{eq:autocorr} sob as seguintes premissas:
 
 \subsection{Autocorrelação Parcial}
 
-É interessante mencionar a existência de autocorrelação parcial nessa seção,
-mas sua definição será apresentada na seção~\ref{ssec:AR(p)} seguindo a
-prática de~\cite{chatfield}.
+É interessante mencionar a existência de autocorrelação parcial nessa seção
+juntamente de uma descrição em alto nível do que esse valor representa. Sua
+definição formal será apresentada na seção~\ref{ssec:AR(p)} seguindo como em
+~\cite{chatfield} e ~\cite{morettin_econometria}.
 
-Dissertar mais!
+Autocorrelação parcial foi introduzida por Box e Jenkins em\cite{box} como uma
+ferramenta auxiliar na identificação de modelos. O valor $\phi_{kk}$ é
+definido como a correlação parcial entre $\mathbf{y}_t$ e $\mathbf{y}_{t - k}$,
+isso é, a correlação restante entre $\mathbf{y}_t$ e $\mathbf{y}_{t - k}$ após
+levar em consideração a contribuição de $\mathbf{y}_t$, $\mathbf{y}_{t - 1}$
+$...$ $\mathbf{y}_{t - k + 1}$.
 
 \subsection{Correlalograma}\label{ssec:correlalogram}
 
-Um correlalograma é um gráfico de barras representativo da autocorrelação em
-$k$ amostras de uma série temporal ($k=0, 1, 2, \dots$), de forma que a
-primeira barra represente a autocorrelação entre $y_t$ e si mesmo (sempre igual
-à 1), a segunda entre $y_t$ e $y_{t-1}$, a terceira entre $y_t$ e $y_{t-2}$, e
-assim por diante. O correlalograma da série visualizada pela
+Um correlalograma é um gráfico de barras representativo da autocorrelação ou
+autocovariância em $k$ amostras de uma série temporal ($k=0, 1, 2, \dots$), de
+forma que a primeira barra represente a autocorrelação entre $y_t$ e si mesmo
+(sempre igual à 1), a segunda entre $y_t$ e $y_{t-1}$, a terceira entre $y_t$ e
+$y_{t-2}$, e assim por diante. O correlalograma da série visualizada pela
 figura~\ref{fig:trend} é ilustrado na figura~\ref{fig:correlalogram}.
 
 \begin{figure}
@@ -254,8 +267,7 @@ figura~\ref{fig:trend} é ilustrado na figura~\ref{fig:correlalogram}.
     \centering
     \includegraphics[scale=0.5]{figuras/corr_seasonality.png}
     \caption{Visualização de correlalograma de série com sazonalidade.
-    Observe que o padrão senoidal da série é reproduzido nas autocorrelações,
-    apesar do alto valor de atraso necessário para o padrão se tornar visível.}
+    Observe que o padrão senoidal da série é reproduzido nas autocorrelações.}
     \label{fig:corr_season}
 \end{figure}
 
@@ -266,7 +278,13 @@ sombreamento vermelho. Qualquer valor de autocorrelação dentro desse intervalo
 O correlalograma é uma ferramenta indispensável em análise de séries temporais
 para tarefas como detecção de estacionariedade, identificação de sazonalidade,
 análise de resíduo, engenharia de características, escolha de modelo e
-identificação de ruído branco(seção~\ref{sec:white_noise}), entre outros.
+identificação de ruído branco(seção~\ref{sec:white_noise}), entre outros. No
+contexto de identificação de sistemas autocovariância e autocorrelação e
+portanto o correlalograma desempenha um importante papel na identificação de
+propriedades de sinais e sistemas imersos em ruído devido à robustez ao ruído
+da operação de correlação cruzada\cite{aguirre}. TODO: Na figura tal, por
+exemplo, observamos um sinal senoidal imerso em ruído cuja natureza periódica
+subjacente torna clara por meio de seu correlalograma.
 
 É importante mencionar que o correlalograma de uma série com tendência
 determinística, como a da figura~\ref{fig:correlalogram}, apresenta o
@@ -274,16 +292,25 @@ comportamento observado de autocorrelações altas com pouca atenuação ao long
 dos atrasos. De forma análoga o correlalograma de uma série com sazonalidade
 apresenta periodicidade que reproduz seu padrão temporal, como ilustra a
 figura~\ref{fig:corr_season}, correlalograma da série da
-figura~\ref{fig:seasonality}. Ambos correlalogramas são informativos sobre suas
-respectivas séries até certo ponto: eles informam simplesmente que as séries
-apresentam tendência e sazonalidade. Para analisar tais séries de forma mais
-produtiva, a fim de elaborar um possível modelo, por exemplo, é importante que
-a série seja estacionária (seção~\ref{sec:stationarity}). É inclusive afirmado
-em \cite{chatfield}\cite{hamilton}\cite{box}, que um correlalograma só faz
+figura~\ref{fig:seasonality}. O primeiro correlalograma é informativo até
+certo ponto: informa simplesmente que a série apresenta tendência. Para
+analisar tais séries de forma mais produtiva, a fim de elaborar um possível
+modelo, por exemplo, é importante que a série seja estacionária
+(seção~\ref{sec:stationarity}). É inclusive afirmado em alguns textos da
+literatura estatística\cite{chatfield}, que um correlalograma só faz que
 sentido se a série associada for estacionária, observação mais geral e rigorosa
 das restrições de uso da equação~\ref{eq:autocorr}.
 
-\section{Correlação Cruzada}
+Na engenharia a análise do correlalograma de sinais não estacionários é
+utilizada para investigação da adequação de tempo de amostragem, onde uma
+autocovariância com valores lentamente decrescentes e um mínimo local indica que
+o sinal pode estar superamostrado, propriedade indesejável que pode resultar em
+problemas computacionais além de desperdício de memória.
+
+TODO: see if autocorr helps find seasonality in additive or multiplicative series
+
+TODO: add sampling analysis of silica series
+
 
 \section{Raízes Unitárias}\ref{sec:unit_roots}
 
@@ -303,11 +330,8 @@ Que podem ser interpretadas da seguinte forma
 \begin{enumerate}
     \item A média da série $\mathbf{x}_t$ é constante ao longo do tempo
     \item A variância da série $\mathbf{x}_t$ é constante ao longo do tempo
-    \item A série não apresenta sazonalidade
+    \item A autocorrelação de $\mathbf{x}_t$ depende apenas do atraso
 \end{enumerate}\vspace{.5cm}
-
-Uma interpretação mais formal do ponto 3 pode ser resumida pela necessidade  da
-autocorrelação de $\mathbf{x}_t$ depender apenas do atraso e não do tempo.
 
 \begin{figure}[h]
     \centering
@@ -350,17 +374,6 @@ estacionariedade (seção ~\ref{ssec:stationarity_tests}).
 Estacionariedade é uma propriedade desejável de se observar em uma série
 temporal para fins analíticos e de modelagem.
 
-TODO: Reposicionar seguinte parágrafo
-
-Como mencionado na seção~\ref{ssec:correlalogram}, análise de uma série por
-meio de correlalograma é informativa apenas se a série for estacionária, uma
-vez que o correlalograma de uma série não estacionária comunica essencialmente
-apenas isso - informação sobre tendência (as autocorrelações permanecerem
-altas através de vários \emph{lags}) ou sazonalidade (as autocorrelações
-refletem em magnitude a periodicidade da série temporal). O correlalograma de
-uma série não estacionária dificilmente seria útil para identificar sua não
-estacionariedade caso isso não seja imediatamente visível no domínio do tempo.
-
 Há algumas formas de compreender como estacionariedade colabora para a
 modelagem bem sucedida de uma série temporal.
 
@@ -377,9 +390,10 @@ que permitam o uso de tais recursos. Estacionariedade é uma estrutura de
 dependência que permite aplicar propriedades úteis de independência em séries
 temporais. Abordando a mesma ideia mais intuitivamente podemos pensar no
 seguinte exemplo: se um processo possui valor esperado e variância constante e
-não apresenta sazonalidade podemos por meio da lei dos grandes números estimar
-seu valor esperado e variância com cada vez mais confiança a partir da média e
-variância amostral, respectivamente. O mesmo argumento intuitivo se estende
+autocorrelação invariante ao tempo podemos por meio da lei dos grandes números
+estimar seu valor esperado e variância com cada vez mais confiança a partir da
+média e variância amostral, respectivamente. O mesmo argumento intuitivo se
+estende
 analogamente para o caso de aprendizado de máquina, no qual por meio de teoria
 de aprendizado estatístico é possível argumentar que uma série estacionária é
 ``mais fácil'' de aprender.
@@ -409,7 +423,7 @@ podemos afirmar que, sendo estacionariedade um padrão de dependência, temos
 infinitas formas de não estacionariedade, retornando ao caso de dependência
 generalizada. É interessante identificar nesse universo de dependência padrões
 de séries não estacionárias que são facilmente transformadas em séries
-estacionárias. (Incluir essa divagação?)
+estacionárias.
 
 Uma série temporal com presença de tendência determinística, como ilustrada na
 figura~\ref{fig:trend}, pode ser representada pela seguinte expressão:
@@ -459,7 +473,7 @@ $$ var(y_t) = \sigma^2 t $$
 Além da covariância ser dependente do tempo.
 
 Uma forma simples de tornar a série estacionária é diferenciá-la em primeira
-ordem, isso é, aplicar o operador de diferença primeira(seção~\ref{sec:diff}):
+ordem, isso é, aplicar o operador de diferença primeira:
 
 $$ \nabla y_t = y_t - y_{t-1} $$
 $$ y_t - y_{t-1} = \varepsilon_t$$
@@ -499,7 +513,7 @@ nessa seção assim como suas implicações como segue:
         realizado por meio de regressão da tendência, por diferenciação, por
         decomposição, etc.
     \item \textbf{Estacionariedade Diferenciável}: Uma série é considerada
-        diferença-estacionária ou se apresentar uma tendência estocástica. No
+        diferença-estacionária se apresentar uma tendência estocástica. No
         caso de anomalias ou eventos de perturbação séries com esse tipo de
         tendência são irreversivelmente afetadas,
         ``lembrando'' do evento perturbador. Esse tipo de série se torna
@@ -524,12 +538,14 @@ praticantes~\cite{chatfield}~\cite{metcalfe} apontam para a possibilidade de
 identificar não estacionariedade a partir de análise visual do correlalograma
 de uma série temporal. Como mencionado na seção~\ref{ssec:correlalogram}
 séries que violam os requisitos de estacionariedade por tendência
-determinística ou sazonalidade apresentam correlalogramas distintos -
-autocorrelações altas e persistentes no caso de tendência determinística e
-autocorrelações periódicas ao longo de valores altos de atraso no caso de
-sazonalidade. No entanto séries cuja não estacionariedade for facilmente
-detectada via correlalograma também são frequentemente notavelmente não
-estacionárias via simples análise temporal.
+determinística apresentam correlalogramas distintos -
+autocorrelações altas e persistentes. No entanto séries cuja não
+estacionariedade for facilmente detectada via correlalograma também são
+frequentemente notavelmente não estacionárias via simples análise temporal.
+
+\subsubsection{Teste Local-Global}
+
+TODO
 
 \subsubsection{Teste de \emph{Dickey-Fuller}}
 
@@ -571,6 +587,8 @@ $$
     H_1: \delta < 0, \text{estacionariedade}
 \end{cases}
 $$
+
+TODO: definir estatística de teste
 
 A estatística de teste é computada e comparada com um valor crítico proveniente
 da distribuição de \emph{Dickey-Fuller} (geralmente sob $p=0.5$) para rejeição
@@ -616,6 +634,8 @@ para \verb+R+ e \verb+Python+.
 
 \subsubsection{Teste \emph{Kwiatkowski-Phillips-Schmidt-Shin} (KPSS)}
 
+TODO: check this
+
 O teste KPSS desempenha uma função semelhante ao ADF com a relevante
 diferença de inerentemente modelar uma tendência linear no tempo por meio da
 equação~\ref{eq:KPSS}. Seu desenvolvimento matemático é análogo porém mais
@@ -641,8 +661,6 @@ constatar que a série não apresenta tendência estacionariedade, boa evidênci
 de que a série é tendência-estacionária. Um valor $p$ menor ou igual a $0.05$
 indica rejeição da hipótese nula, correspondendo à conclusão que a série sob
 análise possui raízes unitárias e é portanto não estacionária.
-
-TODO: reescrever esse parágrafo !!
 
 Observe que há uma diferença crítica: a alternativa nula não postula não
 estacionariedade, como no caso do ADF, mas sim tendência-estacionariedade
@@ -680,3 +698,5 @@ identificação de ruído branco é importante para análise de resíduos, detal
 na seção~\ref{ssec:residual_analysis}.
 
 \subsection{Detecção de ruído branco}
+
+TODO
