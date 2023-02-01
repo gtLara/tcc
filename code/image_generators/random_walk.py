@@ -1,7 +1,9 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
+
 def random_walk(color, dpi, image_path, extension):
+
     y_0 = 5
     y = []
     y.append(y_0)
@@ -14,6 +16,6 @@ def random_walk(color, dpi, image_path, extension):
     plt.xlabel("Tempo")
     plt.ylabel("Magnitude")
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
     plt.close()

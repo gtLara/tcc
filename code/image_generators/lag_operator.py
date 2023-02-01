@@ -1,7 +1,9 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
+
 def lag_operator(color, dpi, image_path, extension):
+
     np.random.seed(42)
     samples = [np.random.normal() for n in range(100)]
 
@@ -12,6 +14,6 @@ def lag_operator(color, dpi, image_path, extension):
     plt.title("Exemplo de uso de operador de deslocamento")
     plt.legend()
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
     plt.close()

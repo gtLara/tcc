@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
+
 def seasonality(color, dpi, image_path, extension):
 
     np.random.seed(42)
@@ -10,6 +11,6 @@ def seasonality(color, dpi, image_path, extension):
     plt.ylabel("Magnitude")
     plt.title("Exemplo de série com sazonalidade")
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
     plt.close()

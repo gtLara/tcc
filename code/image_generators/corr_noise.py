@@ -4,6 +4,7 @@ import sys
 import statsmodels.api as sm
 from matplotlib.collections import PolyCollection
 
+
 def corr_noise(color, dpi, image_path, extension):
 
     np.random.seed(42)

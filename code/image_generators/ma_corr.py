@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels.api as sm
 
+
 def ma_corr(color, dpi, image_path, extension):
 
     np.random.seed(42)
@@ -12,7 +13,6 @@ def ma_corr(color, dpi, image_path, extension):
     r = np.random.random(size)
 
     fig, axis = plt.subplots(2, 2)
-
 
     for n in range(size):
         y[n] = 0.28*r[n] + 0.15*r[n-1]
@@ -46,6 +46,6 @@ def ma_corr(color, dpi, image_path, extension):
 
     axis[1][1].set_title("a) MA(4)")
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.tight_layout()
     plt.savefig(path, dpi=dpi, format=extension)

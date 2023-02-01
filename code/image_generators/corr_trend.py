@@ -3,6 +3,7 @@ import numpy as np
 import statsmodels.api as sm
 from statsmodels.graphics.tsaplots import plot_acf
 
+
 def corr_trend(color, dpi, image_path, extension):
 
     np.random.seed(42)

@@ -4,6 +4,7 @@ import sys
 import statsmodels.api as sm
 from statsmodels.graphics.tsaplots import plot_acf
 
+
 def corr_seasonality(color, dpi, image_path, extension):
 
     np.random.seed(42)

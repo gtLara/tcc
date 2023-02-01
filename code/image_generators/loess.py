@@ -3,10 +3,12 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 import pickle
 import numpy as np
 
+
 def get_moving_average(a, n):
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
+
 
 def fit_loess_trend(series, frac=0.6, delta_frac=1e5, plot=False):
 
@@ -26,6 +28,7 @@ def fit_loess_trend(series, frac=0.6, delta_frac=1e5, plot=False):
 
     return trend
 
+
 def loess(color, dpi, image_path, extension):
 
     with open("data/data_dict.pkl", "rb") as file:
@@ -38,14 +41,18 @@ def loess(color, dpi, image_path, extension):
     trend_3 = fit_loess_trend(samples)
 
     plt.plot(samples[:len(trend_1)], label="Série", color=color)
-    plt.plot(trend_1, label=f"LOESS com 10% do sinal", color="black", linewidth=2, linestyle="--")
-    plt.plot(trend_3, label=f"LOESS com 60% do sinal", color="red", linewidth=2, linestyle="--")
+    plt.plot(trend_1, label="LOESS com 10% do sinal", color="black",
+             linewidth=2, linestyle="--")
+
+    plt.plot(trend_3, label="LOESS com 60% do sinal", color="red",
+             linewidth=2, linestyle="--")
+
     plt.xlabel("Tempo[ms]")
     plt.ylabel("Amplitude [A/A]")
     plt.title("Exemplo de Aplicação de LOESS")
     plt.legend()
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
 
     plt.close()

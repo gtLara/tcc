@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
+
 def difference_example(color, dpi, image_path, extension):
     np.random.seed(42)
     samples = [np.random.normal(n/30) for n in range(100)]

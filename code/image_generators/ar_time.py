@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def ar_time(color, dpi, image_path, extension):
+
     y = np.zeros(300)
 
     plt.subplot(2, 2, 1)
@@ -28,11 +30,13 @@ def ar_time(color, dpi, image_path, extension):
     plt.subplot(2, 2, 4)
 
     for n in range(300):
-        y[n] = 0.28*y[n-1] + 0.15*y[n-2] + 0.09*y[n-3] + 0.21*y[n-4] + np.random.random()
+        y[n] = 0.28*y[n-1] + 0.15*y[n-2] + 0.09*y[n-3] + 0.21*y[n-4] + \
+               np.random.random()
 
     plt.plot(y, color=color)
     plt.title("d) AR(4)")
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.tight_layout()
     plt.savefig(path, dpi=dpi, format=extension)
+    plt.close()
