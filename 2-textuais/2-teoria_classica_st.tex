@@ -24,18 +24,17 @@ $${\mathbf{y}}_{t=-\infty}^{\infty} = ({\dots, y_{-1},y_0, \overbrace{y_1, y_2, 
 
 \vspace{1cm}
 
-Apesar de parecer pouco tangível, de fato qualquer série trabalhada pela II
-é satisfatoriamente descrita dessa forma: o valor de uma variável de processo
-é zero até a planta ser construída e entrar em operação, assume valores
-representativos ou não da dinâmica de interesse (assumindo valores irrelevantes
-quando a planta não está em operação plena), e tendendo ao infinito retorna a
-zero quando a planta for desativada.
+Apesar de parecer pouco tangível, de fato qualquer série observada é
+satisfatoriamente descrita dessa forma. Em um contexto industrial, por exemplo,
+o valor de uma variável de processo é zero até a planta ser construída e entrar
+em operação, assume valores representativos ou não da dinâmica de interesse
+(assumindo valores irrelevantes quando a planta não está em operação plena), e
+tendendo ao infinito retorna a zero quando a planta for desativada.
 
 Essa interpretação de uma série temporal é importante ao implicitamente
 insinuar que o processo existe em um intervalo temporal mais abrangente do que
 o observado. É portanto necessário se questionar sobre quanto os
 dados representam o processo analisado e em quais intervalos de tempo.
-
 
 TODO: Séries temporais são inerentemente diferentes de dados de corte
 transversal por representarem amostras discretas de um mesmo processo ao invés
@@ -102,18 +101,35 @@ $$ (aL^2 + bL^3) \mathbf{y}_{t} =  a\mathbf{y}_{t-2} + b\mathbf{y}_{t-3}$$
 
 Conhecimento do operador de atraso é importante para compreender a literatura
 de séries temporais e facilita comunicação objetiva de análises cotidianas.
-Esse estudo usa do operador para descrever uma série de modelos.
+O presente trabalho usa do operador para descrever uma série de modelos.
 
 Como nota final é importante mencionar que alguns livros~\cite{chatfield}
 ~\cite{stoffer} usam a letra $B$ para denotar o operador de atraso e que na
 maior parte dos recursos \emph{online} o operador é referido por seu nome em
 inglês, \emph{lag}.
 
+A analogia entre o operador de atraso e a variável complexa $e^{-j\omega} = z^{-1}$
+é clara, com a relevante diferença que $z^{-1}$ atrasa um sinal em uma unidade
+de tempo se a operação for realizada no domínio $z$ enquanto o operador de
+atraso atua diretamente no domínio do tempo. Essa característica permite que
+filtros com equações de recorrência complexas sejam representados de forma
+compacta no domínio do tempo por meio de polinômios de atraso.
+
+Uma propriedade interessante decorrente da equivalência entre $z^{-1}$ e $L$ é
+que pode se pensar em um plano $L$ cuja análise é igualmente informativa à do
+plano z, notando que o espaço é de certa forma invertido. Uma análise da
+posição dos polos de um sistema representado por meio de um polinômio em $L$
+conclui que o sistema é instável se tais polos estiverem fora do círculo unitário,
+contrário do que conhecemos do plano z.
+
+Por fim vale mencionar que alguns autores\cite{aguirre}\cite{algemlol}
+usam a notação $q^{-1}$ para esse operador.
+
 \section{Operador de Diferença}\label{sec:diff}
 
-O operador de diferenças $\nabla$ ou  $\Delta$, dependendo do autor, é o
-equivalente discreto da operação contínua de diferenciação e opera sob uma
-série temporal $\mathbf{y}_t$ da seguinte forma:
+O operador de diferenças $\nabla$ ou  $\Delta$ é o equivalente discreto da
+operação contínua de diferenciação e opera sob uma série temporal
+$\mathbf{y}_t$ da seguinte forma:
 
 $$ \nabla \mathbf{y}_t = (1 - L)\mathbf{y}_t = \mathbf{y}_t - L\mathbf{y}_t = \mathbf{y}_t - \mathbf{y}_{t-1} $$
 
