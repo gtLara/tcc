@@ -1,36 +1,37 @@
-.PHONY: dirty_compile compile clean images everything
+figures_file = figures
+filename = report
 
-filename=main
+## Generate figures
+figures : $(wildcard code/image_generators/*) code/generate_images.py
+	python code/generate_images.py $(figures_file)
 
-## Generate everything from scratch
-everything: images compile clean
-
-## Compile producing intermediate latex files
-dirty_compile:
+## Compile producing only pdf file
+main.pdf : $(filename).tex 1-pre-textuais 2-textuais 3-pos-textuais \
+		   $(wildcard figures/*)
 	pdflatex $(filename).tex
 	bibtex $(filename)
 	makeglossaries $(filename)
 	makeindex $(filename)
 	pdflatex $(filename).tex
 	pdflatex $(filename).tex
-
-## Generate images
-images: clean
-	python code/generate_images.py
-
-## Compile producing only pdf file
-compile: dirty_compile clean
-
-## Clean unnecessary files
-clean:
+	# TODO: see how to use clean stage here
 	@rm -f *.out *.aux *.alg *.acr *.dvi *.gls *.log *.bbl *.blg *.ntn *.not *.lof *.lot *.toc *.loa *.lsg *.nlo *.nls *.ilg *.ind *.ist *.glg *.glo *.xdy *.acn *.idx *.loq *.lol *~
 	@rm -f
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 	find . -name ".mypy_cache" -type d  -exec rm -r "{}" \;
 
-.PHONY: help
-help:
+
+.PHONY: clean
+## Clean unnecessary files
+clean :
+	@rm -f *.out *.aux *.alg *.acr *.dvi *.gls *.log *.bbl *.blg *.ntn *.not *.lof *.lot *.toc *.loa *.lsg *.nlo *.nls *.ilg *.ind *.ist *.glg *.glo *.xdy *.acn *.idx *.loq *.lol *~
+	@rm -f
+	find . -type f -name "*.py[co]" -delete
+	find . -type d -name "__pycache__" -delete
+	find . -name ".mypy_cache" -type d  -exec rm -r "{}" \;
+
+help :
 	@echo "$$(tput bold)Available rules:$$(tput sgr0)"
 	@echo
 	@sed -n -e "/^## / { \
