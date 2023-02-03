@@ -14,7 +14,7 @@ plt.style.use("ggplot")
 ihm_navy = (.19, .29, .66)
 dpi = 200
 extension = "png"
-image_dir = "figuras"
+image_dir = sys.argv[1]
 
 generator_dir = "code/image_generators"
 generators = ls(generator_dir)
