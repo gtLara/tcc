@@ -122,8 +122,8 @@ posição dos polos de um sistema representado por meio de um polinômio em $L$
 conclui que o sistema é instável se tais polos estiverem fora do círculo unitário,
 contrário do que conhecemos do plano z.
 
-Por fim vale mencionar que alguns autores\cite{aguirre}\cite{algemlol}
-usam a notação $q^{-1}$ para esse operador.
+Por fim vale mencionar que alguns autores\cite{aguirre} usam a notação $q^{-1}$
+para esse operador.
 
 \section{Operador de Diferença}\label{sec:diff}
 
@@ -235,8 +235,7 @@ equação~\ref{eq:autocorr} sob as seguintes premissas:
 
 É interessante mencionar a existência de autocorrelação parcial nessa seção
 juntamente de uma descrição em alto nível do que esse valor representa. Sua
-definição formal será apresentada na seção~\ref{ssec:AR(p)} seguindo como em
-~\cite{chatfield} e ~\cite{morettin_econometria}.
+definição formal será apresentada na seção~\ref{ssec:AR(p)}.
 
 Autocorrelação parcial foi introduzida por Box e Jenkins em\cite{box} como uma
 ferramenta auxiliar na identificação de modelos. O valor $\phi_{kk}$ é
@@ -406,10 +405,10 @@ $$\mathbf{y}_t = \sum_{j=0}^\infty b_j Z_{t-j} + \eta_t$$
 
 No qual $\eta$ representa uma série determinística e $Z_t$ um processo
 puramente aleatório (seção~\ref{sec:white_noise}). O leitor reconhecerá parte da expressão
-acima como um processo $MA(\infty)$ (seção~\ref{ssec:MA}). Esse resultado tem
+acima como um processo $MA(\infty)$ (seção~\ref{ssec:MA(p)}). Esse resultado tem
 como consequência a importante conclusão que qualquer série estacionária é
 possivelmente aproximável por um modelo MA e portanto, via invertibilidade,
-modelos AR e ARMA (seção~\ref{sec:stationary_models}).
+modelos AR e ARMA (seção~\ref{ssec:stability_invertibility}).
 
 Por fim estacionariedade permite o uso de uma série de modelos que serão
 discutidos na seção sobre modelos estacionários. Esses métodos são bem
@@ -696,8 +695,58 @@ Observa-se que ruído branco é um caso específico de estacionariedade, se
 diferenciando pela especificação do valor esperado e autocorrelação entre
 quaisquer amostras em zero. A compreensão da definição e capacidade de
 identificação de ruído branco é importante para análise de resíduos, detalhado
-na seção~\ref{ssec:residual_analysis}.
+na seção~\ref{sec:residual_analysis}.
 
 \subsection{Detecção de ruído branco}
 
 TODO
+
+\chapter{Teoria Univariada} % chap or section?
+\label{chap:univariate_models}
+
+\section{Decomposição de Séries Temporais}
+\label{sec:decomposition}
+
+\section{Modelos Estacionários}
+
+\subsection{Modelo Autoregressivo}
+\label{ssec:AR(p)}
+
+\subsection{Modelo Média Móvel}
+\label{ssec:MA(p)}
+
+\subsection{Modelo ARMA}
+\label{ssec:ARMA}
+
+\subsection{Modelo ARIMA}
+\label{ssec:ARIMA}
+
+\subsection{Estabilidade e Invertibilidade}
+\label{ssec:stability_invertibility}
+
+\section{Modelos de Volatilidade}
+\label{sec:volatility_models}
+
+\subsection{Modelo de Heterocedacidade Condicional Autoregressiva Generalizada}
+\label{sec:garch}
+
+\subsection{Modelo de Volatilidade Estocástica}
+
+
+\chapter{Teoria Multivariada}
+
+\section{Modelos em Espaço de Estados}
+
+\section{Modelos Multivariados}
+
+\chapter{Validação de Modelos}
+
+\section{Análise de Resíduos}\label{sec:residual_analysis}
+
+\section{Validação Cruzada}
+
+\chapter{Modelos Não Estacionários e Não Lineares}
+\label{chap:non_stationary_non_linear}
+
+
+\chapter{Não Estacionariedade}
