@@ -1,9 +1,15 @@
+data_file = data
 figures_file = figures
 filename = report
 
-## Generate figures
+## Generate and retrieve data
+data : $(wildcard data/*)
+	sh data/get_data.sh $(data_file)
+
+## Generate and retrieve figures
 figures : $(wildcard code/image_generators/*) code/generate_images.py
 	python code/generate_images.py $(figures_file)
+	sh code/get_images.sh $(figures_file)
 
 ## Compile producing only pdf file
 main.pdf : $(filename).tex 1-pre-textuais 2-textuais 3-pos-textuais \
@@ -31,6 +37,7 @@ clean :
 	find . -type d -name "__pycache__" -delete
 	find . -name ".mypy_cache" -type d  -exec rm -r "{}" \;
 
+.PHONY: help
 help :
 	@echo "$$(tput bold)Available rules:$$(tput sgr0)"
 	@echo
