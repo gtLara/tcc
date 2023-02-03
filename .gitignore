@@ -1,6 +1,7 @@
 # Non critical files
 time_series
 doc
+books/*
 # No images !
 *.png
 # Latex stuff
