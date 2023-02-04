@@ -11,14 +11,15 @@ def corr_noise(color, dpi, image_path, extension):
     samples = [np.random.normal() for n in range(200)]
 
     fig, curr_ax = plt.subplots()
-    sm.graphics.tsa.plot_acf(samples, lags=15, ax=curr_ax, color=color, vlines_kwargs={"colors": color})
+    sm.graphics.tsa.plot_acf(samples, lags=15, ax=curr_ax, color=color,
+                             vlines_kwargs={"colors": color})
     curr_ax.set_title("Autocorrelação de Ruído Branco")
 
     for item in curr_ax.collections:
-        if type(item)==PolyCollection:
+        if type(item) == PolyCollection:
             item.set_facecolor("red")
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
 
     plt.close()

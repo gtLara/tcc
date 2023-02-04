@@ -9,7 +9,7 @@ def corr_seasonality(color, dpi, image_path, extension):
 
     np.random.seed(42)
 
-    samples = [np.sin(n/10) + np.random.normal(.2) for n in range(300)]
+    samples = [np.sin(n/10) + np.random.normal(.1) for n in range(300)]
 
 
     fig, curr_ax = plt.subplots()
