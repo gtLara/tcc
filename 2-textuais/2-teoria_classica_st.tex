@@ -8,6 +8,8 @@
 \chapter{Definições e Propriedades}
 \label{sec:teorica_classica_series_temporais_definicoes}
 
+\section{Processo Estocástico}
+
 \section{Série Temporal}\label{ssec:definition}
 
 Uma série temporal é um conjunto de observações realizadas sequencialmente no
@@ -278,9 +280,16 @@ identificação de ruído branco(seção~\ref{sec:white_noise}), entre outros. N
 contexto de identificação de sistemas autocovariância e autocorrelação e
 portanto o correlalograma desempenha um importante papel na identificação de
 propriedades de sinais e sistemas imersos em ruído devido à robustez ao ruído
-da operação de correlação cruzada\cite{aguirre}. TODO: Na figura tal, por
-exemplo, observamos um sinal senoidal imerso em ruído cuja natureza periódica
-subjacente torna clara por meio de seu correlalograma.
+da operação de correlação cruzada\cite{aguirre}. A figura~\ref{fig:noisy_sine}
+apresenta um sinal imerso em ruído cuja natureza periódica subjacente se torna
+mais visível por meio de seu correlalograma.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{figures/noisy_seasonal_signal.png}
+    \caption{Sinal periódico imerso em ruído e sua correspondente autocorrelação.}
+    \label{fig:noisy_sine}
+\end{figure}
 
 É importante mencionar que o correlalograma de uma série com tendência
 determinística, como a da figura~\ref{fig:correlalogram}, apresenta o
@@ -302,8 +311,6 @@ utilizada para investigação da adequação de tempo de amostragem, onde uma
 autocovariância com valores lentamente decrescentes e um mínimo local indica que
 o sinal pode estar superamostrado, propriedade indesejável que pode resultar em
 problemas computacionais além de desperdício de memória.
-
-TODO: see if autocorr helps find seasonality in additive or multiplicative series
 
 TODO: add sampling analysis of silica series
 
@@ -698,7 +705,7 @@ na seção~\ref{sec:residual_analysis}.
 
 TODO
 
-\chapter{Teoria Univariada} % chap or section?
+\chapter{Teoria Univariada}
 \label{chap:univariate_models}
 
 \section{Decomposição de Séries Temporais}
@@ -750,8 +757,9 @@ TODO
 
 \chapter{Análise Espectral}
 
-\chapter{Modelos Não Estacionários e Não Lineares}
+\chapter{Modelos Não Lineares}
 \label{chap:non_stationary_non_linear}
 
-
 \chapter{Não Estacionariedade}
+
+\section{Indução de Estacionariedade}
