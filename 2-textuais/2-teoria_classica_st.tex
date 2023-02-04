@@ -2,13 +2,15 @@
 \label{cap:teorica_classica_series_temporais}
 
 
-\chapter*{Introdução}
+\chapter{Introdução}*
 \label{sec:teorica_classica_series_temporais_introducao}
 
 \chapter{Definições e Propriedades}
 \label{sec:teorica_classica_series_temporais_definicoes}
 
 \section{Processo Estocástico}
+
+TODO 1
 
 \section{Série Temporal}\label{ssec:definition}
 
@@ -207,26 +209,62 @@ sazonalidade é importante para modelagem.
 
 \section{Autocorrelação}
 
-TODO: rewrite basically from scratch. analogy with convolution would be kinda
-cool.
+TODO: later analogy with convolution would be cool
 
-Autocorrelação pode ser definida como a correlação amostral entre uma série
-$\mathbf{y}_t$ e sua versão atrasada em um número arbitrário de $k$ atrasos
-$L^k \mathbf{y}_t$. Podemos definir a autocorrelação $r_k$ de um atraso $k$
-diretamente a partir da definição de correlação amostral por meio da
-equação~\ref{eq:autocorr} sob as seguintes premissas:
+A função de autocorrelação é definida para processos estocásticos como a
+correlação de Pearson entre valores do processo em instantes de tempo
+diferentes. A função de autocovariância entre os instantes de tempo $t_1$ e
+$t_2$ é dada pela seguinte equação
+
+\begin{equation}\label{eq:raw_autocorr}
+    K_{xx}(t_1, t_2) = E[(X_{t_1} - \mu_{t_1})(X_{t_2} -\mu_{t_2})]
+\end{equation}
+
+Normalizando a autocovariância obtemos a autocorrelação
+
+$$\rho_{xx}(t_1, t_2) =\frac{K_{xx}(t_1, t_2)}{\sigma_{t_1}\sigma_{t_2}}$$
+
+Para processos estacionários (seção~\ref{sec:stationarity}) a autocovariância,
+e consequentemente a autocorrelação, é função apenas do atraso $\tau = |t_1 -
+t_2|$. Temos então que
+
+$$\rho_{xx}(\tau) =\frac{K_{xx}(\tau)}{\sigma_{t_1}\sigma_{t_2}}$$
+
+Para uma série temporal, isso é, uma única  realização de um processo
+estocástico, a função de autocorrelação estacionária (tipicamente chamada
+apenas de função de autocorrelação) pode ser definida diretamente a partir da
+definição de correlação amostral sob as seguintes premissas
 
 \begin{enumerate}
-    \item A média $\bar{y}$ de $\mathbf{y}_t$ é constante no tempo
+    \item O processo estocástico gerador da série temporal é estacionário
     \item O número de observações  $N$ de $\mathbf{y}_t$ é suficientemente
     grande ($N \approx 100$)
 \end{enumerate}
 
+resultando na equação ~\ref{eq:autocorr}, onde o subscrito duplo é omitido.
+Note que o atraso é discreto, indicado por $k$.
+
 \vspace{1cm}
 
 \begin{equation}\label{eq:autocorr}
-    r_k = \frac{\sum_{t=1}^{N-k}(y_t - \bar{y})(y_{t+k}-\bar{y})}{\sum_{t=1}^{N}(y_t - \bar{y})^2}  , \hspace{1cm} k = 0, 1, 2, \dots
+    \rho_y(k) = \frac{\sum_{t=1}^{N-k}(y_t - \bar{y})(y_{t+k}-\bar{y})}{\sum_{t=1}^{N}(y_t - \bar{y})^2}  , \hspace{1cm} k = 0, 1, 2, \dots
 \end{equation}
+
+Alguns comentários sobre a nomenclatura da função são apropriados. A literatura
+de engenharia tende a usar os termos autocovariância e autocorrelação de forma
+intercambiável para designar a definição de autocovariância apresentada. A
+literatura estatística assume as definições abordadas acima, que serão usada no
+restante desse trabalho.
+
+Além disso, a função de autocorrelação como apresentada pela
+equação~\ref{eq:raw_autocorr} é definida para um processo estocástico não
+necessariamente estacionário, apesar do termo ser usado para descrever a
+equação~\ref{eq:autocorr}. A aplicação da equação que assume estacionariedade
+em uma série não estacionária resulta em correlações informativas praticamente
+apenas disso. Uma modificação estratégica da função dada
+por~\ref{eq:raw_autocorr} resulta na chamada função de autocorrelação
+instantânea (seção~\ref{ssec:inst_autocorr}), que é usada para representar
+séries temporais não estacionárias.
 
 \vspace{1cm}
 
@@ -758,8 +796,12 @@ TODO
 \chapter{Análise Espectral}
 
 \chapter{Modelos Não Lineares}
-\label{chap:non_stationary_non_linear}
+\label{chap:non_stationary}
 
 \chapter{Não Estacionariedade}
+
+\section{Definições Adicionais}
+\subsection{Autocorrelação Instantânea}
+\label{ssec:inst_autocorr}
 
 \section{Indução de Estacionariedade}
