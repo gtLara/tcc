@@ -2,6 +2,7 @@
 time_series
 doc
 books/*
+3-pos-textuais/example_refs.bib
 # No images !
 *.png
 # Latex stuff
