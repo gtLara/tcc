@@ -10,15 +10,61 @@
 
 \section{Processo Estocástico}
 
-TODO 1
+Dado um conjunto arbitrário $\mathcal{T}$ um processo estocástico é uma família
+${X(t,\omega)}$, $ t\in \mathcal{T}$ e $\omega \in \Omega$ de forma que para
+cada $t \in T$, $\omega \in \Omega$ $X(t, \Omega)$ é uma variável aleatória. As
+variáveis aleatórias podem ser reais ou complexas. Esse trabalho aborda apenas
+processos estocásticos reais exceto quando explicitamente mencionado. 
+
+Supõe-se que a família de variáveis aleatórias seja definida em um mesmo
+espaço de probabilidades $(\Omega, \mathcal{A}, P)$ com $\Omega$ representando
+um espaço amostral, $\mathcal{A}$ uma $\sigma$-álgebra e $P$ uma medida de
+probabilidade. Para propósitos desse trabalho podemos tomar o conjunto
+$\mathcal{T}$ como $\mathbb{R}$, resultando em processos de tempo contínuo, e
+$\mathbb{Z}$, resultando em processos de tempo discreto.
+
+Para cada $t \in \mathcal{T}$ temos uma função de densidade de probabilidade
+associada à variável aleatória $X(t_k, \omega)$ (assumindo que essa função exista).
+Na prática um processo aleatório no mundo real é observado ao longo de $t$, tal que
+$\omega$ seja fixado ao universo em que a observação ocorre. Sob essa condição
+$X(t, \omega_k)$ é considerada uma realização do processo estocástico. Realizações também
+são chamadas de \emph{sample record} em alguns livros de engenharia
+e séries temporais na literatura estatística.
+
+Para ilustrar os conceitos acima podemos pensar em um exemplo proposto por
+\cite{random_data} em que um gerador de ruído térmico é construído e sua tensão
+ao longo de um intervalo do tempo é medida. Se um outro gerador fosse
+construído sob condições e com propriedades idênticas sua tensão medida no
+mesmo intervalo de tempo não seria idêntica, assim como a tensão medida sob
+qualquer outro gerador idêntico. De fato cada registro de tensão é um exemplo
+de infinitos registros que poderiam ter ocorrido. Nessa situação os registros
+ou séries temporais de tensão são as realizações de um processo estocástico
+representativo de todas as possíveis realizações.
+
+O adequado estudo de séries temporais é consequência de um primeiro adequado
+estudo sobre processos estocásticos, geradores dessas séries temporais. Essa
+não é a intenção desse trabalho. Como em grande parte da teoria de séries
+temporais estamos preocupados com o que podemos compreender ou inferir sobre
+o processo estocástico gerador de uma realização a partir apenas de seu único
+registro. Essa abordagem é essencial e de fato mais aplicável que um estudo
+que se preocupa excessivamente com os processos geradores devido ao fato de dados
+do mundo real frequentemente representarem realizações únicas. Não é possível
+realizar novamente o índice Ibovespa entre 1970 e 2020 e muito menos ter acesso
+à realização desses índices em universos paralelos.
+
+Ao longo desse trabalho a distinção e referência ao processo gerador de uma série
+temporal será feita quando necessário.
+
 
 \section{Série Temporal}\label{ssec:definition}
 
 Uma série temporal é um conjunto de observações realizadas sequencialmente no
-tempo, indexadas de acordo com o momento em que foram observadas. As observações
-são tipicamente de um mesmo processo, tal que cada uma represente o resultado
-de uma amostragem. A natureza do processo subjacente é relevante para análise e
-modelagem de qualquer série temporal, como será visto nas próximas seções.
+tempo, indexadas de acordo com o momento em que foram observadas. As
+observações representam a realização de um processo estocástico. Em alguns
+contextos, como análise de processos industriai, a natureza do processo
+subjacente é relevante para análise e modelagem de qualquer série temporal. Em
+outros, como análise de séries financeiras, o sistema gerador das séries é tão
+complexo que dificilmente conhecimento sobre sua dinâmica seja útil.
 
 Assume-me, na linguagem de~\cite{hamilton}, que um conjunto de amostras
 $\mathbf{y}_t = (y_1, y_2, y_3 \dots y_T)$ pode ser interpretado como um
@@ -40,9 +86,14 @@ insinuar que o processo existe em um intervalo temporal mais abrangente do que
 o observado. É portanto necessário se questionar sobre quanto os
 dados representam o processo analisado e em quais intervalos de tempo.
 
-TODO: Séries temporais são inerentemente diferentes de dados de corte
-transversal por representarem amostras discretas de um mesmo processo ao invés
-de amostras aleatórias de uma população.
+Séries temporais são inerentemente diferentes de dados tabulares por
+representarem amostras de um mesmo processo estocástico ao invés de amostras
+aleatórias de uma população. Não faz sequer sentido discutir uma população no
+contexto de séries temporais uma vez que estamos restritos à realizações
+observadas de um processo estocástico. Essa relevante diferença impede
+propriedades estatísticas agradáveis consequentes da independência amostral
+associada à dados tabulares apropriadamente amostrados como a lei do grandes
+números e o teorema do limite central.
 
 A forma mais natural de analisar uma série temporal é visualizar seus valores
 no tempo, como ilustra a imagem~\ref{fig:example}.
@@ -57,8 +108,7 @@ no tempo, como ilustra a imagem~\ref{fig:example}.
 
 \section{Operador de Atraso(\emph{Lag})}
 
-É importante introduzir o operador de atraso que será referido nesse texto
-como operador \emph{lag}.
+É importante introduzir o operador de atraso ou \emph{lag}.
 
 Dadas as séries $\mathbf{y}_t = (y_1, y_2, y_3 \dots y_T)$ e
 $\mathbf{x}_t = (x_0, x_1, x_2 \dots x_{T-1})$ tal que
@@ -78,13 +128,13 @@ $$ \mathbf{x}_t = L\mathbf{y}_t $$
 
 tal que
 
-$$\boxed{\mathbf{y}_{t-1} = L\mathbf{y}_t}$$
+$$\mathbf{y}_{t-1} = L\mathbf{y}_t$$
 
-Observamos que o operador de atraso atrasa uma série temporal em uma unidade
-de tempo. Uma breve divagação matemática~\cite{hamilton} permite definir o
-operador com propriedades muito semelhantes à multiplicação, como
-associatividade, comutatividade e distribuição. Para atrasar múltiplas unidades
-de tempo temos que:
+Observamos que o operador de atraso atrasa uma série temporal em uma unidade de
+tempo. Uma breve divagação matemática~\cite{hamilton} permite definir o
+operador com propriedades muito semelhantes às de multiplicação dos números
+reais, como associatividade, comutatividade e distribuição. Para atrasar
+múltiplas unidades de tempo temos que:
 
 \vspace{1cm}
 
@@ -126,7 +176,7 @@ posição dos polos de um sistema representado por meio de um polinômio em $L$
 conclui que o sistema é instável se tais polos estiverem fora do círculo unitário,
 contrário do que conhecemos do plano z.
 
-Por fim vale mencionar que alguns autores\cite{aguirre} usam a notação $q^{-1}$
+Por fim vale mencionar que alguns autores como\cite{aguirre} usam a notação $q^{-1}$
 para esse operador.
 
 \section{Operador de Diferença}\label{sec:diff}
