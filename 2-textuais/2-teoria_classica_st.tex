@@ -1,8 +1,4 @@
-\part{Teoria Clássica de Séries Temporais}
-\label{cap:teorica_classica_series_temporais}
-
-
-\chapter{Introdução}*
+\chapter*{Introdução}
 \label{sec:teorica_classica_series_temporais_introducao}
 
 \chapter{Definições e Propriedades}
@@ -14,7 +10,7 @@ Dado um conjunto arbitrário $\mathcal{T}$ um processo estocástico é uma famí
 ${X(t,\omega)}$, $ t\in \mathcal{T}$ e $\omega \in \Omega$ de forma que para
 cada $t \in T$, $\omega \in \Omega$ $X(t, \Omega)$ é uma variável aleatória. As
 variáveis aleatórias podem ser reais ou complexas. Esse trabalho aborda apenas
-processos estocásticos reais exceto quando explicitamente mencionado. 
+processos estocásticos reais exceto quando explicitamente mencionado.
 
 Supõe-se que a família de variáveis aleatórias seja definida em um mesmo
 espaço de probabilidades $(\Omega, \mathcal{A}, P)$ com $\Omega$ representando
@@ -400,10 +396,7 @@ autocovariância com valores lentamente decrescentes e um mínimo local indica q
 o sinal pode estar superamostrado, propriedade indesejável que pode resultar em
 problemas computacionais além de desperdício de memória.
 
-TODO: add sampling analysis of silica series
-
-
-\section{Raízes Unitárias}\ref{sec:unit_roots}
+TODO: add sampling analysis of silica series? later maybe
 
 \section{Estacionariedade}\label{sec:stationarity}
 
@@ -578,10 +571,9 @@ pelo fato da operação de diferença introduzir estacionariedade. Essa é uma
 forma tão comum de não estacionariedade que a ideia de ``diferenciar uma
 série antes de fazer qualquer coisa'' é proeminente entre profissionais de
 dados, apesar de que geralmente necessita-se apenas de estacionariedade
-TODO: fix footnote here!
-% \footnote{essa prática é parcialmente justificada considerando que a maior
-% parte das séries temporais ``reais'' são não estacionárias e frequentemente
-% diferencialmente estacionárias}.
+Essa prática é parcialmente justificada considerando que a maior
+parte das séries temporais ``reais'' são não estacionárias e frequentemente
+diferencialmente estacionárias.
 
 É igualmente possível que uma série diferença-estacionária seja estacionária em
 sua $n$-ésima diferença, tal que estacionariedade seja observada por uma
@@ -614,32 +606,101 @@ nessa seção assim como suas implicações como segue:
 
 \end{enumerate}
 
-TODO: retomar estacionarização de séries em capítulo ou apêndice dedicado?
+\section{Ruído Branco}\label{sec:white_noise}
 
-\subsection{Detecção de Estacionariedade}\label{ssec:stationarity_tests}
+Uma série temporal $\mathbf{x}_t$ gerada por um processo $\mathbf{X}(t)$ é
+considerada ruído branco ou um processo puramente aleatório se atender às
+seguintes três condições:
 
-Espera-se que as discussões das seções anteriores tenham estabelecido motivação
-suficiente para o início de uma exploração de métodos de detecção de
-estacionariedade mais objetivos que simples análise visual. As seguintes
-subseções abordam esses métodos, a maioria dos quais são testes paramétricos.
+\begin{enumerate}
+    \item $E(\mathbf{X}(t)) = 0$
+    \item $Var(\mathbf{X}(t)) = \sigma^2$
+    \item $Cov[\mathbf{X}(t), \mathbf{X}(t+\tau)] = 0$
+\end{enumerate}\vspace{.5cm}
 
-\subsubsection{Análise de Correlalograma}
+Que podem ser interpretadas da seguinte forma
 
-Apesar de pouco formal e altamente sujeito a erro alguns autores e muitos
-praticantes~\cite{chatfield}~\cite{metcalfe} apontam para a possibilidade de
-identificar não estacionariedade a partir de análise visual do correlalograma
-de uma série temporal. Como mencionado na seção~\ref{ssec:correlalogram}
-séries que violam os requisitos de estacionariedade por tendência
-determinística apresentam correlalogramas distintos -
-autocorrelações altas e persistentes. No entanto séries cuja não
-estacionariedade for facilmente detectada via correlalograma também são
-frequentemente notavelmente não estacionárias via simples análise temporal.
+\begin{enumerate}
+    \item A média da série $\mathbf{x}_t$ é nula ao longo do tempo
+    \item A variância da série $\mathbf{x}_t$ é constante ao longo do tempo
+    \item Não há correlação entre as amostras de $\mathbf{x}_t$
+\end{enumerate}\vspace{.5cm}
 
-\subsubsection{Teste Local-Global}
+Observa-se que ruído branco é um caso específico de estacionariedade, se
+diferenciando pela especificação do valor esperado e autocorrelação entre
+quaisquer amostras em zero. A compreensão da definição e capacidade de
+identificação de ruído branco é importante para análise de resíduos, detalhado
+na seção~\ref{sec:residual_analysis}.
 
-TODO
+\chapter{Teoria Univariada}
+\label{chap:univariate_theory}
 
-\subsubsection{Teste de \emph{Dickey-Fuller}}
+\section{Decomposição de Séries Temporais}
+\label{sec:decomposition}
+
+\section{Modelos Estacionários}
+
+\subsection{Modelo Linear Generalizado}
+\label{sec:glm}
+
+\subsection{Raízes Unitárias}
+\label{sec:unit_roots}
+
+\subsection{Modelo Autoregressivo}
+\label{ssec:AR(p)}
+
+\subsection{Modelo Média Móvel}
+\label{ssec:MA(p)}
+
+\subsection{Modelo ARMA}
+\label{ssec:ARMA}
+
+\section{Modelo ARIMA}
+\label{sec:ARIMA}
+
+\subsection{Estabilidade e Invertibilidade}
+\label{ssec:stability_invertibility}
+
+\section{Modelos de Sazonalidade}
+
+\subsection{Diferenciação Sazonal}
+
+\subsection{SARIMA}
+
+\chapter{Teoria de Volatilidade}
+\label{sec:volatility_theory}
+
+\section{Definições Adicionais}
+
+\section{Modelo de Heterocedacidade Condicional Autoregressiva Generalizada}
+\label{sec:garch}
+
+\section{Modelo de Volatilidade Estocástica}
+
+\section{Modelos Adicionais}
+
+\chapter{Teoria Multivariada}
+
+\section{Definições Adicionais}
+
+Adicionar medidas de similaridade? Possivelmente em capitulo de analise
+moderna
+
+\subsection{Correlação Cruzada}
+
+\subsection{Cointegração}
+
+\section{Modelos em Espaço de Estados}
+
+\section{Modelos Multivariados}
+
+\section{Modelos de Variáveis Exógenas}
+
+\chapter{Testes Estatísticos}
+
+\section{Considerações sobre testes em séries temporais}
+
+\section{Teste de \emph{Dickey-Fuller}}
 
 Os testes de \emph{Dickey-Fuller} testam a hipótese nula de presença de raízes
 unitárias no processo gerador de uma série temporal com a hipótese alternativa
@@ -724,7 +785,7 @@ Na prática o teste mais usado é o ADF que é uma simples extensão mais robust
 do teste de \emph{Dickey-Fuller}. Implementações eficiente e populares existem
 para \verb+R+ e \verb+Python+.
 
-\subsubsection{Teste \emph{Kwiatkowski-Phillips-Schmidt-Shin} (KPSS)}
+\subsection{Teste \emph{Kwiatkowski-Phillips-Schmidt-Shin} (KPSS)}
 
 TODO: check this
 
@@ -763,78 +824,15 @@ estacionariedade sob uma tendência determinística (tendência-estacionariedade
 e o ADF (tipicamente) de estacionariedade propriamente dita. O KPSS é bem
 implementado em \verb+R+ e \verb+Python+.
 
-\section{Ruído Branco}\label{sec:white_noise}
+\section{Causalidade de Granger}
 
-Uma série temporal $\mathbf{x}_t$ gerada por um processo $\mathbf{X}(t)$ é
-considerada ruído branco ou um processo puramente aleatório se atender às
-seguintes três condições:
+\section{Box-Pierce}
 
-\begin{enumerate}
-    \item $E(\mathbf{X}(t)) = 0$
-    \item $Var(\mathbf{X}(t)) = \sigma^2$
-    \item $Cov[\mathbf{X}(t), \mathbf{X}(t+\tau)] = 0$
-\end{enumerate}\vspace{.5cm}
+\section{Ljung-Box-Pierce}
 
-Que podem ser interpretadas da seguinte forma
+\section{\emph{Convergence Cross Mapping}}
 
-\begin{enumerate}
-    \item A média da série $\mathbf{x}_t$ é nula ao longo do tempo
-    \item A variância da série $\mathbf{x}_t$ é constante ao longo do tempo
-    \item Não há correlação entre as amostras de $\mathbf{x}_t$
-\end{enumerate}\vspace{.5cm}
-
-Observa-se que ruído branco é um caso específico de estacionariedade, se
-diferenciando pela especificação do valor esperado e autocorrelação entre
-quaisquer amostras em zero. A compreensão da definição e capacidade de
-identificação de ruído branco é importante para análise de resíduos, detalhado
-na seção~\ref{sec:residual_analysis}.
-
-\subsection{Detecção de ruído branco}
-
-TODO
-
-\chapter{Teoria Univariada}
-\label{chap:univariate_models}
-
-\section{Decomposição de Séries Temporais}
-\label{sec:decomposition}
-
-\section{Modelos Estacionários}
-
-\subsection{Modelo Autoregressivo}
-\label{ssec:AR(p)}
-
-\subsection{Modelo Média Móvel}
-\label{ssec:MA(p)}
-
-\subsection{Modelo ARMA}
-\label{ssec:ARMA}
-
-\subsection{Modelo ARIMA}
-\label{ssec:ARIMA}
-
-\subsection{Estabilidade e Invertibilidade}
-\label{ssec:stability_invertibility}
-
-\section{Modelos de Volatilidade}
-\label{sec:volatility_models}
-
-\subsection{Modelo de Heterocedacidade Condicional Autoregressiva Generalizada}
-\label{sec:garch}
-
-\subsection{Modelo de Volatilidade Estocástica}
-
-\chapter{Teoria Multivariada}
-
-\section{Definições Adicionais}
-
-\subsection{Correlação Cruzada}
-
-\subsection{Cointegração}
-
-\section{Modelos em Espaço de Estados}
-
-\section{Modelos Multivariados}
+\section{Johansen}
 
 \chapter{Validação de Modelos}
 
@@ -848,10 +846,12 @@ TODO
 \chapter{Modelos Não Lineares}
 \label{chap:non_stationary}
 
-\chapter{Não Estacionariedade}
+\chapter{Análise de Séries Não Estacionárias}
 
 \section{Definições Adicionais}
 \subsection{Autocorrelação Instantânea}
 \label{ssec:inst_autocorr}
 
 \section{Indução de Estacionariedade}
+
+\chapter{Tópicos Adicionais}
