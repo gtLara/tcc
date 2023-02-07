@@ -14,9 +14,9 @@ plt.style.use("ggplot")
 ihm_navy = (.19, .29, .66)
 dpi = 200
 extension = "png"
-image_dir = sys.argv[1]
+image_dir = "figures"
 
-generator_dir = "code/image_generators"
+generator_dir = "src/visual/generate/image_generators"
 generators = ls(generator_dir)
 
 if __name__ == "__main__":
@@ -34,8 +34,11 @@ if __name__ == "__main__":
                                                           file_path)
 
             generator_class = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(generator_class)
-            generate = getattr(generator_class, generator_name)
+            try:
+                spec.loader.exec_module(generator_class)
+                generate = getattr(generator_class, generator_name)
 
             # Generates image
-            generate(ihm_navy, dpi, image_path, extension)
+                generate(ihm_navy, dpi, image_path, extension)
+            except:
+                print(f"{generator_name} is not working ;(")
