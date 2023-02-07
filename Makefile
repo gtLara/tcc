@@ -10,7 +10,8 @@ figures : src/make_figures.sh $(wildcard src/visual/*)
 
 ## Compile producing only pdf file
 compile : data figures $(wildcard text/*) $(wildcard figures/*)
-	#TODO: see if make glossaries and index, reuse clean stage
+	# @todo: Reuse clean stage
+	# @body: see how to reuse code from clean rule in a way that is not stupid
 	export BSTINPUTS=text
 	pdflatex -output-directory=text text/$(filename).tex
 	bibtex text/$(filename)

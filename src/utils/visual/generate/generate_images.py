@@ -5,6 +5,9 @@ import sys
 import importlib.util
 import os
 
+# @todo: Refactor image generation code
+# @body: common data generation functions should be included into src and synthetic data generated appropriately
+
 sys.dont_write_bytecode = True  # Impede de produzir __pycache__
 
 # Definição de parâmetros universais
@@ -39,6 +42,8 @@ if __name__ == "__main__":
                 generate = getattr(generator_class, generator_name)
 
             # Generates image
+            # @todo: Fix pickle loading issue
+            # @body: pickled motor current data is crashing on load, for some reason. fix!
                 generate(ihm_navy, dpi, image_path, extension)
             except:
                 print(f"{generator_name} is not working ;(")
