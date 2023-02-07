@@ -11,7 +11,7 @@
    % fleqn             % Comente esta linha se quiser centralizar as equacoes. Comente também a linha 65 abaixo
 ]{abntex2}
 
-\input{lib/preambulo}
+\input{text/lib/preambulo}
 
 \trabalhoacademico{tccgraduacao}
 
@@ -112,23 +112,23 @@ Estacionárias}
 \begin{document}
 
     \selectlanguage{english} % Colocando em inglês
-    \bibliographystyle{lib/abntex2-alf} % Ajustes das referências em inglês
+    \bibliographystyle{text/lib/abntex2-alf} % Ajustes das referências em inglês
 
 	% Elementos pré-textuais
     \imprimircapatcc{Undergraduate}
 	\imprimirfolhaderosto{}
 	\imprimirfolhadeaprovacao
-	\imprimiragradecimentos{1-pre-textuais/agradecimentos}
-	\imprimirepigrafe{1-pre-textuais/epigrafe}
-	\imprimirabstract{1-pre-textuais/abstract}
-	\imprimirresumo{1-pre-textuais/resumo}
+	\imprimiragradecimentos{text/1-pre-textuais/agradecimentos}
+	\imprimirepigrafe{text/1-pre-textuais/epigrafe}
+	\imprimirabstract{text/1-pre-textuais/abstract}
+	\imprimirresumo{text/1-pre-textuais/resumo}
 	\imprimirlistadeilustracoes
 	\imprimirlistadetabelas
 	%\imprimirlistadequadros
 	%\imprimirlistadealgoritmos
 	% \imprimirlistadecodigosfonte
 	% \imprimirlistadeabreviaturasesiglas TODO: make this work !
-	\imprimirlistadesimbolos{1-pre-textuais/lista-de-simbolos}
+	\imprimirlistadesimbolos{text/1-pre-textuais/lista-de-simbolos}
 	% \imprimirsumario
 	\tableofcontents
     \newpage
@@ -136,19 +136,19 @@ Estacionárias}
 	\setcounter{table}{0}% Deixe este comando antes da primeira tabela.
 
 	%Elementos textuais
-	\input{2-textuais/1-introducao}
-    \input{2-textuais/2-teoria_classica_st}
-	\input{2-textuais/3-teoria_classica_ssp}
-	\input{2-textuais/4-aplicacoes}
-	\input{2-textuais/5-conclusao}
+	\input{text/2-textuais/1-introducao}
+    \input{text/2-textuais/2-teoria_classica_st}
+	\input{text/2-textuais/3-teoria_classica_ssp}
+	\input{text/2-textuais/4-aplicacoes}
+	\input{text/2-textuais/5-conclusao}
 
 	%Elementos pós-textuais
-	\bibliography{3-pos-textuais/referencias}
+	\bibliography{text/3-pos-textuais/referencias}
 	% \imprimirglossario
 	\imprimirapendices
-		\input{3-pos-textuais/apendices/apendice-a}
+		\input{text/3-pos-textuais/apendices/apendice-a}
 	\imprimiranexos
-		\input{3-pos-textuais/anexos/anexo-a}
+		\input{text/3-pos-textuais/anexos/anexo-a}
 	\imprimirindice
 
 \end{document}
