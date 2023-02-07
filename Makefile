@@ -9,15 +9,16 @@ figures : src/make_figures.sh $(wildcard src/visual/*)
 	sh src/make_figures.sh
 
 ## Compile producing only pdf file
-compile : $(wildcard text/*) $(wildcard figures/*)
+compile : data figures $(wildcard text/*) $(wildcard figures/*)
+	#TODO: see if make glossaries and index, reuse clean stage
+	export BSTINPUTS=text
 	pdflatex -output-directory=text text/$(filename).tex
 	bibtex text/$(filename)
 	# makeglossaries text/$(filename)
 	# gmakeindex text/$(filename)
 	pdflatex -output-directory=text text/$(filename).tex
 	pdflatex -output-directory=text text/$(filename).tex
-	# TODO: see how to use clean stage here
-	@rm -f *.out *.aux *.alg *.acr *.dvi *.gls *.log *.bbl *.blg *.ntn *.not *.lof *.lot *.toc *.loa *.lsg *.nlo *.nls *.ilg *.ind *.ist *.glg *.glo *.xdy *.acn *.idx *.loq *.lol *~
+	@rm -f text/*.out text/*.aux text/*.alg text/*.acr text/*.dvi text/*.gls text/*.log text/*.bbl text/*.blg text/*.ntn text/*.not text/*.lof text/*.lot text/*.toc text/*.loa text/*.lsg text/*.nlo text/*.nls text/*.ilg text/*.ind text/*.ist text/*.glg text/*.glo text/*.xdy text/*.acn text/*.idx text/*.loq text/*.lol text/*~
 	@rm -f
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
