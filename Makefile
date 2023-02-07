@@ -5,8 +5,8 @@ data : src/make_data.sh $(wildcard src/utils/data/*)
 	sh src/make_data.sh
 
 ## Generate and retrieve figures
-figures : src/get_figures.sh $(wildcard src/visual/*)
-	sh src/get_figures.sh
+figures : src/make_figures.sh $(wildcard src/visual/*)
+	sh src/make_figures.sh
 
 ## Compile producing only pdf file
 compile : $(filename).tex 1-pre-textuais 2-textuais 3-pos-textuais \

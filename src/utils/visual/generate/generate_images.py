@@ -16,7 +16,7 @@ dpi = 200
 extension = "png"
 image_dir = "figures"
 
-generator_dir = "src/visual/generate/image_generators"
+generator_dir = "src/utils/visual/generate/image_generators"
 generators = ls(generator_dir)
 
 if __name__ == "__main__":
