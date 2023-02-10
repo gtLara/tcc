@@ -28,7 +28,7 @@ são chamadas de \emph{sample record} em alguns livros de engenharia
 e séries temporais na literatura estatística.
 
 Para ilustrar os conceitos acima podemos pensar em um exemplo proposto por
-\cite{random_data} em que um gerador de ruído térmico é construído e sua tensão
+~\cite{random_data} em que um gerador de ruído térmico é construído e sua tensão
 ao longo de um intervalo do tempo é medida. Se um outro gerador fosse
 construído sob condições e com propriedades idênticas sua tensão medida no
 mesmo intervalo de tempo não seria idêntica, assim como a tensão medida sob
@@ -62,7 +62,7 @@ subjacente é relevante para análise e modelagem de qualquer série temporal. E
 outros, como análise de séries financeiras, o sistema gerador das séries é tão
 complexo que dificilmente conhecimento sobre sua dinâmica seja útil.
 
-Assume-me, na linguagem de~\cite{hamilton}, que um conjunto de amostras
+Assume-me, na linguagem de~~\cite{hamilton}, que um conjunto de amostras
 $\mathbf{y}_t = (y_1, y_2, y_3 \dots y_T)$ pode ser interpretado como um
 segmento finito de uma sequência duplamente infinita:
 
@@ -127,7 +127,7 @@ tal que
 $$\mathbf{y}_{t-1} = L\mathbf{y}_t$$
 
 Observamos que o operador de atraso atrasa uma série temporal em uma unidade de
-tempo. Uma breve divagação matemática~\cite{hamilton} permite definir o
+tempo. Uma breve divagação matemática~~\cite{hamilton} permite definir o
 operador com propriedades muito semelhantes às de multiplicação dos números
 reais, como associatividade, comutatividade e distribuição. Para atrasar
 múltiplas unidades de tempo temos que:
@@ -153,8 +153,8 @@ Conhecimento do operador de atraso é importante para compreender a literatura
 de séries temporais e facilita comunicação objetiva de análises cotidianas.
 O presente trabalho usa do operador para descrever uma série de modelos.
 
-Como nota final é importante mencionar que alguns livros~\cite{chatfield}
-~\cite{stoffer} usam a letra $B$ para denotar o operador de atraso e que na
+Como nota final é importante mencionar que alguns livros~~\cite{chatfield}
+~~\cite{stoffer} usam a letra $B$ para denotar o operador de atraso e que na
 maior parte dos recursos \emph{online} o operador é referido por seu nome em
 inglês, \emph{lag}.
 
@@ -172,7 +172,7 @@ posição dos polos de um sistema representado por meio de um polinômio em $L$
 conclui que o sistema é instável se tais polos estiverem fora do círculo unitário,
 contrário do que conhecemos do plano z.
 
-Por fim vale mencionar que alguns autores como\cite{aguirre} usam a notação $q^{-1}$
+Por fim vale mencionar que alguns autores como~\cite{aguirre} usam a notação $q^{-1}$
 para esse operador.
 
 \section{Operador de Diferença}\label{sec:diff}
@@ -194,7 +194,7 @@ A partir de uma série temporal definimos tendência como a variação de sua m�
 amostral. A imagem ~\ref{fig:trend} ilustra uma série com tendência linear.
 Observa-se que ao longo do tempo a média das observações cresce linearmente.
 Tendências de séries reais frequentemente seguem um perfil
-logarítmico~\cite{chatfield}, como na figura~\ref{fig:log_trend}. Nesse caso
+logarítmico~~\cite{chatfield}, como na figura~\ref{fig:log_trend}. Nesse caso
 uma transformação exponencial da série, isso é, a aplicação de uma função
 exponencial a cada observação, tornaria a tendência linear.
 
@@ -256,6 +256,7 @@ sazonalidade é importante para modelagem.
 \section{Autocorrelação}
 
 TODO: later analogy with convolution would be cool
+TODO: list properties of autocorrelation function !
 
 A função de autocorrelação é definida para processos estocásticos como a
 correlação de Pearson entre valores do processo em instantes de tempo
@@ -320,7 +321,7 @@ séries temporais não estacionárias.
 juntamente de uma descrição em alto nível do que esse valor representa. Sua
 definição formal será apresentada na seção~\ref{ssec:AR(p)}.
 
-Autocorrelação parcial foi introduzida por Box e Jenkins em\cite{box} como uma
+Autocorrelação parcial foi introduzida por Box e Jenkins em~\cite{box} como uma
 ferramenta auxiliar na identificação de modelos. O valor $\phi_{kk}$ é
 definido como a correlação parcial entre $\mathbf{y}_t$ e $\mathbf{y}_{t - k}$,
 isso é, a correlação restante entre $\mathbf{y}_t$ e $\mathbf{y}_{t - k}$ após
@@ -362,9 +363,9 @@ para tarefas como detecção de estacionariedade, identificação de sazonalidad
 análise de resíduo, engenharia de características, escolha de modelo e
 identificação de ruído branco(seção~\ref{sec:white_noise}), entre outros. No
 contexto de identificação de sistemas autocovariância e autocorrelação e
-portanto o correlalograma desempenha um importante papel na identificação de
+portanto o correlalograma desempenham um importante papel na identificação de
 propriedades de sinais e sistemas imersos em ruído devido à robustez ao ruído
-da operação de correlação cruzada\cite{aguirre}. A figura~\ref{fig:noisy_sine}
+da operação de correlação cruzada~\cite{aguirre}. A figura~\ref{fig:noisy_sine}
 apresenta um sinal imerso em ruído cuja natureza periódica subjacente se torna
 mais visível por meio de seu correlalograma.
 
@@ -386,7 +387,7 @@ certo ponto: informa simplesmente que a série apresenta tendência. Para
 analisar tais séries de forma mais produtiva, a fim de elaborar um possível
 modelo, por exemplo, é importante que a série seja estacionária
 (seção~\ref{sec:stationarity}). É inclusive afirmado em alguns textos da
-literatura estatística\cite{chatfield}, que um correlalograma só faz que
+literatura estatística~\cite{chatfield}, que um correlalograma só faz que
 sentido se a série associada for estacionária, observação mais geral e rigorosa
 das restrições de uso da equação~\ref{eq:autocorr}.
 
@@ -400,8 +401,8 @@ TODO: add sampling analysis of silica series? later maybe
 
 \section{Estacionariedade}\label{sec:stationarity}
 
-Uma série temporal $\mathbf{x}_t$ gerada por um processo $\mathbf{X}(t)$ é
-considerada estacionária se atender às seguintes três condições:
+Um processo estocástico $\mathbf{X}(t)$ é considerado estacionário no
+sentido amplo se atender às seguintes três condições:
 
 \begin{enumerate}
     \item $E(\mathbf{X}(t)) = \mu$
@@ -409,7 +410,25 @@ considerada estacionária se atender às seguintes três condições:
     \item $Cov[\mathbf{X}(t), \mathbf{X}(t+\tau)] = \gamma(\tau)$
 \end{enumerate}\vspace{.5cm}
 
-Que podem ser interpretadas da seguinte forma
+e estacionário no sentido restrito se sua distribuição de probabilidade $P(x)$
+for idêntica para todos os instantes de tempo, isso é, $P(x)_{t_{i}} = P(x)_{t_{j}}$
+$\forall i, j \in \mathcal{T}$. Essa restrição é frequentemente comunicada como
+a necessidade de todos os momentos da distribuição $P(x)$ serem idênticos e
+invariantes ao tempo. Nesse trabalho, assim como em grande parte da literatura
+estatística e de engenharia, o termo estacionário se refere a estacionariedade
+no sentido amplo. Isso é parcialmente justificado pelo fato de verificação
+de estacionariedade no sentido amplo tipicamente ser condição suficiente para
+assumir estacionariedade no sentido restrito, segundo~\cite{random_data}.
+
+A definição de estacionariedade apresentada descreve a família de sinais
+representada por um processo estocástico. Uma definição de estacionariedade
+para realizações únicas de um processo estocástico, isso é, séries temporais,
+demanda o estabelecimento de resquisitos amostrais. Podemos dizer que uma
+série temporal é estacionária se suas propriedades amostrais de esperança,
+variância e covariância sejam apropriadamente invariantes de forma que
+flutuações em seu valor sob diferentes janelas de tempo sejam explicáveis por
+variações resultantes de amostragem. Sob essa perspectiva podemos traduzir
+os requisitos de estacionariedade para uma série $\mathbf{x}_t$ como a seguir
 
 \begin{enumerate}
     \item A média da série $\mathbf{x}_t$ é constante ao longo do tempo
@@ -426,7 +445,7 @@ Que podem ser interpretadas da seguinte forma
 \end{figure}
 
 Um bom exemplo de graus de estacionariedade em séries temporais dado por
-Athanasopoulos e Hyndman~\cite{athana} é ilustrado pela
+Athanasopoulos e Hyndman~~\cite{athana} é ilustrado pela
 figura~\ref{fig:stationarity}. As séries das figures~\ref{fig:stationarity}.a,
 ~\ref{fig:stationarity}.e e~\ref{fig:stationarity}.i demonstram clara
 tendência, sendo portanto não estacionárias. As séries das figures
@@ -438,7 +457,7 @@ pelos autores. O caso da série da figura~\ref{fig:stationarity}.g é um
 complicado por aparentar também violar o requisito de variância constante. Para
 concluir assim como os autores que a série é estacionária é necessário mais do
 que uma investigação visual; o texto que discute a série leva em conta seu
-processo gerador~\cite{athana}.
+processo gerador~~\cite{athana}.
 
 As séries das figures~\ref{fig:stationarity}.c e ~\ref{fig:stationarity}.f são
 aparentemente não estacionárias no intervalo observado por demonstrarem
@@ -473,7 +492,7 @@ sendo naturalmente observações de processos dependentes
 que permitam o uso de tais recursos. Estacionariedade é uma estrutura de
 dependência que permite aplicar propriedades úteis de independência em séries
 temporais. Abordando a mesma ideia mais intuitivamente podemos pensar no
-seguinte exemplo: se um processo possui valor esperado e variância constante e
+seguinte exemplo: se um processo possui valor esperado, variância constante e
 autocorrelação invariante ao tempo podemos por meio da lei dos grandes números
 estimar seu valor esperado e variância com cada vez mais confiança a partir da
 média e variância amostral, respectivamente. O mesmo argumento intuitivo se
@@ -482,7 +501,7 @@ analogamente para o caso de aprendizado de máquina, no qual por meio de teoria
 de aprendizado estatístico é possível argumentar que uma série estacionária é
 ``mais fácil'' de aprender.
 
-De forma mais quantitativa o teorema de decomposição de Wold~\cite{chatfield}
+De forma mais quantitativa o teorema de decomposição de Wold~~\cite{chatfield}
 conclui que qualquer série temporal estacionária pode ser representada pela
 seguinte combinação linear
 
@@ -666,9 +685,9 @@ com o tipo de sazonalidade (seção~\ref{sec:seasonality}).
 TODO: ver se isso procede ou não!
 
 Como herança de econometria grande parte dos algoritmos clássicos de
-decomposição (X11~\cite{x11}, SEATS~\cite[capítulo~5.2]{SEATS} e derivados) são
+decomposição (X11~~\cite{x11}, SEATS~\cite[capítulo~5.2]{SEATS} e derivados) são
 baseados em período de sazonalidade anuais, semestrais, trimestrais e
-mensais~\cite{athana}. A incapacidade desses algoritmos de processar dados com
+mensais~~\cite{athana}. A incapacidade desses algoritmos de processar dados com
 período menor os torna pouco utilizáveis no contexto de sinais elétricos, por
 exemplo, cujas séries tipicamente são de período inferior a um dia,
 apresentando padrões sazonais com período semelhante.
@@ -893,7 +912,7 @@ sazonalidade é tipicamente chamada de força.
 
 Para séries com forte tendência é esperado que a componente de tendência
 contenha considerável variância. Uma forma interessante de quantificar a força
-da tendência de uma série, proposta por Hyndman et. al.~\cite{hyndman}, parte
+da tendência de uma série, proposta por Hyndman et. al.~~\cite{hyndman}, parte
 da observação da variância adicional introduzida pela adição do termo de
 tendência ao residual:
 
