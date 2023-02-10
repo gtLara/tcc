@@ -31,10 +31,10 @@ def fit_loess_trend(series, frac=0.6, delta_frac=1e5, plot=False):
 
 def loess(color, dpi, image_path, extension):
 
-    with open("data/data_dict.pkl", "rb") as file:
+    with open("data/motor_current_samples.pkl", "rb") as file:
         data = pickle.load(file)
 
-    samples = get_moving_average(data[1500]['[1017:17]'][:10000].values, 100)
+    samples = get_moving_average(data.values, 100)
     plt.plot(samples, color=color)
 
     trend_1 = fit_loess_trend(samples, frac=0.1)
