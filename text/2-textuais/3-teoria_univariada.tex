@@ -5,7 +5,9 @@
 
 O seguinte capítulo tem por objetivo introduzir uma parte pequena mas
 representativa do corpo clássico de análise de séries temporais univariadas
-usando uma base de vocabulário e terminologia desenvolvida no capítulo 1.
+usando uma base de vocabulário e terminologia desenvolvida no capítulo 2.
+
+\newpage
 
 \section{Decomposição de Séries Temporais}
 \label{sec:decomposition}
@@ -27,21 +29,13 @@ aditiva ou multiplicativa como expressada pelas equações~\ref{eq:add_decomp} e
 A escolha de decomposição aditiva ou multiplicativa deve ser feita de acordo
 com o tipo de sazonalidade (seção~\ref{sec:seasonality}).
 
-TODO: ver se isso procede ou não!
-
 Como herança de econometria grande parte dos algoritmos clássicos de
-decomposição (X11~~\cite{x11}, SEATS~\cite[capítulo~5.2]{SEATS} e derivados) são
+decomposição (X11~\cite{x11}, SEATS~\cite[capítulo~5.2]{SEATS} e derivados) são
 baseados em período de sazonalidade anuais, semestrais, trimestrais e
-mensais~~\cite{athana}. A incapacidade desses algoritmos de processar dados com
+mensais~\cite{athana}. A incapacidade desses algoritmos de processar dados com
 período menor os torna pouco utilizáveis no contexto de sinais elétricos, por
 exemplo, cujas séries tipicamente são de período inferior a um dia,
 apresentando padrões sazonais com período semelhante.
-
-Os algoritmos abordados nas seguintes subseções são teoricamente capazes de
-modelar padrões sazonais de período arbitrário mas na prática suas
-implementações frequentemente operam com períodos limitantes de um dia ou
-mais. Cada um dos algoritmos apresentados é portanto implementado em
-\verb+python+.
 
 Antes de prosseguir é interessante comentar sobre os principais objetivos de
 decomposição:
@@ -53,8 +47,8 @@ decomposição:
     série sob análise. A operação é frequentemente usada para fins de análise
     exploratória.
 
-    \item Indução de estacionariedade: Como tendência e sazonalidade são
-    padrões cuja presença qualifica não estacionariedade~\ref{sec:stationarity}
+    \item Indução de estacionariedade: Como tendência sempre é e sazonalidade pode ser
+    um padrão cuja presença qualifica não estacionariedade~\ref{sec:stationarity}
     sua remoção pode tornar uma série ``mais estacionária" ou pelo menos mais
     apropriada para modelagem por meio de modelos não estacionários.
 
@@ -91,8 +85,8 @@ TODO put add figure here
 \subsection{Modelagem de Tendência}
 
 Uma operação essencial em decomposição de séries temporais é a determinação
-de uma tendência subjacente dos dados. Os principais procedimentos para tal,
-abordados a seguir, são simples e bem estabelecidos.
+de uma tendência subjacente dos dados. Os principais procedimentos para tal
+são abordados a seguir.
 
 \subsubsection{Média Móvel}
 
@@ -140,36 +134,20 @@ informados como porcentagem do comprimento total do sinal. Observa-se que o uso
 de uma porcentagem menor do sinal aumenta a localidade da regressão tornando o
 ajuste da tendência mais sinuosa.
 
-TODO: fiz loess figure here !
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[scale=0.6]{figures/loess.png}
-%     \caption{Visualização de algoritmo LOESS}
-%     \label{fig:loess}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/loess.png}
+    \caption{Visualização de algoritmo LOESS}
+    \label{fig:loess}
+\end{figure}
 
 \subsection{Modelagem de Sazonalidade(Ajuste de Sazonalidade)}
 
-TODO: remover isso aqui? se pah
-
 A operação fundamental de decomposição é a modelagem ou ajuste de sazonalidade.
 Esse processo se preocupa em identificar estruturas fortemente periódicas em
-uma série temporal. Consideravelmente mais complicada que identificação de
-tendência identificação de padrões de sazonalidade tende a ser realizada de
-três formas:
+uma série temporal.
 
-\begin{itemize}
-    \item Métodos de regressão que modelagem o padrão sazonal como uma função
-    do tempo
-    \item Modelos ARIMA(seção ~\ref{ssec:ARIMA})
-    \item Modelos baseados em média móvel ou filtros lineares
-\end{itemize}
-
-As abordagens apresentadas nesse documento abrangem apenas o primeiro conjunto
-de métodos.
-
-TODO: pesquisar mais ! transpor modelagem de sazonalidade de algoritmo clássico
-para aqui, se estiver correto. enumerar métodos de modelagem
+TODO: como fazer isso?
 
 \subsection{Decomposição Clássica (Aditiva)}
 
@@ -177,12 +155,9 @@ TODO: ver se isso entra mesmo
 
 O algoritmo de decomposição clássica é simples e capaz de identificar períodos
 arbitrários de sazonalidade. O procedimento é apresentado passo a passo
-acompanhando a decomposição de uma série temporal de corrente elétrica. O
-código acompanhando cada passo é registrado no \verb+jupyter notebook+
-associado intitulado \verb+decomposicao_classica.ipnb+.
+acompanhando a decomposição de uma série temporal de corrente elétrica.
 
-TODO: decidir se incluir decomposição em jupyter, nessa seção mesmo ou em uma
-seção encerrando decomposição
+TODO: colocar a decomposição da corrente elétrica aqui ou na seção de aplicações
 
 \subsubsection{Passo 1}
 
@@ -194,12 +169,13 @@ necessariamente trivial, especialmente tratando de séries de alta frequência,
 sendo interessante inclusive usar métodos automáticos para determinação da
 distância entre amostras iniciais dos períodos de sazonalidade.
 
+TODO: incluir algum método de detecção de período? seria bom!
+
 \subsubsection{Passo 2}
 
 \textbf{Modelar tendência }$\mathbf{T_t}$\textbf{ por meio de média móvel}
 
-A tendência $T_t$ é modelada calculando a média móvel de ordem $m$ da
-série.
+A tendência $T_t$ é modelada calculando a média móvel de ordem $m$ da série.
 
 \subsubsection{Passo 3}
 
@@ -244,7 +220,20 @@ $$ y_t = R_t + T_t + S_t $$
 
 \subsection{Decomposição STL}
 
-TODO: estudar e incluir algoritmo
+TODO: será que isso entra?
+
+\subsection{Qualificação de tendência e sazonalidade}
+
+A presenta de tendência ou sazonalidade é tipicamente visível imediatamente.
+Dúvida sobre a presença ou não dessas propriedades pode surgir se o sinal
+estiver imerso em ruído. Se houver presença de raízes unitárias curtos
+intervalos de tempo podem ser ambíguos quanto ao determinismo de sua tendência,
+isso é, uma tendência estocástica pode ser confundida com tendência
+determinística. A figura~\ref{fig:ambiguous_trend} exemplifica um sinal com
+esse tipo de ambiguidade.
+
+Nesses cenários é interessante detectar a presença desses componentes.
+TODO: como? testes estatisticos, análise de correlalograma
 
 \subsection{Quantificação de tendência e sazonalidade}
 
@@ -257,7 +246,7 @@ sazonalidade é tipicamente chamada de força.
 
 Para séries com forte tendência é esperado que a componente de tendência
 contenha considerável variância. Uma forma interessante de quantificar a força
-da tendência de uma série, proposta por Hyndman et. al.~~\cite{hyndman}, parte
+da tendência de uma série, proposta por Hyndman et. al.~\cite{athana}, parte
 da observação da variância adicional introduzida pela adição do termo de
 tendência ao residual:
 
@@ -283,32 +272,6 @@ tipicamente qualitativos de tendência e sazonalidade. É importante deixar
 claro que essas medidas necessitam que a série seja decomposta em suas
 componentes de tendência e sazonalidade, possivelmente dificultando sua
 aplicação.
-
-TODO: verificar última frase acima
-
-\subsection{Definição de Problema}
-
-TODO: definir problema da gerdau aqui
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[scale=0.6]{figures/current.png}
-%     \caption{Visualização de corrente elétrica do motor 17 das 14 horas às
-%     14:30 no domínio do tempo}
-%     \label{fig:raw_current}
-% \end{figure}
-
-Observa-se na figura~\ref{fig:raw_current} que há aparente padrão de
-sazonalidade.
-
-\subsection{Exemplo de Decomposição}
-
-TODO: ver como enquadrar problema da gerdau. talvez passar para parte de
-aplicações. rever tudo isso de decomposição, tá ficando meio volumoso demais
-
-
-
-
 
 \section{Modelos Estacionários}
 
