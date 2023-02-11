@@ -197,7 +197,7 @@ $$\chi_1, \chi_2, ... \chi_s$$ onde um segmento arbitrário $$\chi_i =
 
 O padrão sazonal modelado $S'_t$ corresponde ao segmento médio, isso é,
 
-$$ S'_t = \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{1_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{2_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{3_{k}}\right) \hdots \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{m_{k}}\right)$$
+$$ S'_t = \left(\frac{1}{s} \sum_{k=1}^{k=capcas} \chi_{1_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{2_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{3_{k}}\right) \hdots \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{m_{k}}\right)$$
 
 A componente sazonal $S_t$ é então dada pela concatenação de $m$ cópias de
 $S'_t$
@@ -274,6 +274,80 @@ componentes de tendência e sazonalidade, possivelmente dificultando sua
 aplicação.
 
 \section{Modelos Estacionários}
+
+\subsection{O Modelo Estacionário como um Filtro Linear}
+
+Segundo Box e Jenkins~\cite[capítulo~1.2.1]{box} os modelos estacionários que
+serão abordados nas seguinte seções foram idealizados por (YULE, 1927) como
+filtros lineares que modelam a série temporal de interesse por meio do
+processamento de ruído branco. A modelagem apropriada do sinal em questão se
+resume então ao apropriado ajuste da função de transferência $\psi$ desse
+filtro a partir dos dados observados, isso é, o apropriado posicionamento de
+zeros e/ou polos.
+
+A função de transferência $\psi$ é definida no domínio do tempo por meio do
+operador de atraso $B$ ao invés de $z^{-1}$. Como no contexto de filtros
+digitais podemos pensar em um plano $B$, em analogia com o plano $Z$, e chegar às
+exatas mesmas conclusões sobre o efeito do posicionamento de polos e zeros na
+estabilidade (inclusive marginal), invertibilidade e resposta em frequência do
+filtro. A diferença relevante é que o operador de atraso no domínio $z$,
+$z^{-1}$ é definido de forma inversa à referência do plano. Essa inversão não
+acontece no plano $B$, levando a uma inversão das propriedades conhecidas.
+
+É possível também descrever certos tipos de modelos-filtros como \emph{Finite
+Impulse Response}(FIR) ou \emph{Infinite Impulse Response}(IIR) dependendo
+a equação de recorrência, levando às propriedades conhecidas desses tipos de
+filtros.
+
+A figura TODO torna clara a interpretação traçada. Para tornar o paralelo mais
+claro podemos inicialmente pensar em um sinal de entrada $\varepsilon[n]$ (
+ruído branco) transformado por uma resposta ao impulso $h[n]$, causal de
+tamanho $m$, no sinal $y[n]$ pela seguinte soma de convolução
+
+$$ y[n] = \sum^{m}_{k=0} h[n-k]\varepsilon[k] =  \sum^{m}_{k=0} \varepsilon[n-k]h[k]$$
+
+Introduzindo o operador de atraso $B$ no somatório
+
+$$ y[n] = \sum^{m}_{k=0} B^{k}h[k] \varepsilon[n]$$
+
+observamos que temos um polinômio em $B$ cujos coeficientes correspondem aos
+da resposta ao impulso do filtro. Podemos então, chaveando para notação de
+séries temporais, reescrever a convolução como
+
+$$ \sum^{m}_{k=0} \psi(k)B^k\varepsilon_{t} = \sum^{m}_{k=0} \psi(k)\varepsilon_{t-k}$$
+
+Expandindo as somas temos
+
+$$ y_t = \varepsilon_t + \psi_1 \varepsilon_{t-1} + \psi_2 \varepsilon_{t-2} + ... +  \psi_m \varepsilon_{t-m}$$
+$$ y_t = \varepsilon_t + \psi_1 B\varepsilon_{t} + \psi_2 B^2 \varepsilon_{t} + ... +  \psi_m B^m \varepsilon_{t}$$
+$$ y_t = \varepsilon_t(1 + \psi_1 B + \psi_2 B^2 + ... + \psi B^3)$$
+$$ y_t = \psi(B)\varepsilon_t$$
+
+onde $\psi(B)$ é um polinômio mônico em $B$.
+
+Tikz Here
+
+
+A interpretação de modelos estacionários como filtros tem suas limitações no
+que diz respeito às possibilidades de herança de conhecimento da área de
+processamento de sinais. Inicialmente podemos constatar que filtros lineares no
+sentido tradicional se propõem em alterar as propriedades de um sinal
+arbitrário que por si já contém informação. Isso leva à importância imediata da
+função de impulso unitário como base natural de sinais em tempo discreto e a
+uma enorme preocupação com a fase da resposta ao impulso do filtro devido à
+facilidade de distorção de fase indesejada do sinal processado. Para o
+modelo-filtro a função de impulso unitário não é tão importante porque esse
+filtro é sempre excitado pelo mesmo tipo de sinal que não possui nenhum tipo de
+estrutura a se preservar: ruído branco. A estrutura de fase desse sinal é menos
+relevante ainda por ser aleatória. Essas diferenças tornam muita da teoria de
+filtros inaplicável no contexto de séries temporais. Não há sentido de projetar
+um modelo filtro de fase linear generalizada, por exemplo, se não há o que
+preservar na fase do sinal de entrada e nenhuma preocupação com atraso de grupo.
+
+Não obstante a interpretação de modelos estacionários como filtros lineares
+facilita a assimilação de propriedades desses modelos por meio da linguagem de
+processamento de sinais e nos leva a interessantes explorações de parte da
+teoria de filtros aplicada à modelagem de séries temporais.
 
 \subsection{Modelo Linear Generalizado}
 \label{sec:glm}
