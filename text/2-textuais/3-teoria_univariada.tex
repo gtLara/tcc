@@ -286,13 +286,13 @@ filtro a partir dos dados observados, isso é, o apropriado posicionamento de
 zeros e/ou polos.
 
 A função de transferência $\psi$ é definida no domínio do tempo por meio do
-operador de atraso $B$ ao invés de $z^{-1}$. Como no contexto de filtros
-digitais podemos pensar em um plano $B$, em analogia com o plano $Z$, e chegar às
+operador de atraso $L$ ao invés de $z^{-1}$. Como no contexto de filtros
+digitais podemos pensar em um plano $L$, em analogia com o plano $Z$, e chegar às
 exatas mesmas conclusões sobre o efeito do posicionamento de polos e zeros na
 estabilidade (inclusive marginal), invertibilidade e resposta em frequência do
-filtro. A diferença relevante é que o operador de atraso no domínio $z$,
+filtro. A diferença relevante é que o operador de atraso no domínio $Z$,
 $z^{-1}$ é definido de forma inversa à referência do plano. Essa inversão não
-acontece no plano $B$, levando a uma inversão das propriedades conhecidas.
+acontece no plano $L$, levando a uma inversão das propriedades conhecidas.
 
 É possível também descrever certos tipos de modelos-filtros como \emph{Finite
 Impulse Response}(FIR) ou \emph{Infinite Impulse Response}(IIR) dependendo
@@ -306,24 +306,27 @@ tamanho $m$, no sinal $y[n]$ pela seguinte soma de convolução
 
 $$ y[n] = \sum^{m}_{k=0} h[n-k]\varepsilon[k] =  \sum^{m}_{k=0} \varepsilon[n-k]h[k]$$
 
-Introduzindo o operador de atraso $B$ no somatório
+Introduzindo o operador de atraso $L$ no somatório
 
-$$ y[n] = \sum^{m}_{k=0} B^{k}h[k] \varepsilon[n]$$
+$$ y[n] = \sum^{m}_{k=0} L^{k}h[k] \varepsilon[n]$$
 
-observamos que temos um polinômio em $B$ cujos coeficientes correspondem aos
+observamos que temos um polinômio em $L$ cujos coeficientes correspondem aos
 da resposta ao impulso do filtro. Podemos então, chaveando para notação de
 séries temporais, reescrever a convolução como
 
-$$ \sum^{m}_{k=0} \psi(k)B^k\varepsilon_{t} = \sum^{m}_{k=0} \psi(k)\varepsilon_{t-k}$$
+$$ \sum^{m}_{k=0} \psi(k)L^k\varepsilon_{t} = \sum^{m}_{k=0} \psi(k)\varepsilon_{t-k}$$
 
 Expandindo as somas temos
 
 $$ y_t = \varepsilon_t + \psi_1 \varepsilon_{t-1} + \psi_2 \varepsilon_{t-2} + ... +  \psi_m \varepsilon_{t-m}$$
-$$ y_t = \varepsilon_t + \psi_1 B\varepsilon_{t} + \psi_2 B^2 \varepsilon_{t} + ... +  \psi_m B^m \varepsilon_{t}$$
-$$ y_t = \varepsilon_t(1 + \psi_1 B + \psi_2 B^2 + ... + \psi B^3)$$
-$$ y_t = \psi(B)\varepsilon_t$$
+$$ y_t = \varepsilon_t + \psi_1 L\varepsilon_{t} + \psi_2 L^2 \varepsilon_{t} + ... +  \psi_m L^m \varepsilon_{t}$$
+$$ y_t = \varepsilon_t(1 + \psi_1 L + \psi_2 L^2 + ... + \psi L^m)$$
 
-onde $\psi(B)$ é um polinômio mônico em $B$.
+\begin{equation}\label{eq:fir}
+    y_t = \psi(L)\varepsilon_t
+\end{equation}
+
+onde $\psi(L)$ é um polinômio mônico em $L$.
 
 Tikz Here
 
@@ -349,8 +352,64 @@ facilita a assimilação de propriedades desses modelos por meio da linguagem de
 processamento de sinais e nos leva a interessantes explorações de parte da
 teoria de filtros aplicada à modelagem de séries temporais.
 
+Por fim podemos notar que nesse contexto o filtro tradicional representa uma
+função linear do processo estocástico de ruído branco ${\epsilon(t)}$ para a
+saída ${Y(t)}$, qualificando a saída em si como um processo estocástico.
+Conforme discutido na seção~\ref{sec:process} abordaremos as propriedades de
+realizações específicas do processo ${Y(t)}$.
+
+
+
 \subsection{Modelo Linear Generalizado}
 \label{sec:glm}
+
+É interessante expandir a discussão anterior para a definição de um modelo
+linear generalizado (GLM).
+
+Tomando a equação~\ref{eq:fir} com $m \rightarrow \infty$ temos um modelo linear
+generalizado que corresponde ao processamento de ruído branco por um filtro
+linear com resposta ao impulso de duração infinita:
+
+\begin{equation}\label{eq:glm}
+    y_t = \psi(L)\varepsilon_t = \sum^{\infty}_{0} \psi_m \varepsilon_t
+\end{equation}
+
+onde $\psi(L) = 1 + L + L^2 + L^3 ...$
+
+A literatura estatística frequentemente se refere ao vetor de ruído branco
+$\varepsilon_t$ como ``choques'' ou ``inovações''. O teorema de Wold
+~\cite{wold} estabelece que qualquer série estacionária tem uma representação
+dada pela equação~\ref{eq:glm} tal que $\sum^{\infty}_{0} \psi_k^2 > \infty$. Esse
+resultado é equivalente à constatação que qualquer sinal estacionário pode ser
+representado pelo processamento de ruído branco por um filtro com resposta ao
+impulso quadrado somável. Outro ponto de vista do teorema do Wold pode ser
+obtido analisando a variância do GLM.
+
+$$\sigma^2_{GLM} = E\left[\left(\sum^{\infty}_{k=0} \psi_k \varepsilon_{t-k}\right)^2\right] = E\left[\sum^{\infty}_{k=0} \psi_k^2 \varepsilon_{t-k}^2\right]$$
+$$\sigma^2_{GLM} = \sum^{\infty}_{k=0} \psi_k^2 E[\varepsilon_{t-k}^2]$$
+$$\sigma^2_{GLM} = \sigma^2_{\varepsilon_t} \sum^{\infty}_{k=0} \psi_k^2 $$
+
+Que implica a necessidade de finitude de $\sigma^2_{GLM}$
+
+\subsubsection{Autocorrelação}
+
+A fim de definir a função de $\rho_{GLM}(\tau)$ de autocorrelação de um modelo
+linear generalizado definimos inicialmente sua covariância
+
+$$\gamma_{GLM}(\tau) = E\left[\left(\sum^{\infty}_{k=0} \psi_k \varepsilon_{t-k}\right)\left(\sum^{\infty}_{i=0} \psi_i \varepsilon_{t-i-\tau}\right)  \right] $$
+$$\gamma_{GLM}(\tau) = E\left[\sum^{\infty}_{k=0} \sum^{\infty}_{i=0} \psi_k \varepsilon_{t-k} \psi_i \varepsilon_{t-i-\tau}\right] $$
+
+onde temos que a esperança entre quaisquer $\varepsilon_t-a$ e $\varepsilon_t-b$
+nula exceto para $a = b$, já que por definição $\varepsilon_t$ é composto de
+variáveis aleatórias independentes. Estamos então interessados nos casos em que
+$t-k = t-i-\tau$ tal que $i = k - \tau$. Substituindo as variáveis temos
+
+$$\gamma_{GLM}(\tau) = E\left[\sum^{\infty}_{k=0} \psi_{k} \varepsilon_{t-k} \psi_{k-\tau} \varepsilon_{t-k}\right] $$
+$$\gamma_{GLM}(\tau) = E\left[\sum^{\infty}_{k=0} \psi_{k}\psi_{k-\tau} \varepsilon_{t-k}^2\right] = \sigma^2_{\varepsilon_t}\sum^{\infty}_{k=0}\psi_{k}\psi_{k-\tau} $$
+
+A autocorrelação é então dada por
+
+$$ \rho_{GLM}(\tau) = \sum^{\infty}_{k=0}\psi_{k}\psi_{k-\tau} $$
 
 \subsection{Modelo Média Móvel}
 \label{ssec:MA(p)}
