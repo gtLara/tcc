@@ -509,56 +509,76 @@ aproximada por um modelo $MA(k)$. A função de autocorrelação amostral é usa
 então como ferramenta de identificação da aplicabilidade e ordem de modelos
 $MA(q)$.
 
-% \subsection{Modelo Autoregressivo}
-% \label{ssec:AR(p)}
+\subsection{Modelo Autoregressivo}
+\label{ssec:AR(p)}
 
-% Um processo ${\mathbf{Y}(t, p)}$ é considerado autoregressivo de ordem $p$ se
-% uma realização $y_t$ ele for definido pela equação~\ref{eq:ar(p)}, onde
-% $\varepsilon_t$ representa um processo puramente aleatório. O processo é
-% frequentemente chamado de $AR(p)$.
+Um processo ${\mathbf{Y}(t, p)}$ é considerado autoregressivo de ordem $p$ se
+uma realização $y_t$ ele for definido pela equação~\ref{eq:ar(p)}, onde
+$\varepsilon_t$ representa um processo puramente aleatório. O processo é
+frequentemente chamado de $AR(p)$.
 
-% \begin{equation}\label{eq:ar(p)}
-%    y_t = \sum_{i=1}^{i=p} y_{t-i}\alpha_i + \varepsilon_t
-% \end{equation}
+\begin{equation}\label{eq:ar(p)}
+   y_t = \sum^{i=p}_{i=1} y_{t-i} \alpha_i + \varepsilon_t
+\end{equation}
 
-% Um processo autoregressivo de ordem $p$ é caraterizado por uma dependência
-% entre uma amostra de instante de tempo $t$ e as amostras de instantes de tempo
-% $t-1$, $t-2$, ..., $t-p$. Como sugerido pelo nome a equação de diferenças
-% estabelece uma relação de regressão entre uma série temporal e suas versões
-% atrasadas no tempo.
+Um processo autoregressivo de ordem $p$ é caraterizado por uma dependência
+entre uma amostra de instante de tempo $t$ e as amostras de instantes de tempo
+$t-1$, $t-2$, ..., $t-p$. Como sugerido pelo nome a equação de diferenças
+estabelece uma relação de regressão entre uma série temporal e suas versões
+atrasadas no tempo.
 
-% Podemos reescrever a equação~\ref{eq:ar(p)} por meio do operador de atraso
-% resultando na equação.~\ref{eq:ar(p)_L}. O polinômio $\alpha(L)$ é chamado de
-% polinômio autoregressivo ou equação característica.
+Podemos reescrever a equação~\ref{eq:ar(p)} por meio do operador de atraso
+resultando na equação.~\ref{eq:ar(p)_L}. O polinômio $\alpha(L)$ é chamado de
+polinômio autoregressivo ou equação característica.
 
-% \begin{equation}\label{eq:ar(p)_L}
-%     y_t = \frac{Z_t}{1 - \sum_{i=1}^{i=p} L^i \alpha_i} \frac{1}{\theta(L)}
-% \end{equation}
+\begin{equation}\label{eq:ar(p)_L}
+    y_t = \frac{\varepsilon_t}{1 - \sum_{i=1}^{i=p} L^i \alpha_i}
+\end{equation}
 
-% Como exemplo temos que um processo autoregressivo de segunda ordem, isso é,
-% $AR(1)$, é definido pela expressão a seguir.
+Como exemplo temos que um processo autoregressivo de segunda ordem, isso é,
+$AR(1)$, é definido pela expressão a seguir.
 
-% $$ y_t = \alpha_1 y_{t-1} + \varepsilon_t$$
+\begin{equation}\label{eq:ar_1}
+    y_t = \frac{\varepsilon_t}{(1 - L\alpha_1)}
+\end{equation}
 
-% Esse processo pode ser escrito por meio de operadores de atraso como apontado
-% pelo seguinte desenvolvimento.
+O polinômio de operadores de atraso $1 - L\alpha_1$ recebe o nome de equação
+característica. Ao expandir essa equação for divisão polinomial encontramos o
+conhecido desenvolvimento de um filtro IIR.
 
-% $$ y_t= \frac{\varepsilon_t}{(1 - L\alpha_1)$$
+\begin{equation}\label{eq:iir}
+    y_t = \sum^{\infty}_{k=0} \alpha^k \varepsilon_{t-k}
+\end{equation}
 
-% O polinômio de operadores de atraso $1 - L\alpha_1$ recebe o
-% nome de equação característica.
+Observamos primeiramente que o parâmetro $\alpha$ deve ser tal que a soma do
+lado direito da equação~\ref{eq:iir} seja convergente. Sabemos que essa condição corresponde
+à estabilidade do filtro e veremos que corresponde também à estacionariedade do
+sinal produzido pela filtragem. Concluímos que um sinal autoregressivo
+estacionário pode ser modelado pelo processamento de ruído branco por um filtro
+IIR estável.
 
-% Uma visualização do comportamento temporal de processos autoregressivos é dada
-% pela figura~\ref{fig:ar_time_visualization}. Observa-se que as séries temporais
-% não exibem comportamento visivelmente distinguível no domínio do tempo.
+A divisão polinomial entre a equação~\ref{eq:ar_1} e~\ref{eq:iir} é generalizada
+como uma inversão do polinômio $\alpha(L)$, de forma que
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[scale=0.6]{figures/ar_time.png}
-%     \caption{Visualização de processos autoregressivos de diferentes ordens
-%     no domínio do tempo.}
-%     \label{fig:ar_time_visualization}
-% \end{figure}
+$$ y_t\alpha(L) = \varepsilon_t = y_t = \alpha^{-1}(L)\varepsilon_t$$
+
+$\alpha^{-1}(L)$ é bem definido sobre certas condições que serão discutidas na
+seção~\ref{ssec:stability_invertibility}.
+
+Uma visualização do comportamento temporal de processos autoregressivos é dada
+pela figura~\ref{fig:ar_time_visualization}. Observa-se que as séries temporais
+não exibem comportamento visivelmente distinguível no domínio do tempo, como
+no caso das séries $MA(q)$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/ar_time.png}
+    \caption{Visualização de processos autoregressivos de diferentes ordens
+    no domínio do tempo.}
+    \label{fig:ar_time_visualization}
+\end{figure}
+
+\subsubsection{Autocorrelação}
 
 % \subsection{Modelo ARMA}
 % \label{ssec:ARMA}

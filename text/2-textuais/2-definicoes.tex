@@ -2,9 +2,9 @@
 \label{sec:teorica_classica_series_temporais_introducao}
 
 \chapter{Definições e Propriedades}
-\label{sec:teorica_classica_series_temporais_definicoes}
+\label{chap:teorica_classica_series_temporais_definicoes}
 
-\section{Processo Estocástico}
+\section{Processo Estocástico}\label{sec:process}
 
 Dado um conjunto arbitrário $\mathcal{T}$ um processo estocástico é uma família
 ${X(t,\omega)}$, $ t\in \mathcal{T}$ e $\omega \in \Omega$ de forma que para
@@ -264,7 +264,7 @@ diferentes. A função de autocovariância entre os instantes de tempo $t_1$ e
 $t_2$ é dada pela seguinte equação
 
 \begin{equation}\label{eq:raw_autocorr}
-    K_{xx}(t_1, t_2) = E[(X_{t_1} - \mu_{t_1})(X_{t_2} -\mu_{t_2})]
+    gamma_{xx}(t_1, t_2) = E[(X_{t_1} - \mu_{t_1})(X_{t_2} -\mu_{t_2})]
 \end{equation}
 
 Normalizando a autocovariância obtemos a autocorrelação
@@ -626,6 +626,8 @@ nessa seção assim como suas implicações como segue:
 \end{enumerate}
 
 \section{Ruído Branco}\label{sec:white_noise}
+
+TODO: inserir propriedades de ruído branco
 
 Uma série temporal $\mathbf{x}_t$ gerada por um processo $\mathbf{X}(t)$ é
 considerada ruído branco ou um processo puramente aleatório se atender às
