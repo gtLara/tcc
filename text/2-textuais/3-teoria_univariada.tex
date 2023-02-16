@@ -543,7 +543,7 @@ $AR(1)$, é definido pela expressão a seguir.
 \end{equation}
 
 O polinômio de operadores de atraso $1 - L\alpha_1$ recebe o nome de equação
-característica. Ao expandir essa equação for divisão polinomial encontramos o
+característica. Ao expandir essa equação por divisão polinomial encontramos o
 conhecido desenvolvimento de um filtro IIR.
 
 \begin{equation}\label{eq:iir}
@@ -551,11 +551,12 @@ conhecido desenvolvimento de um filtro IIR.
 \end{equation}
 
 Observamos primeiramente que o parâmetro $\alpha$ deve ser tal que a soma do
-lado direito da equação~\ref{eq:iir} seja convergente. Sabemos que essa condição corresponde
-à estabilidade do filtro e veremos que corresponde também à estacionariedade do
-sinal produzido pela filtragem. Concluímos que um sinal autoregressivo
-estacionário pode ser modelado pelo processamento de ruído branco por um filtro
-IIR estável.
+lado direito da equação~\ref{eq:iir} seja convergente. Sabemos que essa
+condição corresponde à estabilidade do filtro e veremos que corresponde também
+à estacionariedade do sinal produzido pela filtragem. Concluímos que um sinal
+produzido por um processo autoregressivo estacionário pode ser modelado pelo
+processamento de ruído branco por um filtro IIR estável. Essa forma da
+equação autoregressiva é claramente um caso específico do GLM.
 
 A divisão polinomial entre a equação~\ref{eq:ar_1} e~\ref{eq:iir} é generalizada
 como uma inversão do polinômio $\alpha(L)$, de forma que
@@ -579,6 +580,83 @@ no caso das séries $MA(q)$.
 \end{figure}
 
 \subsubsection{Autocorrelação}
+
+Assumindo estacionariedade e multiplicando ambos os lados da
+equação~\ref{eq:ar(p)} por $y_{t-\tau}$ podemos então calcular a esperança da
+expressão para obter a autocovariância do processo para $\tau \neq 0$
+
+$$ \gamma_{AR(p)}(\tau) = E\left[\left(\sum^{i=p}_{k=1} y_{t-k}y_{t-\tau}\alpha_k\right) + (y_{t-\tau}\varepsilon_t)\right] $$
+$$ \gamma_{AR(p)}(\tau) = E\left[\left(\sum^{i=p}_{k=1} y_{t-k}y_{t-\tau}\alpha_k\right)\right] $$
+$$ \gamma_{AR(p)}(\tau) = \sum^{i=p}_{k=1} \alpha_k \gamma_{AR(p)}(\tau - k) $$
+
+Equação que igualmente satisfaz a autocorrelação $\rho(\tau)$ pela divisão de
+cada um dos termos acima por $\gamma_{AR(P)}(0) = \sigma_{AR(p)}^2$.
+
+\begin{equation}\label{eq:ar_autocorr}
+    \rho_{AR(p)}(\tau) = \sum^{i=p}_{k=1} \alpha_k \rho_{AR(p)}(\tau - k), \tau > 0
+\end{equation}
+
+Obtemos então uma autoregressão de ordem $p$ nas autocovariâncas também. Para
+calcular a variância do processo multiplicamos os termos da equação~\ref{eq:ar(p)}
+por $y_{t}$
+
+$$ \sigma_{AR(p)}^2 = \sigma_{\varepsilon_t}^2 + \sum^{i=p}_{k=1} \gamma_{AR(p)}(k)$$
+$$ \sigma_{AR(p)}^2 = \sigma_{\varepsilon_t}^2 + \sigma_{AR(p)}^2\sum^{i=p}_{k=1} \rho_{AR(p)}(k)$$
+$$ \sigma_{AR(p)}^2 - \left(\sigma_{AR(p)}^2\sum^{i=p}_{k=1} \rho_{AR(p)}(k)\right) = \sigma_{\varepsilon_t}^2 $$
+$$ \sigma_{AR(p)}^2 = \frac{\sigma_{\varepsilon_t}^2}{1 - \sum^{i=p}_{k=1} \rho_{AR(p)}(k)}$$
+
+A variância é também uma função autoregressiva da autocorrelação.
+
+Podemos reescrever a equação~\ref{eq:ar_autocorr} em função do polinômio de
+atraso (operando agora sobre $\tau$ ao invés de $t$) como
+
+\begin{equation}\label{eq:ar_rho}
+    \alpha(L)\rho_{AR(p)}(\tau) = 0
+\end{equation}
+
+
+Expressando o polinômio em função de suas raízes $G_i$ temos que
+
+$$\alpha(L) = \prod_{k=1}^{p} (1 - G_i L)$$
+
+É demonstrado em~\cite[capítulo~4]{box} que a solução geral para a equação de
+~\ref{eq:ar_rho} é dada por
+
+\begin{equation}\label{eq:rho_solution}
+    \rho_{AR(p)}(\tau) = \sum_{k=1}^{p} A_k G^{\tau}_k
+\end{equation}
+
+Essa é a expressão conclusiva da autocorrelação de um processo autoregressivo
+de ordem $p$.
+
+Denotemos as raízes reais de $\alpha(L)$ por $R_h$ e as complexas conjugadas
+por $C_j, C_k$. Observamos que sob a forma~\ref{eq:rho_solution} as raízes
+reais $R_h$, assumindo que $|R_h| < 1$, contribuem para a autocorrelação como
+exponenciais amortecidas $A_h^{\tau} R_h$. Raízes complexas conjugadas $C_j,
+C_k$ contribuem com UM SENOIDE AMORTECIDO. DEDUZIR COMO!
+TODO
+
+$$ A_j^{\tau}C_j + A_k^{\tau}C_k $$
+
+Concluímos então que a autocorrelação de um processo $AR(p)$ é uma combinação
+de $N$ exponenciais e senóides amortecidos tal que $N \leq p$.
+
+Para o caso específico de um processo estacionário $AR(1)$ temos pela
+equação~\ref{eq:rho_solution} a seguinte relação de autocorrelação
+
+$$ \rho_{AR(1)}(\tau) = \alpha \rho_{AR(1)}(\tau - 1)$$
+
+$$ \rho_{AR(1)}(\tau) = \alpha^{\tau}$$
+
+TODO: add AR figures here !!
+
+\subsubsection{Equações de Yule Walker}
+
+desenvolver equações de yule walker aqui
+
+\subsubsection{Autocorrelação Parcial}
+
+desenvolver autocorrelação parcial aqui
 
 % \subsection{Modelo ARMA}
 % \label{ssec:ARMA}
