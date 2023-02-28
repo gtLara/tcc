@@ -652,64 +652,92 @@ TODO: add AR figures here !!
 
 \subsubsection{Equações de Yule Walker}
 
-desenvolver equações de yule walker aqui
+É possível estimar os coeficientes autoregressivos $\alpha$ desenvolvendo as
+equações~\ref{eq:ar_rho}. Com $\rho(-k) = \rho(k)$ e $\rho(0) = 1$ temos
+
+$$\gamma(1) = \alpha_{1} + \alpha_{2}\gamma(1) + \alpha_{3}\gamma(2) ... + \alpha{p}\gamma(p-1)$$
+$$\gamma(2) = \alpha_{1}\gamma(1) + \alpha_{1}\gamma(1) + \alpha_{2}\gamma(2) ... + \alpha{p}\gamma(p)$$
+$$\vdots$$
+$$\gamma(p) = \alpha_{1}\gamma(p-1) + \alpha_{1}\gamma(-1) + \alpha_{2}\gamma(-2) ... + \alpha{p}$$
+
+Em forma matricial
+
+\begin{gather}\label{eq:yule_walker}
+  \begin{bmatrix} \gamma(1) \\ \gamma(2) \\ \vdots \\ \gamma(p) \end{bmatrix}
+  =
+  \begin{bmatrix}
+      1 & \gamma(2) & ... & \gamma(p-1) \\
+      \gamma(1) & 1 & ... & \gamma(p) \\
+      \vdots & \vdots & \ddots & \vdots \\
+      \gamma(p) & \gamma(p-1) & ... & 1 \\
+  \end{bmatrix}
+  \begin{bmatrix} \alpha_{1} \\ \alpha_{2} \\ \vdots \\ \alpha_{p} \end{bmatrix}
+\end{gather}
+
+As equações~\ref{eq:yule_walker} são conhecidas como equações de Yule Walker,
+que permitem uma estimativa de coeficientes autoregressivos por meio de uma
+estimativa de coeficientes de autocorrelação. A forma mais intuitiva de estimar
+o vetor $\mathbf{\alpha}$ é por meio da inversão da matriz de autocorrelações
+defasadas, mas outros algoritmos como o de Durbin-Levinson podem ser utilizados.
 
 \subsubsection{Autocorrelação Parcial}
 
 desenvolver autocorrelação parcial aqui
 
-% \subsection{Modelo ARMA}
-% \label{ssec:ARMA}
+\subsection{Modelo ARMA}
+\label{ssec:ARMA}
 
-% \subsection{ARMA}\label{ssec:ARMA}
+\subsection{ARMA}\label{ssec:ARMA}
 
-% Processos ARMA, como sugerido pelo nome, são gerados pela sobreposição de
-% processos AR e MA. Um processo $\mathbf{Y}(t)$ é considerado $ARMA(p, q)$ se
-% for dado pela equação~\ref{eq:arma}
+Processos ARMA, como sugerido pelo nome, são gerados pela sobreposição de
+processos AR e MA. Um processo $\mathbf{Y}(t)$ é considerado $ARMA(p, q)$ se
+for dado pela equação~\ref{eq:arma}
 
-% \begin{equation}\label{eq:arma}
-%     y_t = \sum_{i=0}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} y_{t-i}\alpha_i
-% \end{equation}
+\begin{equation}\label{eq:arma}
+    y_t = \beta_0 + \sum_{i=1}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} y_{t-i}\alpha_i
+\end{equation}
 
-% Um processo $ARMA(2, 1)$ é portanto da seguinte forma.
+Um processo $ARMA(2, 1)$ é portanto dado pela seguinte equação de recorrência.
 
-% $$ y_t = \alpha_1 y_{t-1} + \alpha_2 y_{t-2} + \beta_0 Z_{t} + \beta_1 Z_{t-1}  $$
+$$ y_t = \alpha_1 y_{t-1} + \alpha_2 y_{t-2} + \varepsilon_{t} + \beta_1 \varepsilon_{t-1} $$
 
-% Em analogia aos casos anteriores o processo pode ser escrito por meio do
-% operador de atraso.
+Em analogia aos casos anteriores o processo pode ser escrito por meio do
+operador de atraso.
 
-% $$ y_t (1 - \alpha_1 L - \alpha_2 L^2) = Z_{t} (\beta_0 + \beta_1 L) $$
+$$ y_t (1 - \alpha_1 L - \alpha_2 L^2) = \varepsilon_{t} (\beta_0 + \beta_1 L) $$
 
-% Podemos introduzir $\phi(L) = 1 - \alpha_1 L - \alpha_2 L$ e $\theta(L) =
-% \beta_0 + \beta_1 L$ tal que:
+Podemos introduzir $\phi(L) = 1 - \alpha_1 L - \alpha_2 L$ e $\theta(L) =
+\beta_0 + \beta_1 L$ tal que:
 
-% \begin{equation}\label{eq:arma_l}
-%     y_t = Z_t \frac{\phi(L)}{\theta(L)}
-% \end{equation}
+\begin{equation}\label{eq:arma_l}
+    y_t = \varepsilon_t \frac{\phi(L)}{\theta(L)}
+\end{equation}
 
-% A equação~\ref{eq:arma_1} é prontamente generalizada para corresponder à
-% equação~\ref{eq:arma} estabelecendo:
+A equação~\ref{eq:arma_1} é prontamente generalizada para corresponder à
+equação~\ref{eq:arma} estabelecendo:
 
-% $$\phi(L) = 1 - \alpha_1 L - \alpha_2 L^2 \hdots - \alpha_p L^p$$
+$$\phi(L) = 1 - \alpha_1 L - \alpha_2 L^2 \hdots - \alpha_p L^p$$
 
-% $$\theta(L) = 1 - \beta_0 - \beta_1 L^1 \hdots - \beta_q L^q$$
+$$\theta(L) = 1 - \beta_1 L^1 \hdots - \beta_q L^q$$
 
-% A forma da equação~\ref{eq:arma_l} se assemelha a uma função de transferência.
-% A analogia é também presente nas equações~\ref{eq:ar(p)_l} e~\ref{eq:ma(p)_2}
-% de forma menos clara. O paralelo entre a teoria de modelos AR, MA e ARMA e a
-% teoria de sistemas em torno da ideia de funções de transferência é extensa
-% e presente principalmente no contexto de séries multivariadas. Essa
-% interseção é explorada na seção correspondente.
+TODO rewrite this
 
-% % TODO: corrigir notação de 1, beta_0 etc! Dos modelos ARMA. Diferença relevante.
+A forma da equação~\ref{eq:arma_l} se assemelha a uma função de transferência.
+A analogia é também presente nas equações~\ref{eq:ar(p)_l} e~\ref{eq:ma(p)_2}
+de forma menos clara. O paralelo entre a teoria de modelos AR, MA e ARMA e a
+teoria de sistemas em torno da ideia de funções de transferência é extensa
+e presente principalmente no contexto de séries multivariadas. Essa
+interseção é explorada na seção correspondente.
 
-% Uma propriedade interessante de modelos ARMA é que modelos estacionários
-% frequentemente podem ser modelados por modelos ARMA com menos parâmetros que
-% modelos AR ou MA.
+% TODO: corrigir notação de 1, beta_0 etc! Dos modelos ARMA. Diferença relevante.
 
-% Por fim é interessante observar que um modelo $ARMA(p, 0)$ corresponde
-% a um modelo $AR(p)$ e um modelo $ARMA(0, q)$ corresponde a um modelo
-% $MA(q)$.
+Uma propriedade interessante de modelos ARMA é que modelos estacionários
+frequentemente podem ser modelados por modelos ARMA com menos parâmetros que
+modelos AR ou MA.
+
+Por fim é interessante observar que um modelo $ARMA(p, 0)$ corresponde
+a um modelo $AR(p)$ e um modelo $ARMA(0, q)$ corresponde a um modelo
+$MA(q)$.
 
 % \subsection{Raízes Unitárias}
 % \label{sec:unit_roots}
