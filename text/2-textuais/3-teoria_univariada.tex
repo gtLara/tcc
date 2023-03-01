@@ -666,10 +666,10 @@ Em forma matricial
   \begin{bmatrix} \gamma(1) \\ \gamma(2) \\ \vdots \\ \gamma(p) \end{bmatrix}
   =
   \begin{bmatrix}
-      1 & \gamma(2) & ... & \gamma(p-1) \\
+      1 & \gamma(1) & ... & \gamma(p-1) \\
       \gamma(1) & 1 & ... & \gamma(p) \\
       \vdots & \vdots & \ddots & \vdots \\
-      \gamma(p) & \gamma(p-1) & ... & 1 \\
+      \gamma(p-1) & \gamma(p-2) & ... & 1 \\
   \end{bmatrix}
   \begin{bmatrix} \alpha_{1} \\ \alpha_{2} \\ \vdots \\ \alpha_{p} \end{bmatrix}
 \end{gather}
@@ -682,7 +682,48 @@ defasadas, mas outros algoritmos como o de Durbin-Levinson podem ser utilizados.
 
 \subsubsection{Autocorrelação Parcial}
 
-desenvolver autocorrelação parcial aqui
+Como mencionado na seção~\ref{ssec:partial_acorr} autocorrelação parcial
+informa a correlação restante entre $y_t$ e $y_{t-\tau}$ após levar em
+conta a contribuição resultante dos termos intermediários $y_{t-1}, y_{t-2}
+... y_{t-\tau+1}$.
+
+Autocorrelação parcial é formalmente definida para um processo autoregressivo
+partindo da equação~\ref{eq:ar_rho}, onde tomando $p=1$ para um processo
+autoregressivo de ordem 1 temos que
+
+$$ \rho_(\tau) = \alpha_1 \rho_(\tau - 1) $$
+
+Tomando $\tau = p = 1$ e adicionando um subscrito adicional em $\alpha$ para
+indicar a ordem do processo autoregressivo temos
+
+$$ \alpha_{1_{1}} = \rho(1) $$
+
+Para $p=2$ temos
+
+$$ \rho_(\tau) = \alpha_1 \rho_(\tau - 1) + \alpha_2 \rho_(\tau - 2) $$
+
+Novamente tomando $\tau = 2$ obtemos
+
+$$ \rho_(2) = \alpha_{1_{2}} \rho_(1) + \alpha_{2_{2}} \rho_(0) $$
+
+Estamos como no caso de $p=1$ interessados no valor de $\alpha_{2_{2}}$, isso é,
+$\alpha_{\tau_{\tau}}$ com $\tau=2$. Uma solução para esse valor em função
+das autocorrelações $\rho$, obtida por meio das equações de Yule Walker, é
+
+$$ \alpha_{2_{2}} = \frac{\rho_2 - \rho^2_1}{1 - \rho^2_{1}} $$
+
+As autocorrelações parciais em função de $\tau$ são então dadas por sucessivos
+l $\alpha_{\tau_{\tau}}$ para $\tau = 1, 2, 3 ...$, isso é, o último coeficiente
+autoregressivo $\alpha_p$ de processos autoregressivos de ordem $p$ crescentes.
+
+A solução desses valores em função das autocorrelações de cada processo de
+ordem crescente é generalizada como
+
+$$ \alpha_{\tau_{\tau}} = \frac{\norm{\mathbf{\mathrm{P}*_{\tau}}}}{\norm{\mathbf{\mathrm{P}_{\tau}}}} $$
+
+Definir matriz P aqui
+
+Tratar sobre autocorrelação parcial de processos MA em seção de invertibilidade !!
 
 \subsection{Modelo ARMA}
 \label{ssec:ARMA}
