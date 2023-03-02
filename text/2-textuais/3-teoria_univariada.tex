@@ -465,7 +465,6 @@ forma análoga à dedução da autocorrelação do processo linear generalizado 
 seguinte forma
 
 TODO: make case
-TODO:
 
 $$\gamma_{MA(q)}(\tau) = \sigma_{\varepsilon_t}^2 \sum^{m}_{k=1} \beta_k\beta_{k-\tau} $$
 
@@ -479,7 +478,6 @@ $\theta(L)$ temos $\sigma^{2}_{MA(q)} = \sigma_{\varepsilon_t}^2\norm{\mathbf{\t
 Temos autocorrelação definida então como
 
 $$\rho_{MA(q)}(\tau) = \frac{\sum^{m}_{k=1} \beta_k\beta_{k-\tau}}{\norm{\mathbf{\theta}}}$$
-
 
 A função de autocorrelação de um processo média móvel exibe a interessante
 propriedade de ``cortar'' após o atraso $q$, isso é, demonstrar autocorrelação
@@ -655,21 +653,21 @@ TODO: add AR figures here !!
 É possível estimar os coeficientes autoregressivos $\alpha$ desenvolvendo as
 equações~\ref{eq:ar_rho}. Com $\rho(-k) = \rho(k)$ e $\rho(0) = 1$ temos
 
-$$\gamma(1) = \alpha_{1} + \alpha_{2}\gamma(1) + \alpha_{3}\gamma(2) ... + \alpha{p}\gamma(p-1)$$
-$$\gamma(2) = \alpha_{1}\gamma(1) + \alpha_{1}\gamma(1) + \alpha_{2}\gamma(2) ... + \alpha{p}\gamma(p)$$
+$$\rho(1) = \alpha_{1} + \alpha_{2}\rho(1) + \alpha_{3}\rho(2) ... + \alpha{p}\rho(p-1)$$
+$$\rho(2) = \alpha_{1}\rho(1) + \alpha_{1}\rho(1) + \alpha_{2}\rho(2) ... + \alpha{p}\rho(p)$$
 $$\vdots$$
-$$\gamma(p) = \alpha_{1}\gamma(p-1) + \alpha_{1}\gamma(-1) + \alpha_{2}\gamma(-2) ... + \alpha{p}$$
+$$\rho(p) = \alpha_{1}\rho(p-1) + \alpha_{1}\rho(-1) + \alpha_{2}\rho(-2) ... + \alpha{p}$$
 
 Em forma matricial
 
 \begin{gather}\label{eq:yule_walker}
-  \begin{bmatrix} \gamma(1) \\ \gamma(2) \\ \vdots \\ \gamma(p) \end{bmatrix}
+  \begin{bmatrix} \rho(1) \\ \rho(2) \\ \vdots \\ \rho(p) \end{bmatrix}
   =
   \begin{bmatrix}
-      1 & \gamma(1) & ... & \gamma(p-1) \\
-      \gamma(1) & 1 & ... & \gamma(p) \\
+      1 & \rho(1) & ... & \rho(p-1) \\
+      \rho(1) & 1 & ... & \rho(p) \\
       \vdots & \vdots & \ddots & \vdots \\
-      \gamma(p-1) & \gamma(p-2) & ... & 1 \\
+      \rho(p-1) & \rho(p-2) & ... & 1 \\
   \end{bmatrix}
   \begin{bmatrix} \alpha_{1} \\ \alpha_{2} \\ \vdots \\ \alpha_{p} \end{bmatrix}
 \end{gather}
@@ -691,7 +689,7 @@ Autocorrelação parcial é formalmente definida para um processo autoregressivo
 partindo da equação~\ref{eq:ar_rho}, onde tomando $p=1$ para um processo
 autoregressivo de ordem 1 temos que
 
-$$ \rho_(\tau) = \alpha_1 \rho_(\tau - 1) $$
+$$ \rho(\tau) = \alpha_1 \rho(\tau - 1) $$
 
 Tomando $\tau = p = 1$ e adicionando um subscrito adicional em $\alpha$ para
 indicar a ordem do processo autoregressivo temos
@@ -700,42 +698,60 @@ $$ \alpha_{1_{1}} = \rho(1) $$
 
 Para $p=2$ temos
 
-$$ \rho_(\tau) = \alpha_1 \rho_(\tau - 1) + \alpha_2 \rho_(\tau - 2) $$
+$$ \rho(\tau) = \alpha_1 \rho(\tau - 1) + \alpha_2 \rho(\tau - 2) $$
 
-Novamente tomando $\tau = 2$ obtemos
+Novamente tomando $\tau = p = 2$ obtemos
 
-$$ \rho_(2) = \alpha_{1_{2}} \rho_(1) + \alpha_{2_{2}} \rho_(0) $$
+$$ \rho(2) = \alpha_{1_{2}} \rho(1) + \alpha_{2_{2}} \rho(0) $$
 
 Estamos como no caso de $p=1$ interessados no valor de $\alpha_{2_{2}}$, isso é,
 $\alpha_{\tau_{\tau}}$ com $\tau=2$. Uma solução para esse valor em função
 das autocorrelações $\rho$, obtida por meio das equações de Yule Walker, é
 
-$$ \alpha_{2_{2}} = \frac{\rho_2 - \rho^2_1}{1 - \rho^2_{1}} $$
+$$ \alpha_{2_{2}} = \frac{\rho(2) - \rho^2(1)}{1 - \rho^2(1)} $$
 
 As autocorrelações parciais em função de $\tau$ são então dadas por sucessivos
-l $\alpha_{\tau_{\tau}}$ para $\tau = 1, 2, 3 ...$, isso é, o último coeficiente
+$\alpha_{\tau_{\tau}}$ para $\tau = 1, 2, 3 ...$, isso é, o último coeficiente
 autoregressivo $\alpha_p$ de processos autoregressivos de ordem $p$ crescentes.
 
 A solução desses valores em função das autocorrelações de cada processo de
-ordem crescente é generalizada como
+ordem crescente, dada por~\cite{balba}, é generalizada como
 
-$$ \alpha_{\tau_{\tau}} = \frac{\norm{\mathbf{\mathrm{P}*_{\tau}}}}{\norm{\mathbf{\mathrm{P}_{\tau}}}} $$
+$$ \alpha_{\tau_{\tau}} = \frac{\norm{\mathbf{P}^*_{\tau}}}{\norm{\mathbf{P}_{\tau}}} $$
 
-Definir matriz P aqui
+Onde a matriz $\mathbf{\mathbf{P}}$ é a matriz de autocorrelações de ordem $p =
+\tau$ como definida na equação~\ref{eq:yule_walker} e a matriz
+$\mathbf{P}^*$ é obtida pela substituição da última coluna de
+$\mathbf{P}$ pelo vetor de autocorrelações $\mathbf{\rho}$.
 
-Tratar sobre autocorrelação parcial de processos MA em seção de invertibilidade !!
+Essa definição de autocorrelação parcial é bem definida para processos
+autoregressivos e para esse tipo de processo seu valor claramente se torna
+igual a zero a partir do atraso $\tau = p$. Esse fato será retomado com mais
+atenção no capítulo sobre modelagem de processos estacionários.
 
-\subsection{Modelo ARMA}
+A autocorrelação parcial amostral é calculada da mesma forma partindo da
+autocorrelação amostral como definida pela equação~\ref{eq:autocorr}. A
+autocorrelação parcial amostral por sua vez é definida para séries temporais
+arbitrárias. Nesse caso sucessivos modelos autoregressivos de ordem $p = \tau =
+1, 2, 3..$ são ajustados à série em questão e o último coeficiente
+de cada regressão é armazenado como a autocorrelação parcial amostral para o
+atraso $\tau$.
+
+Como estamos interessados em trabalhar com séries temporais a definição acima
+de autocorrelação parcial amostral é o suficiente para generalizar o conceito
+definido sobre processos autoregressivos para realizações únicas (séries
+temporais) de processos estocásticos arbitrários. Autocorrelação parcial
+de processos MA e ARMA serão abordadas em seções apropriadas.
+
+\subsection{ARMA}
 \label{ssec:ARMA}
 
-\subsection{ARMA}\label{ssec:ARMA}
-
 Processos ARMA, como sugerido pelo nome, são gerados pela sobreposição de
-processos AR e MA. Um processo $\mathbf{Y}(t)$ é considerado $ARMA(p, q)$ se
+processos AR e MA. Um processo ${\mathbf{Y}}(t)$ é considerado $ARMA(p, q)$ se
 for dado pela equação~\ref{eq:arma}
 
 \begin{equation}\label{eq:arma}
-    y_t = \beta_0 + \sum_{i=1}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} y_{t-i}\alpha_i
+    y_t = \varepsilon_t + \sum_{i=1}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} y_{t-i}\alpha_i
 \end{equation}
 
 Um processo $ARMA(2, 1)$ é portanto dado pela seguinte equação de recorrência.
@@ -754,145 +770,165 @@ Podemos introduzir $\phi(L) = 1 - \alpha_1 L - \alpha_2 L$ e $\theta(L) =
     y_t = \varepsilon_t \frac{\phi(L)}{\theta(L)}
 \end{equation}
 
-A equação~\ref{eq:arma_1} é prontamente generalizada para corresponder à
+A equação~\ref{eq:arma_l} é prontamente generalizada para corresponder à
 equação~\ref{eq:arma} estabelecendo:
 
 $$\phi(L) = 1 - \alpha_1 L - \alpha_2 L^2 \hdots - \alpha_p L^p$$
 
 $$\theta(L) = 1 - \beta_1 L^1 \hdots - \beta_q L^q$$
 
-TODO rewrite this
 
-A forma da equação~\ref{eq:arma_l} se assemelha a uma função de transferência.
-A analogia é também presente nas equações~\ref{eq:ar(p)_l} e~\ref{eq:ma(p)_2}
-de forma menos clara. O paralelo entre a teoria de modelos AR, MA e ARMA e a
-teoria de sistemas em torno da ideia de funções de transferência é extensa
-e presente principalmente no contexto de séries multivariadas. Essa
-interseção é explorada na seção correspondente.
+Observamos que a forma da equação~\ref{eq:arma_l} é idêntica à de uma função de
+transferência, sendo definida no domínio do tempo sobre polinômios de $L$ ao
+invés de no domínio $Z$ sobre polinômios em $z$. As implicações do
+posicionamento das raízes dos polinômios numerador e denominador decorrem de
+maneira análoga.
 
-% TODO: corrigir notação de 1, beta_0 etc! Dos modelos ARMA. Diferença relevante.
-
-Uma propriedade interessante de modelos ARMA é que modelos estacionários
+Uma propriedade interessante de modelos ARMA é que processos estacionários
 frequentemente podem ser modelados por modelos ARMA com menos parâmetros que
 modelos AR ou MA.
 
-Por fim é interessante observar que um modelo $ARMA(p, 0)$ corresponde
-a um modelo $AR(p)$ e um modelo $ARMA(0, q)$ corresponde a um modelo
-$MA(q)$.
+\section{Raízes Unitárias}
+\label{sec:unit_roots}
 
-% \subsection{Raízes Unitárias}
-% \label{sec:unit_roots}
+Como um processo ARMA é essencialmente resultante do processamento de ruído
+branco por um filtro linear com função de transferência
+$\frac{\theta(L)}{\phi(L)}$ sabemos que a posição das raízes dos polinômios
+$\theta(L)$ e $\phi(L)$ determina suas propriedades.
 
-% \section{Modelo ARIMA}
-% \label{sec:ARIMA}
+O posicionamento de raízes no círculo unitário é um caso interessante de
+analisar. Se algum dos polos função de transferência de um processo ARMA
+estiverem posicionados no círculo unitário diz-se que esse processo possui
+raízes unitárias. Esse termo tipicamente descreve o posicionamento dos polos e
+não dos zeros pelo maior efeito dessas raízes na dinâmica do sistema, mas essa
+seção inclui uma breve discussão sobre o efeito de zeros unitários também.
 
-% TODO: rever TUDO!
+Antes de prosseguir um processo $y_t$ $ARMA(2, 0, 1)$ será estabelecido para
+exemplificar as seguintes discussões.
 
-% Também chamados de modelos ARMA Integrados modelos ARIMA são essencialmente
-% modelos ARMA com tentativas de remoção de não estacionariedade. Assumindo que
-% a série em questão seja diferença-estacionária (ou tendência-estacionária
-% com tendência linear) o modelo ARIMA tenta induzir estacionariedade
-% introduzindo raízes unitárias em um modelo ARMA.
+Diante da recorrência
 
-% A distinção entre o modelo ARMA e ARIMA é a substituição de $y_t$ por $\nabla^d
-% y_t$.
+$$ y_t = \alpha_1 y_{t-1} + \alpha_2 y_{t-2} + \varepsilon_t + \beta_1 \varepsilon_{t-1}$$
 
-% Definindo $w_t = \nabla^d y_t$ para $d = 0, 1, 2, ...$ temos a definição de um
-% processo $ARIMA(p, d, q)$ dada pela equação~\ref{eq:arima}. Observe que a
-% equação é idêntica à equação~\ref{eq:arma} com $w_t$ ao invés de $y_t$ e que a
-% saída é $w_t$, demandando uma integração para previsão de $y_t$. O nome do
-% modelo referencia essa operação de reconstrução de $y_t$.
+temos
 
-% \begin{equation}\label{eq:arima}
-%     w_t = \sum_{i=0}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} w_{t-i}\alpha_i
-% \end{equation}
+$$ y_t = \frac{1 + \beta_1L}{1 - \alpha_1 L - \alpha_2 L^2} \varepsilon_t $$
 
-% Podemos constatar que o modelo ARIMA é simplesmente um ARMA após uma
-% diferenciação de ordem arbitrária da série temporal sob análise.
 
-% Podemos escrever um modelo $ARIMA(p, d, q)$ por meio do operador de atrasos
-% por meio da equação~\ref{eq:arima_l}, onde:
+\subsection{Raízes Unitárias no Polinômio Autoregressivo}
 
-% $$\phi(L) = 1 - \alpha_1 L - \alpha_2 L^2 \hdots - \alpha_p L^p$$
 
-% $$\theta(L) = 1 - \beta_0 - \beta_1 L^1 \hdots - \beta_q L^q$$
 
-% Nessa forma o paralelo entre modelos ARMA e ARIMA se torna mais claro.
+\subsection{Raízes Unitárias no Polinômio Média Móvel}
 
-% \begin{equation}\label{eq:arima_l}
-%     y_t = Z_t \frac{\theta(L)}{\phi(L)} \frac{1}{(1-L)^d}
-% \end{equation}
+\section{Modelo ARIMA}
+\label{sec:ARIMA}
 
-% O modelo ARIMA segue a metologia Box-Jenkins de modelagem, assumindo
-% diferença-estacionariedade e tentando induzir estacionariedade por meio de
-% sucessivas operações de diferenças. O modelo é portanto apropriado para
-% modelagem de séries não estacionárias, apresentando a mesma propriedade de
-% modelos ARMA de frequentemente demandar menos parâmetros que modelos AR ou MA.
+Também chamados de modelos ARMA Integrados modelos ARIMA são essencialmente
+modelos ARMA com tentativas de remoção de não estacionariedade. Assumindo que
+a série em questão seja diferença-estacionária (ou tendência-estacionária
+com tendência linear) o modelo ARIMA tenta induzir estacionariedade
+introduzindo raízes unitárias em um modelo ARMA.
 
-% Por fim é interessante observar que um modelo $ARIMA(p, 0, q)$ corresponde
-% a um modelo $ARMA(p, q)$.
+A distinção entre o modelo ARMA e ARIMA é a substituição de $y_t$ por $\nabla^d
+y_t$.
 
-% \subsection{Estabilidade e Invertibilidade}
-% \label{ssec:stability_invertibility}
+Definindo $w_t = \nabla^d y_t$ para $d = 0, 1, 2, ...$ temos a definição de um
+processo $ARIMA(p, d, q)$ dada pela equação~\ref{eq:arima}. Observe que a
+equação é idêntica à equação~\ref{eq:arma} com $w_t$ ao invés de $y_t$ e que a
+saída é $w_t$, demandando uma integração para previsão de $y_t$. O nome do
+modelo referencia essa operação de reconstrução de $y_t$.
 
-% \section{Modelos de Sazonalidade}
+\begin{equation}\label{eq:arima}
+    w_t = \sum_{i=0}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} w_{t-i}\alpha_i
+\end{equation}
 
-% \subsection{Diferenciação Sazonal}
+Podemos constatar que o modelo ARIMA é simplesmente um ARMA após uma
+diferenciação de ordem arbitrária da série temporal sob análise.
 
-% \subsection{SARIMA}\label{ssec:SARIMA}
+Podemos escrever um modelo $ARIMA(p, d, q)$ por meio do operador de atrasos
+por meio da equação~\ref{eq:arima_l}, onde:
 
-% O modelo ARIMA pode ser estendido de forma natural para acomodar padrões de
-% sazonalidade. O modelo SARIMA (Seasonal ARIMA) parte da observação que saídas
-% de sinais com alta sazonalidade podem possuem alta correlação com saídas
-% anteriores em uma distância corresponde ao padrão de sazonalidade, como
-% constatado no capítulo 1.
+$$\phi(L) = 1 - \alpha_1 L - \alpha_2 L^2 \hdots - \alpha_p L^p$$
 
-% O modelo SARIMA então estabelece, em adição à operação de diferenciação do
-% modelo ARIMA, uma operação de diferenciação sazonal ao definir a componente
-% $w_t$ da seguinte forma:
+$$\theta(L) = 1 - \beta_0 - \beta_1 L^1 \hdots - \beta_q L^q$$
 
-% $$ w_t = \nabla^D_{s}\nabla^d  y_t $$
+Nessa forma o paralelo entre modelos ARMA e ARIMA se torna mais claro.
 
-% Como na definição de $w_t$ para o modelo ARIMA temos uma diferenciação
-% tradicional de ordem $d$ seguida de uma diferenciação sazonal de período $s$
-% e ordem $D$.
+\begin{equation}\label{eq:arima_l}
+    y_t = Z_t \frac{\theta(L)}{\phi(L)} \frac{1}{(1-L)^d}
+\end{equation}
 
-% Como exemplo um $w_t$ definido em função de $d=1$, $D=1$ e $s=24$ assume a
-% seguinte forma.
+O modelo ARIMA segue a metologia Box-Jenkins de modelagem, assumindo
+diferença-estacionariedade e tentando induzir estacionariedade por meio de
+sucessivas operações de diferenças. O modelo é portanto apropriado para
+modelagem de séries não estacionárias, apresentando a mesma propriedade de
+modelos ARMA de frequentemente demandar menos parâmetros que modelos AR ou MA.
 
-% $$ w_t =  \nabla^1_{2} \nabla^1 y_t = \nabla^1_{2} (y_t - y_{t-1}) $$
-% $$ w_t =  (y_t - y_{t-24}) - (y_{t-1} - y_{t-25}) $$
+Por fim é interessante observar que um modelo $ARIMA(p, 0, q)$ corresponde
+a um modelo $ARMA(p, q)$.
 
-% Em seguida componentes autoregressivos e de média móvel são introduzidos com
-% atrasos em múltiplos de $s$. O modelo final é descrito como $SARIMA(p, d, q)
-% (P, D, Q)_{s}$, com $P$ e $D$ referenciando os componentes $AR$ e $MA$
-% sazonais. Para ilustrar melhor esse conceito um pouco confuso podemos analisar a
-% expressão de um modelo específico para depois generalizar.
+\subsection{Estabilidade e Invertibilidade}
+\label{ssec:stability_invertibility}
 
-% Um modelo $SARIMA(1, 0, 1)(2, 1, 1)_{12}$ é dado pela seguinte expressão.
+\section{Modelos de Sazonalidade}
 
-% $$ w_t = \varepsilon_t + \overbrace{\alpha_1 w_{t-1}}^{p = 1} + \overbrace{
-% \alpha_2 w_{t-12}}^{P=1} + \overbrace{\alpha_3 w_{t-24}}^{P=2} +
-% \overbrace{\beta_1 \varepsilon_{t-1}}^{q=1} + \overbrace{\beta_2
-% \varepsilon_{t-12}}^{Q=1}$$
+\subsection{Diferenciação Sazonal}
 
-% A escrita desse modelo por meio do operador de atraso é mais clara.
+\subsection{SARIMA}\label{ssec:SARIMA}
 
-% $$  w_t = \varepsilon_t \frac{\beta_1 L^1 + \beta_2 L^{12}}{(1 - \alpha_1 L^1 + \alpha_2 L^{12} + \alpha_3 L^{24})}  $$
+O modelo ARIMA pode ser estendido de forma natural para acomodar padrões de
+sazonalidade. O modelo SARIMA (Seasonal ARIMA) parte da observação que saídas
+de sinais com alta sazonalidade podem possuem alta correlação com saídas
+anteriores em uma distância corresponde ao padrão de sazonalidade, como
+constatado no capítulo 1.
 
-% Podemos então generalizar o modelo na forma do operador de atraso por meio da
-% equação~\ref{eq:sarima}.
+O modelo SARIMA então estabelece, em adição à operação de diferenciação do
+modelo ARIMA, uma operação de diferenciação sazonal ao definir a componente
+$w_t$ da seguinte forma:
 
-% \begin{equation}\label{eq:sarima}
-%     w_t = \varepsilon_{t} \frac{\theta_q(L)\theta_Q(L)}{\phi_p (L) \phi_P (L^s)}
-% \end{equation}
+$$ w_t = \nabla^D_{s}\nabla^d  y_t $$
 
-% Com os polinômios de atraso definidos como nos casos anteriores.
+Como na definição de $w_t$ para o modelo ARIMA temos uma diferenciação
+tradicional de ordem $d$ seguida de uma diferenciação sazonal de período $s$
+e ordem $D$.
 
-% O modelo SARIMA é interessante ao herdar as propriedades e habilidades de
-% ARIMA com a capacidade adicional de modelar padrões sazonais com poucos
-% parâmetros. Os parâmetros do modelo tendem a ser difíceis de ajustar
-% especialmente na presença de múltiplos padrões de sazonalidade mas ferramentas
-% de ajuste automático de parâmetros são prontamente disponíveis.
+Como exemplo um $w_t$ definido em função de $d=1$, $D=1$ e $s=24$ assume a
+seguinte forma.
 
-% \subsection{Variáveis de Fourier}
+$$ w_t =  \nabla^1_{2} \nabla^1 y_t = \nabla^1_{2} (y_t - y_{t-1}) $$
+$$ w_t =  (y_t - y_{t-24}) - (y_{t-1} - y_{t-25}) $$
+
+Em seguida componentes autoregressivos e de média móvel são introduzidos com
+atrasos em múltiplos de $s$. O modelo final é descrito como $SARIMA(p, d, q)
+(P, D, Q)_{s}$, com $P$ e $D$ referenciando os componentes $AR$ e $MA$
+sazonais. Para ilustrar melhor esse conceito um pouco confuso podemos analisar a
+expressão de um modelo específico para depois generalizar.
+
+Um modelo $SARIMA(1, 0, 1)(2, 1, 1)_{12}$ é dado pela seguinte expressão.
+
+$$ w_t = \varepsilon_t + \overbrace{\alpha_1 w_{t-1}}^{p = 1} + \overbrace{
+\alpha_2 w_{t-12}}^{P=1} + \overbrace{\alpha_3 w_{t-24}}^{P=2} +
+\overbrace{\beta_1 \varepsilon_{t-1}}^{q=1} + \overbrace{\beta_2
+\varepsilon_{t-12}}^{Q=1}$$
+
+A escrita desse modelo por meio do operador de atraso é mais clara.
+
+$$  w_t = \varepsilon_t \frac{\beta_1 L^1 + \beta_2 L^{12}}{(1 - \alpha_1 L^1 + \alpha_2 L^{12} + \alpha_3 L^{24})}  $$
+
+Podemos então generalizar o modelo na forma do operador de atraso por meio da
+equação~\ref{eq:sarima}.
+
+\begin{equation}\label{eq:sarima}
+    w_t = \varepsilon_{t} \frac{\theta_q(L)\theta_Q(L)}{\phi_p (L) \phi_P (L^s)}
+\end{equation}
+
+Com os polinômios de atraso definidos como nos casos anteriores.
+
+O modelo SARIMA é interessante ao herdar as propriedades e habilidades de
+ARIMA com a capacidade adicional de modelar padrões sazonais com poucos
+parâmetros. Os parâmetros do modelo tendem a ser difíceis de ajustar
+especialmente na presença de múltiplos padrões de sazonalidade mas ferramentas
+de ajuste automático de parâmetros são prontamente disponíveis.
+
+\subsection{Variáveis de Fourier}
