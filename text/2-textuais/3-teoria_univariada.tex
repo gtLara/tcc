@@ -571,7 +571,7 @@ no caso das séries $MA(q)$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{figures/ar_time.png}
+    \includegraphics[scale=0.65]{figures/ar_time.png}
     \caption{Visualização de processos autoregressivos de diferentes ordens
     no domínio do tempo.}
     \label{fig:ar_time_visualization}
@@ -803,7 +803,7 @@ raízes unitárias. Esse termo tipicamente descreve o posicionamento dos polos e
 não dos zeros pelo maior efeito dessas raízes na dinâmica do sistema, mas essa
 seção inclui uma breve discussão sobre o efeito de zeros unitários também.
 
-Antes de prosseguir um processo $y_t$ $ARMA(2, 0, 1)$ será estabelecido para
+Antes de prosseguir um processo $y_t$ $ARMA(2, 1)$ será estabelecido para
 exemplificar as seguintes discussões.
 
 Diante da recorrência
@@ -814,10 +814,93 @@ temos
 
 $$ y_t = \frac{1 + \beta_1L}{1 - \alpha_1 L - \alpha_2 L^2} \varepsilon_t $$
 
+Uma realização desse processo para os parâmetros
+
+$$\alpha_1 = -0.5, \alpha_2 = 0.25, \beta_1 = 0.8$$
+
+é ilustrada pela figura~\ref{fig:ARMA2-1} e seu diagrama de polos e zeros
+no plano $L$ pela figura~\ref{fig:ARMA2-1pzp}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/arma_21.png}
+    \caption{Visualização de realização de processo ARMA(2, 1) no tempo}
+    \label{fig:ARMA2-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.65]{figures/arma_21_pzp.png}
+    \caption{Visualização de posicionamento de polos e zeros de processo
+    ARMA(2, 1) em relação ao
+    círculo unitário no plano L}
+    \label{fig:ARMA2-1}
+\end{figure}
 
 \subsection{Raízes Unitárias no Polinômio Autoregressivo}
 
+Inspecionemos qualitativamente a inserção presença de uma raiz unitária no
+polinômio autoregressivo do processo ARMA(2, 1) apresentado. Tomando $z_t$
+como o processo
 
+$$ z_t = \frac{y_t}{(1 - L)} = \frac{1 + 0.8L}{(1 + 0.5 L - 0.25 L^2)(1 - L)} \varepsilon_t $$
+
+Temos a seguinte relação entre $z_t$ e $y_t$
+
+$$ (1 - L)z_t = y_t $$
+$$ z_t - z_{t-1} = y_t $$
+$$ \nabla z_t = y_t $$
+
+Tal que $z_t$ represente uma integração de $y_t$.
+
+$$ z_t = \nabla^{-1} y_t $$
+
+Dizemos que nesse caso o processo $z_t$ é integrado de ordem um, ou $I(1)$, já
+que o diferenciando uma vez temos em um processo estacionário.
+
+Podemos definir um processo integrado de ordem $d$, $I(d)$, como um processo
+cuja diferenciação em $d$ vezes resulta em estacionariedade. Tal processo seria
+gerado a partir de $y_t$ por meio de $d$ integrações. Essa definição implica
+corretamente que um processo $I(d)$, $d \neq 0$, não é estacionário, já que a
+condição de estacionariadade para processos ARMA é pontualmente violada.
+TODO: reescrever isso aqui kkk
+Interessantemente o sistema, caso inicialmente inversível, não deixa de ser.
+
+Analisando uma realização do processo $z_t$, por meio da
+figura~\ref{fig:ARMA-2-1-integrated}, observamos um típico processo de raiz
+unitária, cuja não estacionariedade não é tão óbvia quanto nos casos de um
+filtro ARMA instável ou presença de tendência determinística. Processos com
+raíz unitária são diferença estacionários e possuem tendência determinística,
+como discutido na seção~\ref{ssec:taxonomy}. Como esperado o diagrama de
+polos e zeros desse modelo inclui um polo adicional correspondente à raiz
+unitária.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/arma_21_integrated.png}
+    \caption{Visualização de realização de processo ARMA(2, 1) no tempo}
+    \label{fig:ARMA2-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/arma_21_integrated_pzp.png}
+    \caption{Visualização de posicionamento de polos e zeros de processo
+    ARMA(2, 1) em relação ao
+    círculo unitário no plano L}
+    \label{fig:ARMA2-1}
+\end{figure}
+
+Processos de raízes unitárias são especialmente interessantes por sua
+capacidade de representar fenômenos do mundo real de forma eficiente. Logo
+serão reconhecimentos como processos da classe ARIMA.
+
+Por fim é interessante observar os paralelos entre a presença de uma raiz
+unitária e estabilidade marginal, já que ambos são causados por um polo
+presente no círculo unitário. Um sistema no regime de estabilidade marginal
+...
+
+TODO: fechar essa ideia
 
 \subsection{Raízes Unitárias no Polinômio Média Móvel}
 
