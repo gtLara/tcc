@@ -788,6 +788,9 @@ Uma propriedade interessante de modelos ARMA é que processos estacionários
 frequentemente podem ser modelados por modelos ARMA com menos parâmetros que
 modelos AR ou MA.
 
+\subsection{Estabilidade e Invertibilidade}
+\label{ssec:stability_invertibility}
+
 \section{Raízes Unitárias}
 \label{sec:unit_roots}
 
@@ -830,11 +833,11 @@ no plano $L$ pela figura~\ref{fig:ARMA2-1pzp}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.65]{figures/arma_21_pzp.png}
+    \includegraphics[scale=0.75]{figures/arma_21_pzp.png}
     \caption{Visualização de posicionamento de polos e zeros de processo
     ARMA(2, 1) em relação ao
     círculo unitário no plano L}
-    \label{fig:ARMA2-1}
+    \label{fig:ARMA2-1-pzp}
 \end{figure}
 
 \subsection{Raízes Unitárias no Polinômio Autoregressivo}
@@ -856,15 +859,14 @@ Tal que $z_t$ represente uma integração de $y_t$.
 $$ z_t = \nabla^{-1} y_t $$
 
 Dizemos que nesse caso o processo $z_t$ é integrado de ordem um, ou $I(1)$, já
-que o diferenciando uma vez temos em um processo estacionário.
+que o diferenciando uma vez temos em um processo estacionário. Observamos
+imediatamente que o processo $z_t$ não é estacionário.
 
 Podemos definir um processo integrado de ordem $d$, $I(d)$, como um processo
 cuja diferenciação em $d$ vezes resulta em estacionariedade. Tal processo seria
 gerado a partir de $y_t$ por meio de $d$ integrações. Essa definição implica
-corretamente que um processo $I(d)$, $d \neq 0$, não é estacionário, já que a
+corretamente que um processo $I(d)$, $d > 0$, não é estacionário, já que a
 condição de estacionariadade para processos ARMA é pontualmente violada.
-TODO: reescrever isso aqui kkk
-Interessantemente o sistema, caso inicialmente inversível, não deixa de ser.
 
 Analisando uma realização do processo $z_t$, por meio da
 figura~\ref{fig:ARMA-2-1-integrated}, observamos um típico processo de raiz
@@ -878,31 +880,73 @@ unitária.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{figures/arma_21_integrated.png}
-    \caption{Visualização de realização de processo ARMA(2, 1) no tempo}
-    \label{fig:ARMA2-1}
+    \caption{Visualização de realização de processo ARMA(2, 1) com introdução
+    de raiz unitária no tempo}
+    \label{fig:ARMA2-1-integrated}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/arma_21_integrated_pzp.png}
+    \includegraphics[scale=0.75]{figures/arma_21_integrated_pzp.png}
     \caption{Visualização de posicionamento de polos e zeros de processo
-    ARMA(2, 1) em relação ao
+    ARMA(2, 1) com introdução de raiz unitária em relação ao
     círculo unitário no plano L}
-    \label{fig:ARMA2-1}
+    \label{fig:ARMA2-1-integrated-pzp}
 \end{figure}
 
 Processos de raízes unitárias são especialmente interessantes por sua
 capacidade de representar fenômenos do mundo real de forma eficiente. Logo
 serão reconhecimentos como processos da classe ARIMA.
 
-Por fim é interessante observar os paralelos entre a presença de uma raiz
-unitária e estabilidade marginal, já que ambos são causados por um polo
-presente no círculo unitário. Um sistema no regime de estabilidade marginal
-...
+A presença de raízes unitárias no processamento de sinais determinísticos leva
+ao caso de estabilidade marginal. As respostas a sinais determinísticos de
+energia são sinais de potência periódicos, estado altamente indesejado no
+contexto típico de sistemas de controle mas útil em outros como osciladores
+eletrônicos. TODO: ver se resposta ao impulso de sistema simulado acima é
+oscilatória mesmo... se sim, fazer o paralelo entre sistema marginal respondendo
+a um sinal determinístico e sistema marginal respondendo a ruído branco.
 
-TODO: fechar essa ideia
 
 \subsection{Raízes Unitárias no Polinômio Média Móvel}
+
+A presença de uma raiz unitária no polinômio de média móvel de um filtro ARMA
+gera efeitos menos dramáticos em sua dinâmica. As
+figuras~\ref{fig:ARMA2-1-diff} e~\ref{fig:ARMA2-1-diff} ilustram uma realização
+do processo $y_t$ com adição de raiz unitária de média móvel e o diagrama de
+polos e zeros resultante, respectivamente.
+
+TODO: check this @ later time !!
+
+Observamos que a série com raiz de média móvel adicional aparenta ter uma
+distribuição de potência mais enviesada para altas frequências, de forma
+recíproca ao caso normal de raízes unitárias, em que há introdução de
+componentes de baixa frequência. Isso será discutido na seção de análise
+espectral.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/arma_21_diff.png}
+    \caption{Visualização de realização de processo ARMA(2, 1) derivado
+    no tempo}
+    \label{fig:ARMA2-1-diff}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/arma_21_diff.png}
+    \caption{Visualização de posicionamento de polos e zeros de processo
+    ARMA(2, 1) derivado em relação ao círculo unitário no plano L}
+    \label{fig:ARMA2-1-diff-pzp}
+\end{figure}
+
+Tomando o processo $w_t$ como
+
+$$ w_t = (1 - L)y_t = \frac{1 + 0.8L}{1 + 0.5L - 0.25L^2}\varepsilon_t$$
+
+Temos $w_t = y_t - y_{t-1} = \nabla y_t$ tal que $w_t$ seja a derivada de
+$y_t$. O ato de diferenciar uma série, em uma tentativa de introduzir
+estacionariedade por exemplo, corresponde à introdução de uma raiz unitária no
+polinômio de média móvel. Observamos aqui como uma série se
 
 \section{Modelo ARIMA}
 \label{sec:ARIMA}
@@ -951,8 +995,6 @@ modelos ARMA de frequentemente demandar menos parâmetros que modelos AR ou MA.
 Por fim é interessante observar que um modelo $ARIMA(p, 0, q)$ corresponde
 a um modelo $ARMA(p, q)$.
 
-\subsection{Estabilidade e Invertibilidade}
-\label{ssec:stability_invertibility}
 
 \section{Modelos de Sazonalidade}
 
