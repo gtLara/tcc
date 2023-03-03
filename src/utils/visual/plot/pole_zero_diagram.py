@@ -1,9 +1,10 @@
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 plt.style.use("ggplot")
 
 
-def plot_unit_circle(ax: plt.axes._subplots.AxesSubplot,
+def plot_unit_circle(ax: mpl.axes.Axes,
                      lim: float) -> None:
     """
     Plots unit circle.
@@ -32,7 +33,7 @@ def plot_unit_circle(ax: plt.axes._subplots.AxesSubplot,
 
 
 def plot_roots(roots: np.ndarray,
-               ax: plt.axes._subplots.AxesSubplot,
+               ax: mpl.axes.Axes,
                zeros: bool = True) -> None:
     """
     Plots complex or real polynomial roots.
@@ -64,11 +65,11 @@ def pole_zero_plot(num: np.ndarray, den: np.ndarray) -> None:
     numerator and denominator.
 
     :param num: Array containing transfer function numerator coeficients in
-    increasing order
+    decreasing order (x^n, x^n-1, ... 1)
     :type num: np.ndarray
 
     :param den: Array containing transfer function denominator coeficients in
-    increasing order
+    decreasing order (x^n, x^n-1, ... 1)
     :type den: np.ndarray
 
     :rtype: None
