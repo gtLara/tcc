@@ -833,7 +833,7 @@ no plano $L$ pela figura~\ref{fig:ARMA2-1pzp}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.75]{figures/arma_21_pzp.png}
+    \includegraphics[scale=0.7]{figures/arma_21_pzp.png}
     \caption{Visualização de posicionamento de polos e zeros de processo
     ARMA(2, 1) em relação ao
     círculo unitário no plano L}
@@ -887,7 +887,7 @@ unitária.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.75]{figures/arma_21_integrated_pzp.png}
+    \includegraphics[scale=0.7]{figures/arma_21_integrated_pzp.png}
     \caption{Visualização de posicionamento de polos e zeros de processo
     ARMA(2, 1) com introdução de raiz unitária em relação ao
     círculo unitário no plano L}
@@ -898,30 +898,39 @@ Processos de raízes unitárias são especialmente interessantes por sua
 capacidade de representar fenômenos do mundo real de forma eficiente. Logo
 serão reconhecimentos como processos da classe ARIMA.
 
-A presença de raízes unitárias no processamento de sinais determinísticos leva
-ao caso de estabilidade marginal. As respostas a sinais determinísticos de
-energia são sinais de potência periódicos, estado altamente indesejado no
-contexto típico de sistemas de controle mas útil em outros como osciladores
-eletrônicos. TODO: ver se resposta ao impulso de sistema simulado acima é
-oscilatória mesmo... se sim, fazer o paralelo entre sistema marginal respondendo
-a um sinal determinístico e sistema marginal respondendo a ruído branco.
+No processamento de sinais determinísticos sistemas lineares com raiz unitária
+levam ao caso de estabilidade marginal, onde a resposta ao impulso do sistema é
+um sinal de potência ao invés de um sinal de energia. A ideia de uma resposta
+ao impulso de energia infinita sob presença de polos integradores manifesta-se
+no contexto de sinais aleatórios quando é dito que processos de tendência
+estocástica (de estacionariedade diferenciável, como discutido na seção
+~\ref{ssec:taxonomy}) são afetados irreversivelmente por eventos perturbadores.
+A ``lembrança'' desses eventos é justamente a resposta de duração infinita do
+evento perturbador, apropriadamente modelado por funções impulso ou degrau.
+Essa interpretação é importante no campo de análise de intervenção, que procura
+incorporar efeitos de eventos perturbadores reais em modelos de séries
+temporais.
 
 
 \subsection{Raízes Unitárias no Polinômio Média Móvel}
 
 A presença de uma raiz unitária no polinômio de média móvel de um filtro ARMA
-gera efeitos menos dramáticos em sua dinâmica. As
-figuras~\ref{fig:ARMA2-1-diff} e~\ref{fig:ARMA2-1-diff} ilustram uma realização
-do processo $y_t$ com adição de raiz unitária de média móvel e o diagrama de
-polos e zeros resultante, respectivamente.
+gera efeitos menos dramáticos em sua dinâmica. Antes de tudo nota-se que a
+introdução de raízes unitárias de médias móveis tornam um sistema não
+inversível, já que sua inversão  tornaria essa raiz um polo.
+
+As figuras~\ref{fig:ARMA2-1-diff} e~\ref{fig:ARMA2-1-diff-pzp} ilustram uma
+realização do processo $y_t$ com adição de raiz unitária de média móvel e o
+diagrama de polos e zeros resultante, respectivamente.
 
 TODO: check this @ later time !!
 
 Observamos que a série com raiz de média móvel adicional aparenta ter uma
 distribuição de potência mais enviesada para altas frequências, de forma
-recíproca ao caso normal de raízes unitárias, em que há introdução de
-componentes de baixa frequência. Isso será discutido na seção de análise
-espectral.
+recíproca ao de raiz unitária autoregressiva, em que há introdução de
+componentes de baixa frequência. Isso será discutido apropriadamente no
+capítulo ~\ref{cap:spectral_analysis}.
+
 
 \begin{figure}[H]
     \centering
@@ -933,7 +942,7 @@ espectral.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{figures/arma_21_diff.png}
+    \includegraphics[scale=0.7]{figures/arma_21_diff_pzp.png}
     \caption{Visualização de posicionamento de polos e zeros de processo
     ARMA(2, 1) derivado em relação ao círculo unitário no plano L}
     \label{fig:ARMA2-1-diff-pzp}
@@ -941,12 +950,35 @@ espectral.
 
 Tomando o processo $w_t$ como
 
-$$ w_t = (1 - L)y_t = \frac{1 + 0.8L}{1 + 0.5L - 0.25L^2}\varepsilon_t$$
+$$ w_t = (1 - L)y_t = \frac{1 - 0.2L + L^2}{1 + 0.5L - 0.25L^2}\varepsilon_t$$
 
 Temos $w_t = y_t - y_{t-1} = \nabla y_t$ tal que $w_t$ seja a derivada de
-$y_t$. O ato de diferenciar uma série, em uma tentativa de introduzir
+$y_t$. Vemos que ato de diferenciar uma série, em uma tentativa de introduzir
 estacionariedade por exemplo, corresponde à introdução de uma raiz unitária no
-polinômio de média móvel. Observamos aqui como uma série se
+polinômio de média móvel. Conseguimos dessa forma compreender a indução de
+estacionariedade em uma série não estacionária com raiz unitária autoregressiva
+por meio de sua derivação como a sobreposição de $d$ zeros aos $d$ polos
+integradores do processo original. Isso é ilustrado por uma comparação das
+figuras~\ref{fig:ARMA2-1-integrated-pzp} e~\ref{fig:ARMA2-1-diff-pzp}, onde
+vemos que a diferenciação da série $z_t$ introduziria um zero unitário de forma
+a ``cancelar'' seu polo unitário.
+
+A presença de raízes unitárias de média móvel podem indicar que a série foi
+diferenciada mais vezes que necessário ou que diferenciação é a operação
+inadequada para indução de estacionariedade, isso é, a série não é diferença
+estacionária.
+
+Um exemplo é a série tendência estacionária $m_t$ a seguir:
+
+$$ m_t = \mu + \eta t + \varepsilon_t $$
+
+$$ \nabla m_t = \varepsilon_t - \varepsilon_{t-1} + \eta $$
+$$ \nabla m_t = (1 - L)\varepsilon_t + \eta $$
+
+Em $\nabla m_t$ temos uma raiz unitária no polinômio autoregressivo, resultando
+em uma série não inversível. A tendência determinística poderia ter sido
+removida por regressão resultando em um processo estacionário e inversível.
+
 
 \section{Modelo ARIMA}
 \label{sec:ARIMA}
