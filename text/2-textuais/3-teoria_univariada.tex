@@ -984,10 +984,11 @@ removida por regressão resultando em um processo estacionário e inversível.
 \label{sec:ARIMA}
 
 Também chamados de modelos ARMA Integrados modelos ARIMA são essencialmente
-modelos ARMA com tentativas de remoção de não estacionariedade. Assumindo que
-a série em questão seja diferença-estacionária (ou tendência-estacionária
-com tendência linear) o modelo ARIMA tenta induzir estacionariedade
-introduzindo raízes unitárias em um modelo ARMA.
+modelos ARMA com tentativas de remoção de não estacionariedade. Assumindo que a
+série em questão seja diferença-estacionária  o modelo ARIMA induz
+estacionariedade ajustando um modelo ARMA com raízes unitárias adicionais. A
+expectativa é que o processo original contenha $d$ polos unitários que serão
+então sobrepostos por $d$ zeros unitários, resultando em processo estacionário.
 
 A distinção entre o modelo ARMA e ARIMA é a substituição de $y_t$ por $\nabla^d
 y_t$.
@@ -999,11 +1000,8 @@ saída é $w_t$, demandando uma integração para previsão de $y_t$. O nome do
 modelo referencia essa operação de reconstrução de $y_t$.
 
 \begin{equation}\label{eq:arima}
-    w_t = \sum_{i=0}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} w_{t-i}\alpha_i
+    w_t = \varepsilon_t  + \sum_{i=1}^{i=q} \beta_i \varepsilon_{t-i} + \sum_{i=1}^{i=p} w_{t-i}\alpha_i
 \end{equation}
-
-Podemos constatar que o modelo ARIMA é simplesmente um ARMA após uma
-diferenciação de ordem arbitrária da série temporal sob análise.
 
 Podemos escrever um modelo $ARIMA(p, d, q)$ por meio do operador de atrasos
 por meio da equação~\ref{eq:arima_l}, onde:
@@ -1015,22 +1013,31 @@ $$\theta(L) = 1 - \beta_0 - \beta_1 L^1 \hdots - \beta_q L^q$$
 Nessa forma o paralelo entre modelos ARMA e ARIMA se torna mais claro.
 
 \begin{equation}\label{eq:arima_l}
-    y_t = Z_t \frac{\theta(L)}{\phi(L)} \frac{1}{(1-L)^d}
+    y_t = \varepsilon_t \frac{\theta(L)}{\phi(L)} \frac{1}{(1-L)^d}
 \end{equation}
 
 O modelo ARIMA segue a metologia Box-Jenkins de modelagem, assumindo
 diferença-estacionariedade e tentando induzir estacionariedade por meio de
-sucessivas operações de diferenças. O modelo é portanto apropriado para
-modelagem de séries não estacionárias, apresentando a mesma propriedade de
-modelos ARMA de frequentemente demandar menos parâmetros que modelos AR ou MA.
+sucessivas operações de diferenças. Pela discussão acima é claro que um modelo
+$ARIMA(p, 0, q)$ corresponde a um modelo $ARMA(p, q)$.
 
-Por fim é interessante observar que um modelo $ARIMA(p, 0, q)$ corresponde
-a um modelo $ARMA(p, q)$.
-
+O leitar agora reconhece o sistema da figura~\ref{fig:ARMA2-1-integrated-pzp}
+como ARIMA(2, 1, 1).
 
 \section{Modelos de Sazonalidade}
 
 \subsection{Diferenciação Sazonal}
+
+O operador de diferença sazonal $\nabla_s$ estende o operador de diferenças
+para subtração entre elementos não adjacentes e age sob uma série temporal
+$\mathbf{y}_t$ da seguinte forma:
+
+$$ \nabla \mathbf{y}_t = (1 - L^s)\mathbf{y}_t = \mathbf{y}_t - L^s\mathbf{y}_t = \mathbf{y}_t - \mathbf{y}_{t-s} $$
+
+O operador mantém as propriedades da diferença simples e pode ser empregado em
+ordens elevadas da mesma forma:
+
+$$\nabla_4^2 y_t = \nabla_4 \nabla_4 y_t = \nabla_4 (y_t - y_{t-4}) = y_t - 2y_{t-4} + y_{t-8} $$
 
 \subsection{SARIMA}\label{ssec:SARIMA}
 
@@ -1053,14 +1060,14 @@ e ordem $D$.
 Como exemplo um $w_t$ definido em função de $d=1$, $D=1$ e $s=24$ assume a
 seguinte forma.
 
-$$ w_t =  \nabla^1_{2} \nabla^1 y_t = \nabla^1_{2} (y_t - y_{t-1}) $$
+$$ w_t =  \nabla^1_{12} \nabla^1 y_t = \nabla^1_{2} (y_t - y_{t-1}) $$
 $$ w_t =  (y_t - y_{t-24}) - (y_{t-1} - y_{t-25}) $$
 
 Em seguida componentes autoregressivos e de média móvel são introduzidos com
 atrasos em múltiplos de $s$. O modelo final é descrito como $SARIMA(p, d, q)
 (P, D, Q)_{s}$, com $P$ e $D$ referenciando os componentes $AR$ e $MA$
-sazonais. Para ilustrar melhor esse conceito um pouco confuso podemos analisar a
-expressão de um modelo específico para depois generalizar.
+sazonais. Para ilustrar melhor essa notação podemos analisar a expressão de um
+modelo específico para depois generalizar.
 
 Um modelo $SARIMA(1, 0, 1)(2, 1, 1)_{12}$ é dado pela seguinte expressão.
 
@@ -1082,10 +1089,56 @@ equação~\ref{eq:sarima}.
 
 Com os polinômios de atraso definidos como nos casos anteriores.
 
-O modelo SARIMA é interessante ao herdar as propriedades e habilidades de
-ARIMA com a capacidade adicional de modelar padrões sazonais com poucos
-parâmetros. Os parâmetros do modelo tendem a ser difíceis de ajustar
-especialmente na presença de múltiplos padrões de sazonalidade mas ferramentas
-de ajuste automático de parâmetros são prontamente disponíveis.
+A diferenciação sazonal inicial do modelo SARIMA é um dos exemplos mais simples
+de um passo essencial no processamento de séries com padrões sazonais: a
+modelagem do padrão de sazonalidade em si, que de fato é um campo próprio com
+livros como~\cite{x11}. Diferenciação sazonal é limitada em sua capacidade de
+expressar múltiplos padrões de sazonalidade. Outra forma mais flexível de
+modelagem de sazonalidade será abordada na subseção seguinte.
 
 \subsection{Variáveis de Fourier}
+
+Versões sazonais de modelos ARIMA, como SARIMA, são pouco eficientes para
+modelar padrões sazonais com as seguintes características:
+
+\begin{itemize}
+    \item Múltiplas periodicidades~\cite{athana}
+    \item Períodos múltiplos fracionários do tempo de amostragem~\cite{hyndman_weekly}.
+    \item Curto tempo de amostragem (de um dia ou inferior)~\cite{athana}
+    \item Períodos maiores que algumas centenas do tempo de
+    amostragem~\cite{hyndman_long_season}.
+\end{itemize}
+
+Sinais elétricos quase sempre possuem as duas últimas propriedades, tornando a
+exploração de métodos alternativos indispensável para este trabalho.
+
+A inclusão de variáveis de Fourier como regressores é capaz de modelar
+padrões sazonais como esses de forma mais flexível. Essas variáveis exógenas
+aos ao modelo são somas de senos e cossenos, ambos reais, que oscilam em
+múltiplos de uma frequência fundamental definida como a frequência do padrão
+sazonal que se deseja modelar.
+
+Para modelar um padrão de período $m$ tomamos as variáveis dadas pela série
+$F_t$
+
+$$ F_t = \sum^K_{k=1} \left(\alpha_k \frac{sen(2\pi k t)}{m} + \beta_k\frac{cos(2\pi k t)}{m}\right) $$
+
+onde harmônicos do período sazonal $m$ são incluídos pelo incremento de $k$.
+Para incluir múltiplos períodos sazonais as variáveis são generalizadas para
+diferentes valores de $m$ como a seguir:
+
+$$ F_t = \sum^M_{i=1}\sum^K_{k=1} \left(\alpha_k \frac{sen(2\pi k t)}{m_i} + \beta_k\frac{cos(2\pi k t)}{m_i}\right) $$
+
+Temos alguns parâmetros não regressores: $K$, a ordem dos harmônicos, $m_i$, os
+períodos dos padrões que se deseja modelar. $M$ é simplesmente o número de
+padrões. A determinação de $m_i$ pode ser realizada por conhecimento a priori
+do fenômeno em questão ou métodos quantitativos como análise espectral dos
+dados amostrais. Já $K$ é melhor determinado por métodos de seleção de modelo
+como AIC e BIC, discutidos na seção~\ref{sec:validacao}.
+
+A série exógena pode então ser incluída como informação auxiliar em um modelo
+ARIMA resultando em um modelo sazonal $y_t$ em função de $(p, d, q, m_i, k)$:
+
+$$ y_t = \varepsilon_t \frac{\theta(L)}{\phi(L)} \frac{1}{(1-L)^d} + F_t $$
+
+$$ y_t = \varepsilon_t \frac{\theta(L)}{\phi(L)} \frac{1}{(1-L)^d} + \sum^M_{i=1}\sum^K_{k=1} \left(\alpha_k \frac{sen(2\pi k t)}{m_i} + \beta_k\frac{cos(2\pi k t)}{m_i}\right) $$
