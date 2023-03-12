@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 
 
+# TODO: work out significance level (tolerance)
 def get_crosscorrelation(signal_a: np.ndarray | pd.Series,
                          signal_b: np.ndarray | pd.Series,
                          normalize: bool = True,
@@ -28,7 +29,7 @@ def get_crosscorrelation(signal_a: np.ndarray | pd.Series,
 
     cross_correlation = correlate(signal_a, signal_b)
 
-    if n_lags >= len(cross_correlation)//2:
+    if n_lags > len(cross_correlation)//2:
         n_lags = np.inf
         warn("Number of lags exceeds correlation length." +
              " Defaulting to complete correlation.")
@@ -41,7 +42,38 @@ def get_crosscorrelation(signal_a: np.ndarray | pd.Series,
 
     if n_lags < np.inf:
         center = len(cross_correlation)//2
-        cross_correlation = cross_correlation[center-n_lags:center+n_lags]
+        cross_correlation = cross_correlation[center-n_lags+1:center+n_lags]
 
     # TODO: work out lags
     return cross_correlation#, lags
+
+
+def get_autocorrelation(signal: np.ndarray | pd.Series,
+                        n_lags: int = 15,
+                        normalize: bool = True,
+                        one_sided: bool = True) -> np.ndarray:
+    """
+    Get auto-correlation of a signal. Auto-covariance can be
+    calculated by disabling normalization.
+
+    :param signal: Input signal
+    :type signal: np.ndarray | pd.Series
+    :param normalize: Wether to normalize autocovariance or not, defaults to
+    True
+    :type normalize: bool
+    :param one_sided: Wether to return one sided autocorrelation or not,
+    defaults to True
+    :type one_sided: bool
+    :return: Auto-correlation (or covariance if 'normalize=False') of
+    'signal_a'
+    """
+
+    autocorrelation = get_crosscorrelation(signal_a=signal, signal_b=signal,
+                                           normalize=normalize,
+                                           n_lags=n_lags+1)
+
+    if one_sided:
+        center = len(autocorrelation)//2
+        autocorrelation = autocorrelation[center:]
+
+    return autocorrelation
