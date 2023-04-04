@@ -40,3 +40,4 @@ __pycache__/
 .mypy_cache/
 # Data
 data/*
+src/ipy_hist

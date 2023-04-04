@@ -18,12 +18,12 @@ def get_seasonal_data(decimation_factor: int = 10,
 
     start = pd.to_datetime("2021-05-29 16:32")
     end = pd.to_datetime("2021-05-29 16:40")
-    raw_signal = data[1700]["[1017:3]"][start:end]
+    signal = data[1700]["[1017:3]"][start:end]
 
     if decimation_factor > 1:
-        signal = decimate(raw_signal, decimation_factor)
+        signal = decimate(signal, decimation_factor)
 
-    if moving_average_win_size:
+    if moving_average_win_size is not None:
         signal = uniform_filter1d(signal, size=moving_average_win_size)
 
     return signal

@@ -7,7 +7,8 @@ import pandas as pd
 import numpy as np
 
 
-# TODO: work out significance level (tolerance)
+# TODO: work out significance level (tolerance) : this may not be so trivial
+# after all
 def get_crosscorrelation(signal_a: np.ndarray | pd.Series,
                          signal_b: np.ndarray | pd.Series,
                          normalize: bool = True,
