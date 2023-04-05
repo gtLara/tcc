@@ -1,4 +1,4 @@
-\chapter{Teoria Espectral Univariada}
+\chapter{Univariate Spectral Theory}
 
 \section*{Introduction}
 
@@ -26,3 +26,132 @@ Non-linear analysis is constructed by the introduction of the instantaneous
 auto-correlation function and subsequent Cohen's class of distributions. Some
 main distributions from Cohens class are discussed along with their
 limitations, concluding our univariate spectral exploration.
+
+\section{Stationary Analysis}
+
+Wide sense stationary signals are, by definition (section
+~\ref{sec:stationarity}), power signals. Since the Fourier transform of a
+signal is well defined only if is has finite energy stationary signals do not
+have a Fourier representation in the traditional sense, the exception being
+quasi-periodic signals which can be represented by a Fourier series. In order
+to develop a spectral representation of stationary time series we must define
+the concept of a power spectral density and conclude that this function is
+proportional to the square magnitude of a hypothetical Fourier transform.
+
+\subsubsection{Power Spectral Density}
+
+We begin by stating Parseval's theorem, in which $F\{\}$ represents the Fourier
+transform.
+
+$$ E = \int^{\infty}_{-\infty} |x(t)|^2 dt = \frac{1}{2\pi} \int^{\infty}_{-\infty} |F\{x(t)\}(\omega)|^2 d\omega $$
+
+Extending this definition to signal power gives us
+
+$$ P = \lim_{T \to \infty} \frac{1}{2T}\frac{1}{2\pi} \int^{T}_{-T}|F\{x(t)\}(\omega)|^2 d\omega$$
+
+Note that even though $F\{x(t)\}$ is not well defined here the above relations
+still hold if $|F\{x(t)\}|^2$ is defined in a different manner, which will be
+done shortly.
+
+The signal power can be rewritten denoting the Fourier transform of $x(t)$ by
+$X(\omega)$ as
+
+$$ P = \lim_{T \to \infty} \frac{1}{2T}\frac{1}{2\pi} \int^{T}_{-T}|X(\omega)|^2 d\omega $$
+
+Where $\lim_{T \to \infty}\frac{1}{2\pi} \frac{1}{2T} |X(\omega)|² $
+is recognized as a density function. The power spectral density function is
+finally defined as
+
+$$ S_{x}(\omega) = \lim_{T \to \infty}\frac{1}{2\pi} \frac{1}{2T} |X(\omega)|² $$
+
+This function's name is pretty explanatory of its interpretation:
+$S_{x}(\omega)$ represents the contribution of $x(t)$s frequency components in
+$\omega + d\omega$ to the overall signal power. As mentioned, for this function
+to make any sense we must define $|X(\omega)|^2$, which will be done
+presently
+
+\subsection{Wiener-Khinchin Theorem}
+
+The Wiener-Khinchin theorem can be developed as follows.
+
+$$ |X(\omega)^2| = X(\omega)X^*(\omega) = F(F^{-1}(X(\omega))*(F^{-1}(X^*(\omega))) = F(x(t) * x^*(-t)) = F(x(t) * x(-t))$$
+
+Examining the right-most part of this equality we observe that the function
+which is being Fourier-transformed corresponds to the convolution of $x(t)$
+with a mirrored version of itself. This is precisely the definition of
+autocorrelation. Assuming ergodicity we can now express the squared magnitude
+of the Fourier transform of $x(t)$ as the Fourier transform of is autocorrelation
+function.
+
+$$|X(\omega)_T|^2 = \frac{1}{2\pi}\int_{-T}^{T} \rho(t)e^{-j \omega t}dt$$
+
+This results is known as the Wiener-Khinchin theorem and it allows for a
+well-defined power density spectrum for stochastic signals.
+
+Note that since the autocorrelation of a signal is even its Fourier transform
+is real-valued, which is consistent with our notion of a squared magnitude.
+
+\subsection{Spectrum of ARMA processes}
+
+By taking the square magnitude Z transform of the general ARMA recurrence
+relationship (~\ref{ssec:arma_l}) we obtain the transfer function
+
+$$ H(z) = \frac{1 + \sum_{i}^{q} b_k z^{-k}}{1 + \sum_{i}^{q} a_k z^{-k}} $$
+
+which is excited by white noise to generate a realization of and ARMA
+process. We can now express the power spectral density of an ARMA process as
+follows
+
+$$ S_{ARMA}(\omega) = |H(z)|^2 S_{\varepsilon} $$
+$$ S_{ARMA}(\omega) = \frac{\sigma^2 |1 + \sum_{k=1}^{q} b_k e^{-j\omega k}|^2}{2\pi|1 + \sum_{k=1}^{p} a_k e^{-j\omega k}|^2} $$
+
+This definition can be used as a means of parametric spectral estimation: the
+parameters are estimated in the time domain and used by the relationship
+above to estimate the spectrum.
+
+We will now visualize the spectra of some ARMA processes alongside their
+autocorrelation functions. Note how the notion that the spectra corresponds to
+the Fourier transform of the autocorrelation function is intuitive.
+
+\subsubsection{ARMA(0, 1)}
+
+\subsubsection{ARMA(2, 0)}
+
+\subsubsection{ARMA(2, 3)}
+
+\section{Non-Stationary Analysis}
+
+\subsection{Short Time Fourier Transform}
+
+\subsection{S-Transform}
+
+Drop this maybe
+
+\subsection{Wavelet Transform}
+
+\subsubsection{Continuous}
+
+\subsubsection{Discrete}
+
+\section{Non-Linear Representations}
+
+There is, indeed, a way to maximize the time-frequency resolution trade-off
+inherent to time-frequency representations\cite{HERE BRO}. This is done by the introduction
+of non linearity through the Fourier transform of the instantaneous
+autocorrelation function. As will be seen presence of non linearity results in
+cross terms that limit the quality of the representation. Attempts to dampen
+these cross terms lead to the more general Cohen's class of distributions.
+
+\subsection{Instantaneous autocorrelation function}
+
+\subsection{Wigner-Wille Distribution}
+
+Auto and Crossterms
+
+\subsection{Cohen's class}
+
+\subsubsection{Ambiguity Function}
+
+\subsubsection{Ambiguity Function}
+
+\subsubsection{Ambiguity Function}
