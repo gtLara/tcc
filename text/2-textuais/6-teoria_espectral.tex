@@ -119,13 +119,22 @@ the Fourier transform of the autocorrelation function is intuitive.
 
 \subsubsection{ARMA(2, 3)}
 
-\section{Non-Stationary Analysis}
+\section{Linear Non-Stationary Analysis}
+
+From the previous section we can conclude that if a time series is stationary
+its spectral representation via power spectral density is uniquely determined
+by the Fourier transform of its autocorrelation function. The natural extension
+for a spectral representation of non-stationary processes is a time-varying
+power spectral density since its autocorrelation function is also time-varying.
+
+The idea of a time-varying spectral representation gives rise to the so called
+time-frequency analysis methods. We initially explore methods that maintain
+linearity.
 
 \subsection{Short Time Fourier Transform}
 
-\subsection{S-Transform}
-
-Drop this maybe
+The short time Fourier transform is the most intuitive approach to a proposal
+of time frequency representation.
 
 \subsection{Wavelet Transform}
 
@@ -136,22 +145,92 @@ Drop this maybe
 \section{Non-Linear Representations}
 
 There is, indeed, a way to maximize the time-frequency resolution trade-off
-inherent to time-frequency representations\cite{HERE BRO}. This is done by the introduction
-of non linearity through the Fourier transform of the instantaneous
-autocorrelation function. As will be seen presence of non linearity results in
-cross terms that limit the quality of the representation. Attempts to dampen
-these cross terms lead to the more general Cohen's class of distributions.
+inherent to time-frequency representations (TFR)\cite{HERE BRO}. This is done by the
+introduction of non linearity through the Fourier transform of the
+instantaneous autocorrelation function. As will be seen presence of non
+linearity results in cross terms that limit the quality of the representation.
+Attempts to dampen these cross terms lead to the more general Cohen's class of
+distributions.
 
 \subsection{Instantaneous autocorrelation function}
 
-\subsection{Wigner-Wille Distribution}
+The instantaneous autocorrelation function is actually just the autocorrelation
+function of a non stationary signal written in a specific format.
+Interestingly the term autocorrelation function has become strongly understood
+as a function of sample lag $\tau$, which is the case for stationary signals,
+instead of a function of $t_1$ and $t_2$. We initially rewrite the general
+autocorrelation function $R_{xx}$ of a signal $x(t)$
 
-Auto and Crossterms
+$$ R_{xx}(t_1, t_2) = E[x(t_1)x(t_2)] $$
 
-\subsection{Cohen's class}
+We can also write $R_xx$ as a function of a single moment $t$ and a lag $\tau$
 
-\subsubsection{Ambiguity Function}
+$$ R_{x}(t, \tau) = E[x(t)x(t-\tau)] $$
 
-\subsubsection{Ambiguity Function}
+Which is slightly more natural for computations. Note that if $x(t)$ is
+stationary the dependence on time is removed because $R_{xx}$ has the same
+value for all $t$.
 
-\subsubsection{Ambiguity Function}
+A small adjustment in notation leads to
+
+$$ \mathcal{R}_{x}(t, \tau) = E\left[x\left(t - \frac{\tau}{2}\right)x\left(t + \frac{\tau}{2}\right)\right] $$
+
+With a new symbol to indicate that we have finally arrived at the instantaneous
+autocorrelation function $\mathcal{R}_{xx}$.
+
+A non stationary TFR is now natural. Since the
+Wiener-Khinchin theorem states that the spectrum of a stationary signal is the
+Fourier transform of its autocorrelation function we can in an analogous manner
+assume that a spectral representation of a non stationary process will be given
+by the Fourier transform along the $\tau$ axis of the instantaneous
+autocorrelation function. This leads to the Wigner-Ville distribution.
+
+\subsection{Wigner-Ville Distribution}
+
+We define the Wigner-Ville distribution (WVD) as
+
+$$ \mathcal{W}_{x}(t, f) =  \int_{-\infty}^{\infty} \mathcal{R}_{x}(t, \tau) e^{-j\omega \tau}d\tau$$
+
+$$ \mathcal{W}_{x}(t, f) =  \int_{-\infty}^{\infty} x\left(t - \frac{\tau}{2}\right)x\left(t + \frac{\tau}{2}\right) e^{-j\omega \tau}d\tau$$
+
+This natural representation can be thought of as an instantaneous power density
+spectrum. It is known that the WVD optimizes the time-frequency resolution
+trade-off\cite{tfr_comparison} which is exactly our goal in the development of
+more elaborated TFRs. We will now see that this is not without its problems.
+
+\subsubsection{Cross-terms}
+
+By construction the Wigner-Ville distribution is a quadratic representation. By
+the quadratic superposition principle~\cite{quadratic_freq_representation} we
+know that if $x(t) = \mu x_1(t) + \lambda x_2(t)$ the WVD representation of
+$x(t)$ will be given by
+
+$$ \mathcal{W}_{x} = \mu^2\mathcal{W}_{x_1} + \lambda^2\mathcal{W}_{x_2} + 2(\lambda\mu)^2(\mathcal{W}_{x_1 , x_2})$$
+
+Where $\mathcal{W}_{z, y}$ represents the cross-WVD from $z$ to $y$. Since any
+real signal of relevant complexity is a linear combination of the $cos(t)$
+$sin(t)$ basis we can expect a considerable introduction of unwanted
+information from the cross-WVD components, referred to as cross-terms. This is
+the infamous cross-terms problem attributed to the WVD and is one of the
+reasons that despite its precision in time and frequency resolution it is not
+an ideal choice for the TFR for most signals.
+
+The cross-terms are known to exhibit high frequency patterns~\cite{martin_lol},
+leading to the idea that the WVD could be filtered in order to be more
+representative of its auto-terms. The different ways in which it is possible
+and useful to filter the WVD generates what is known as the Cohen's class of
+distributions.
+
+\subsection{Smoothed Pseudo Wigner Ville Distributions}
+
+Most members of Cohen's class of distributions are essentially filtered
+versions of the WVD~\cite{}. A particularly useful case is known as the
+Smoothed Pseudo Wigner Ville Distribution (SPWVD)
+
+$$ SPWVD(t, f) = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} h_t (t - \tau) h_f(f - \phi)d\tau d\phi$$
+
+in which $h_t$ denotes the filter applied along time and $h_f$ along frequency.
+
+If the filters are well designed, which is a data-driven process in some
+cases~\cite{}, cross-term suppression is sufficiently successful such that
+the use of the SPWVD over simpler non-stationary TFR is justified.
