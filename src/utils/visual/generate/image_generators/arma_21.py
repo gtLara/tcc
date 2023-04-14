@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from src.utils.data.generate.linear_models import generate_arma
+from src.utils.signals.generate.linear_models import generate_arma
 
 
 def arma_21(color, dpi, image_path, extension):

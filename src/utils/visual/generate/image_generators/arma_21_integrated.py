@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from src.utils.data.generate.non_linear_models import generate_arima
+from src.utils.signals.generate.non_linear_models import generate_arima
 
 
 def arma_21_integrated(color, dpi, image_path, extension):

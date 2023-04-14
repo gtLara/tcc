@@ -1,4 +1,4 @@
-\chapter{Univariate Spectral Theory}
+\chapter{Univariate Spectral Theory}\label{chap:spectral_analysis}
 
 \section*{Introduction}
 
@@ -103,21 +103,108 @@ process. We can now express the power spectral density of an ARMA process as
 follows
 
 $$ S_{ARMA}(\omega) = |H(z)|^2 S_{\varepsilon} $$
-$$ S_{ARMA}(\omega) = \frac{\sigma^2 |1 + \sum_{k=1}^{q} b_k e^{-j\omega k}|^2}{2\pi|1 + \sum_{k=1}^{p} a_k e^{-j\omega k}|^2} $$
+\begin{equation}\label{eq:arma_spectrum}
+     S_{ARMA}(\omega) = \frac{\sigma^2 |1 + \sum_{k=1}^{q} b_k e^{-j\omega k}|^2}{2\pi|1 + \sum_{k=1}^{p} a_k e^{-j\omega k}|^2} $$
+\end{equation}
 
 This definition can be used as a means of parametric spectral estimation: the
 parameters are estimated in the time domain and used by the relationship
 above to estimate the spectrum.
 
-We will now visualize the spectra of some ARMA processes alongside their
-autocorrelation functions. Note how the notion that the spectra corresponds to
-the Fourier transform of the autocorrelation function is intuitive.
+We will now visualize the spectra of some ARMA processes.
 
-\subsubsection{ARMA(0, 1)}
+\subsubsection{MA(1)}
 
-\subsubsection{ARMA(2, 0)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/ma_1_spectrum.png}
+    \caption{Spectrum of an MA(1) process with
+    $\protect \beta_1 = -0.5$}
+    \label{fig:ma_1_spectrum}
+\end{figure}
 
-\subsubsection{ARMA(2, 3)}
+\subsubsection{AR(1)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/ar_1_spectrum_1.png}
+    \caption{Spectrum of an AR(1) process with
+    $\protect \alpha_1 = 0.8$}
+    \label{fig:ar_1_spectrum_1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/ar_1_spectrum_2.png}
+    \caption{Spectrum of an AR(1) process with
+    $\protect \alpha_1 = -0.8$}
+    \label{fig:ar_1_spectrum_2}
+\end{figure}
+
+\subsubsection{AR(2)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/ar_2_spectrum.png}
+    \caption{Spectrum of an AR(1) process with
+    $\protect \alpha_1 = 0.5$ and $\protect \alpha_2 = -0.25$}
+    \label{fig:ar_2_spectrum}
+\end{figure}
+
+\subsubsection{ARMA(4, 3)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/arma_4_3_spectrum.png}
+    \caption{Spectrum of an ARMA(4, 3) process}
+    \label{fig:ar_4_3_spectrum}
+\end{figure}
+
+
+\subsection{Effect of Unit Roots on ARMA Spectra}
+
+As mentioned in subsection~\ref{ssec:ma_roots} the introduction of unit roots
+to the moving average or auto regressive polynomials of an ARMA process has
+clear effects on its spectral content. The spectral effects of these operations
+can be understood by a pole zero plot, sample time domain or closed form
+spectral analysis.
+
+By analyzing the pole zero plot of an ARMA system it is evident how integration
+affects the system's transfer function: since a pole is introduced at
+$e^{j\omega}=0$ energy is supplied to low-frequency signal components.
+Conversely we can understand differencing, which is the introduction of a
+zero at $e^{j\omega}=0$, as a suppression of low-frequency components,
+resulting in a signal with higher overall frequency. This is precisely the
+idea behind integrating filters.
+
+In the time domain the spectral effect of differencing can be seen by comparing
+figures~\ref{fig:ARMA2-1} and~\ref{fig:ARMA2-1-diff}. The differenced series
+clearly has more energy distributed towards high frequency components. This is
+in fact true for all signals: the act of time domain differencing biases the
+spectral content towards higher frequencies. The reverse is also true: by
+integrating a signal we see that it becomes smoother.
+
+TODO: complete this !!!
+
+Finally the most rigorous understanding is achieved by inspection of equation
+~\ref{eq:arma_spectrum}. From this equation it is evident that an additional
+root on the numerator increases the high frequency content and an additional
+root on the denominator increases the low frequency content.
+
+We now present the differenced version of the MA(1) spectrum from figure
+~\ref{fig:ma_1_spectrum}. Note that the signal is essentially high pass
+filtered, as mentioned.
+
+\subsubsection{Differenced MA(1)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/diff_ma_1_spectrum.png}
+    \caption{Spectrum of an differenced MA(1) process with
+    $\protect \beta_1 = -0.5$}
+    \label{fig:diff_ma_1_spectrum}
+\end{figure}
+
 
 \section{Linear Non-Stationary Analysis}
 

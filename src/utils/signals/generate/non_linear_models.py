@@ -1,6 +1,6 @@
 from typing import Optional
 import numpy as np
-from src.utils.data.generate.linear_models import generate_arma
+from src.utils.signals.generate.linear_models import generate_arma
 
 
 def generate_arima(n_samples: int, integration_order: int,

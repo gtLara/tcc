@@ -61,6 +61,7 @@ def generate_arma(n_samples: int, ar_coef: Optional[list[float]] = None,
     for n in range(n_samples):
 
         # TODO: extract these loops
+        # TODO: add stationarity warning
         if ar_coef is not None:
             for k in range(len(ar_coef)):
                 if n - k > 0:

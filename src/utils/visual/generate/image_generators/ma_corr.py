@@ -49,3 +49,5 @@ def ma_corr(color, dpi, image_path, extension):
     path = f"{image_path}.{extension}"
     plt.tight_layout()
     plt.savefig(path, dpi=dpi, format=extension)
+
+    plt.close()
