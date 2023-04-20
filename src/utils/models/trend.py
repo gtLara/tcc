@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.polynomial import Polynomial
+from pykalman import KalmanFilter
 
 
 def get_polynomial_trend(signal: np.array, degree: int) -> np.array:
@@ -17,6 +18,31 @@ def get_polynomial_trend(signal: np.array, degree: int) -> np.array:
     domain = np.arange(len(signal))
     polynomial = Polynomial.fit(x=domain, y=signal, deg=degree)
     _, trend = polynomial.linspace(n=len(signal))
+
+    return trend
+
+
+def get_kalman_trend(signal: np.array,
+                     transition_variance: float = 0.01) -> np.array:
+    """
+    Fits trend by using Kalman filter to smooth time series according to
+    the transition equation noise variance.
+
+    :param signal: Input signal
+    :type signal: np.array
+    :param degree: Variance of transition equation noise
+    :return: Array corresponding to smoothed signal
+    :rtype: np.array
+    """
+
+    kf = KalmanFilter(transition_matrices=[1],
+                      observartion_matrices=[1],
+                      initial_state_mean=0,
+                      initial_state_covariance=1,
+                      observation_covariance=1,
+                      transition_covarince=transition_variance)
+
+    trend = kf.filter(signal.values)
 
     return trend
 
