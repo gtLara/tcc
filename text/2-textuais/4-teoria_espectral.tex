@@ -11,9 +11,9 @@ impossibilidade de uma transformada de Fourier desse tipo de sinal, seguido de
 uma apresentação do teorema de Wiener Khinchin. O resultado da representação
 desenvolvida, conhecido como densidade de potência espectral, é interpretado.
 Em seguida, restringindo a classe de sinais estacionários para realizações de
-processos ARMA conseguimos derivar expressões fechadas para a densidade
+processos ARMA, conseguimos derivar expressões fechadas para a densidade
 de potência espectral, resultado importante em teoria de
-estimação\cite{estimation_theory}.
+estimação~\cite{estimation_theory}.
 
 Em seguida inicia-se uma discussão sobre representações não lineares por meio
 de uma generalização natural da função de autocorrelação e subsequentemente a
@@ -35,85 +35,88 @@ hipotética.
 
 \subsubsection{Densidade de Potência Espectral}
 
-We begin by stating Parseval's theorem, in which $F\{\}$ represents the Fourier
-transform.
+Constatamos inicialmente o teorema de Parseval, em que $F\{\}$ representa a
+transformada de Fourier
 
 $$ E = \int^{\infty}_{-\infty} |x(t)|^2 dt = \frac{1}{2\pi} \int^{\infty}_{-\infty} |F\{x(t)\}(\omega)|^2 d\omega $$
 
-Extending this definition to signal power gives us
+Estendendo essa definição para potência de sinal temos
 
 $$ P = \lim_{T \to \infty} \frac{1}{2T}\frac{1}{2\pi} \int^{T}_{-T}|F\{x(t)\}(\omega)|^2 d\omega$$
 
-Note that even though $F\{x(t)\}$ is not well defined here the above relations
-still hold if $|F\{x(t)\}|^2$ is defined in a different manner, which will be
-done shortly.
+Note que apesar de $F\{x(t)\}$ não ser bem definida a relação acima ainda é
+válida se $|F\{x(t)\}|^2$ for descrita de uma forma diferente, o que será
+feito em breve.
 
-The signal power can be rewritten denoting the Fourier transform of $x(t)$ by
-$X(\omega)$ as
+A potência de um sinal pode ser reescrita representando a transformada de
+Fourier de $x(t)$ por $X(\omega)$ como
 
 $$ P = \lim_{T \to \infty} \frac{1}{2T}\frac{1}{2\pi} \int^{T}_{-T}|X(\omega)|^2 d\omega $$
 
-Where $\lim_{T \to \infty}\frac{1}{2\pi} \frac{1}{2T} |X(\omega)|² $
-is recognized as a density function. The power spectral denUma interpretaçãosity function is
-finally defined as
+Onde $\lim_{T \to \infty}\frac{1}{2\pi} \frac{1}{2T} |X(\omega)|² $
+é reconhecida como uma função de densidade. A função densidade de potência
+espectral é finalmente definida como
 
 $$ S_{x}(\omega) = \lim_{T \to \infty}\frac{1}{2\pi} \frac{1}{2T} |X(\omega)|² $$
 
-This function's name is pretty explanatory of its interpretation:
-$S_{x}(\omega)$ represents the contribution of $x(t)$s frequency components in
-$\omega + d\omega$ to the overall signal power. As mentioned, for this function
-to make any sense we must define $|X(\omega)|^2$, which will be done
-presently
+O nome dessa função é bem informativo para sua interpretação: $S_{x}(\omega)$
+representa a contribuição das componentes de frequência de $x(t)$ localizadas
+em $\omega + d\omega$ para a potência do sinal como um todo. A definição de
+$|X(\omega)|^2$ necessária para que essa função faça sentido é fornecida pelo
+teorema de Wiener-Khinchin.
 
-\subsection{Wiener-Khinchin Theorem}
+\subsection{Teorema de Wiener-Khinchin}
 
-The Wiener-Khinchin theorem can be developed as follows.
+O teorema de Wiener Khinchin pode ser desenvolvido da seguinte maneira
 
 $$ |X(\omega)^2| = X(\omega)X^*(\omega) = F(F^{-1}(X(\omega))*(F^{-1}(X^*(\omega))) = F(x(t) * x^*(-t)) = F(x(t) * x(-t))$$
 
-Examining the right-most part of this equality we observe that the function
-which is being Fourier-transformed corresponds to the convolution of $x(t)$
-with a mirrored version of itself. This is precisely the definition of
-autocorrelation. Assuming ergodicity we can now express the squared magnitude
-of the Fourier transform of $x(t)$ as the Fourier transform of is autocorrelation
-function.
+Examinando a parte mais à direita dessa igualdade observamos que a função que
+está sendo transformada corresponde à convolução de $x(t)$ com uma versão
+espelhada de si mesmo. Isso é precisamente a definição de autocorrelação.
+Assumindo ergodicidade podemos agora expressar a magnitude ao quadrado da
+transformada de Fourier de $x(t)$ como a transformada de Fourier de sua
+função de autocorrelação.
 
 $$|X(\omega)_T|^2 = \frac{1}{2\pi}\int_{-T}^{T} \rho(t)e^{-j \omega t}dt$$
 
-This results is known as the Wiener-Khinchin theorem and it allows for a
-well-defined power density spectrum for stochastic signals.
+Esse resultado é conhecido como o teorema de Wiener-Khinchin e permite uma
+representação espectral bem definida para sinais estocásticos estacionários.
 
-Note that since the autocorrelation of a signal is even its Fourier transform
-is real-valued, which is consistent with our notion of a squared magnitude.
+Note que a transformada de Fourier da autocorrelação de um sinal real é
+em si puramente real, propriedade consistente com nossa noção de magnitude ao
+quadrado.
 
-\subsection{Spectrum of ARMA processes}
+\subsection{Espectro de um Processo ARMA}
 
-By taking the square magnitude Z transform of the general ARMA recurrence
-relationship (~\ref{ssec:arma_l}) we obtain the transfer function
+Tomando a magnitude ao quadrado da transformada Z da forma de recorrência
+geral de um processo ARMA (~\ref{ssec:arma_l}) obtemos a seguinte função de
+transferência
 
 $$ H(z) = \frac{1 + \sum_{i}^{q} b_k z^{-k}}{1 + \sum_{i}^{q} a_k z^{-k}} $$
 
-which is excited by white noise to generate a realization of and ARMA
-process. We can now express the power spectral density of an ARMA process as
-follows
+que é excitada por ruído branco de forma a gerar uma realização de um processo
+ARMA. Podemos agora expressar a densidade de potência espectral de um processo
+ARMA como
 
-% $$ S_{ARMA}(\omega) = |H(z)|^2 S_{\varepsilon} $$
-% \begin{equation}\label{eq:arma_spectrum}
-%      S_{ARMA}(\omega) = \frac{\sigma^2 |1 + \sum_{k=1}^{q} b_k e^{-j\omega k}|^2}{2\pi|1 + \sum_{k=1}^{p} a_k e^{-j\omega k}|^2} $$
-% \end{equation}
+$$ S_{ARMA}(\omega) = |H(z)|^2 S_{\varepsilon} $$
 
-This definition can be used as a means of parametric spectral estimation: the
-parameters are estimated in the time domain and used by the relationship
-above to estimate the spectrum.
+\begin{equation}\label{eq:arma_spectrum}
+     S_{ARMA}(\omega) = \frac{\sigma^2 |1 + \sum_{k=1}^{q} b_k e^{-j\omega k}|^2}{2\pi|1 + \sum_{k=1}^{p} a_k e^{-j\omega k}|^2}
+\end{equation}
 
-We will now visualize the spectra of some ARMA processes.
+Essa definição é usada como uma forma de estimação paramétrica de espectro:
+os parâmetros são inferidos no domínio do tempo e usados pela relação acima
+para sugerir um espectro.
+
+Visualizaremos agora o espectro de alguns processos ARMA.
 
 \subsubsection{MA(1)}
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{figures/ma_1_spectrum.png}
-    \caption{Spectrum of an MA(1) process with
+    \caption{Espectro de um processo MA(1) com
     $\protect \beta_1 = -0.5$}
     \label{fig:ma_1_spectrum}
 \end{figure}
@@ -123,7 +126,7 @@ We will now visualize the spectra of some ARMA processes.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{figures/ar_1_spectrum_1.png}
-    \caption{Spectrum of an AR(1) process with
+    \caption{Espectro de um processo AR(1) com
     $\protect \alpha_1 = 0.8$}
     \label{fig:ar_1_spectrum_1}
 \end{figure}
@@ -131,7 +134,7 @@ We will now visualize the spectra of some ARMA processes.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{figures/ar_1_spectrum_2.png}
-    \caption{Spectrum of an AR(1) process with
+    \caption{Espectro de um processo AR(1) com
     $\protect \alpha_1 = -0.8$}
     \label{fig:ar_1_spectrum_2}
 \end{figure}
@@ -141,7 +144,7 @@ We will now visualize the spectra of some ARMA processes.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{figures/ar_2_spectrum.png}
-    \caption{Spectrum of an AR(1) process with
+    \caption{Espectro de um processo AR(2) com
     $\protect \alpha_1 = 0.5$ and $\protect \alpha_2 = -0.25$}
     \label{fig:ar_2_spectrum}
 \end{figure}
@@ -151,33 +154,36 @@ We will now visualize the spectra of some ARMA processes.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{figures/arma_4_3_spectrum.png}
-    \caption{Spectrum of an ARMA(4, 3) process}
+    \caption{Espectro de um processo ARMA(4, 3)}
     \label{fig:ar_4_3_spectrum}
 \end{figure}
 
 
-\subsection{Effect of Unit Roots on ARMA Spectra}
+\subsection{Efeitos de raízes unitárias em espectros ARMA}
 
-As mentioned in subsection~\ref{ssec:ma_roots} the introduction of unit roots
-to the moving average or auto regressive polynomials of an ARMA process has
-clear effects on its spectral content. The spectral effects of these operations
-can be understood by a pole zero plot, sample time domain or closed form
-spectral analysis.
+A introdução de raízes unitárias no polinômio de média móvel ou autoregressivo
+de um processo ARMA tem claros efeitos em seu conteúdo espectral, como
+mencionado na subseção~\ref{ssec:ma_roots}. O impacto dessas operações no
+espectro de um processo pode ser compreendido pelas alterações resultantes ao
+gráfico de polos e zeros, pela modificação da série temporal ou por uma análise
+da expressão espectral resultante.
 
-By analyzing the pole zero plot of an ARMA system it is evident how integration
-affects the system's transfer function: since a pole is introduced at
-$e^{j\omega}=0$ energy is supplied to low-frequency signal components.
-Conversely we can understand differencing, which is the introduction of a
-zero at $e^{j\omega}=0$, as a suppression of low-frequency components,
-resulting in a signal with higher overall frequency. This is precisely the
-idea behind integrating filters.
+Uma análise do gráfico de polos e zeros de um sistema ARMA torna evidente o
+efeito de integração na função de transferência do sistema: um polo é
+introduzido em $e^{j\omega}=0$ de forma a fornecer energia às componentes de
+baixa frequência do sinal. Reciprocamente podemos compreender diferenciação,
+que é a introdução de um zero em $e^{j\omega}=0$, como a supressão de
+componentes de baixa frequência, resultado em uma operação análoga à filtragem
+passa-altas.
 
-In the time domain the spectral effect of differencing can be seen by comparing
-figures~\ref{fig:ARMA2-1} and~\ref{fig:ARMA2-1-diff}. The differenced series
-clearly has more energy distributed towards high frequency components. This is
-in fact true for all signals: the act of time domain differencing biases the
-spectral content towards higher frequencies. The reverse is also true: by
-integrating a signal we see that it becomes smoother.
+No domínio do tempo o efeito de diferenciação pode ser observado comparando as
+figuras~\ref{fig:ARMA2-1} e~\ref{fig:ARMA2-1-diff}. A série diferenciada
+claramente tem mais energia distribuída em torno de componentes de alta
+frequência. Isso é de fato verdadeiro para qualquer sinal: diferenciação
+no domínio do tempo age de forma a enviesar o conteúdo espectral para altas
+frequências. O recíproco também é verdadeiro: integral um sinal tende seu
+conteúdo espectral para baixas frequências por meio da introdução de tendências
+estocásticas.
 
 TODO: complete this !!!
 
@@ -212,17 +218,6 @@ power spectral density since its autocorrelation function is also time-varying.
 The idea of a time-varying spectral representation gives rise to the so called
 time-frequency analysis methods. We initially explore methods that maintain
 linearity.
-
-\subsection{Short Time Fourier Transform}
-
-The short time Fourier transform is the most intuitive approach to a proposal
-of time frequency representation.
-
-\subsection{Wavelet Transform}
-
-\subsubsection{Continuous}
-
-\subsubsection{Discrete}
 
 \section{Non-Linear Representations}
 
