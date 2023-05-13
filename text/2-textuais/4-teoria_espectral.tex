@@ -1,31 +1,26 @@
-\chapter{Univariate Spectral Theory}\label{chap:spectral_analysis}
+\chapter{Teoria Espectral Univariada}\label{chap:spectral_analysis}
 
 \section*{Introduction}
 
-The following chapter discusses the spectral representation of univariate time
-series, stationary and non-stationary, linear and non-linear. Some important
-aspects of multivariate spectral analysis are developed in
-chapter~\ref{chap:multi}.
+O seguinte capítulo discute a representação espectral de séries temporais
+univariadas. São exploradas transformações lineares e não lineares.
 
-The development of a spectral representation for the theoretical infinite
-realization of a stationary stochastic process begins at the recognition of the
-impossibility of a Fourier for this type of signal followed by the introduction
-of the Wiener Khinchin theorem. After an interpretation of the resulting
-spectral representation (the power spectral density) some deterministic linear
-system theory leads to the idea of a shaping filter, which finally allows us to
-deduce a general expression for the power spectral density of ARMA processes.
+O desenvolvimento de uma representação espectral para uma realização
+teoricamente infinita de um processo estocástico se inicia no reconhecimento da
+impossibilidade de uma transformada de Fourier desse tipo de sinal, seguido de
+uma apresentação do teorema de Wiener Khinchin. O resultado da representação
+desenvolvida, conhecido como densidade de potência espectral, é interpretado.
+Em seguida, restringindo a classe de sinais estacionários para realizações de
+processos ARMA conseguimos derivar expressões fechadas para a densidade
+de potência espectral, resultado importante em teoria de
+estimação\cite{estimation_theory}.
 
-We then proceed to linear but non-stationary analysis, in which the short time
-Fourier transform and its shortcomings are presented as motivation for the
-S-transform. Wavelet analysis is then introduced motivated by the demand for a
-mathematically cleaner version of the S-transform, leading to the concepts of
-continuous and discrete wavelet transforms. On the topic of resolution the
-possibility of an optimized time-frequency resolution is suggested.
-
-Non-linear analysis is constructed by the introduction of the instantaneous
-auto-correlation function and subsequent Cohen's class of distributions. Some
-main distributions from Cohens class are discussed along with their
-limitations, concluding our univariate spectral exploration.
+Em seguida inicia-se uma discussão sobre representações não lineares por meio
+de uma generalização natural da função de autocorrelação e subsequentemente a
+classe de distribuições de Cohen. O problema geral dessa classe de
+representações e a principal proposta para sua resolução nos leva às
+transformadas conhecidas como \emph{Smoothed Pseudo Wigner Ville
+Distributions} (SPWVD).
 
 \section{Stationary Analysis}
 
@@ -59,7 +54,7 @@ $X(\omega)$ as
 $$ P = \lim_{T \to \infty} \frac{1}{2T}\frac{1}{2\pi} \int^{T}_{-T}|X(\omega)|^2 d\omega $$
 
 Where $\lim_{T \to \infty}\frac{1}{2\pi} \frac{1}{2T} |X(\omega)|² $
-is recognized as a density function. The power spectral density function is
+is recognized as a density function. The power spectral denUma interpretaçãosity function is
 finally defined as
 
 $$ S_{x}(\omega) = \lim_{T \to \infty}\frac{1}{2\pi} \frac{1}{2T} |X(\omega)|² $$
