@@ -234,16 +234,16 @@ figura~\ref{fig:seasonality}.
 Na presença de tendência sazonalidade pode ser considerada aditiva, se sua
 variação for constante em torno da tendência, e multiplicativa, se sua variação
 depender o valor da tendência. Exemplos de sazonalidade aditiva e
-multiplicativa são dados pelas figures~\ref{fig:add_seasonality} e
+multiplicativa são dados pelas figuras~\ref{fig:add_seasonality} e
 ~\ref{fig:mult_seasonality}, respectivamente. Discernir entre os dois tipos de
 sazonalidade é importante para modelagem.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[scale=0.6]{figures/add_seasonality.png}
-%     \caption{Série temporal com sazonalidade aditiva}
-%     \label{fig:add_seasonality}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/add_seasonality.png}
+    \caption{Série temporal com sazonalidade aditiva}
+    \label{fig:add_seasonality}
+\end{figure}
 
 \begin{figure}[H]
     \centering
@@ -470,7 +470,7 @@ o caso de ~\ref{fig:stationarity}.b contendo uma clara anomalia.
 O exemplo de análise de estacionariedade da figura~\ref{fig:stationarity}
 demonstra a imprecisão da abordagem visual para essa tarefa. Torna-se
 necessário o estabelecimento de procedimentos mais objetivos para detecção de
-estacionariedade (seção ~\ref{ssec:stationarity_tests}).
+estacionariedade.
 
 \subsection{Importância de Estacionariedade}
 
@@ -508,11 +508,11 @@ seguinte combinação linear
 $$\mathbf{y}_t = \sum_{j=0}^\infty b_j Z_{t-j} + \eta_t$$
 
 No qual $\eta$ representa uma série determinística e $Z_t$ um processo
-puramente aleatório (seção~\ref{sec:white_noise}). O leitor reconhecerá parte da expressão
-acima como um processo $MA(\infty)$ (seção~\ref{ssec:MA(p)}). Esse resultado tem
-como consequência a importante conclusão que qualquer série estacionária é
-possivelmente aproximável por um modelo MA e portanto, via invertibilidade,
-modelos AR e ARMA (seção~\ref{ssec:stability_invertibility}).
+puramente aleatório (seção~\ref{sec:white_noise}). O leitor reconhecerá parte
+da expressão acima como um processo $MA(\infty)$ (seção~\ref{sssec:MA(p)}).
+Esse resultado tem como consequência a importante conclusão que qualquer série
+estacionária é possivelmente aproximável por um modelo MA e portanto, via
+invertibilidade, modelos AR e ARMA (seção~\ref{ssec:stability_invertibility}).
 
 Por fim estacionariedade permite o uso de uma série de modelos que serão
 discutidos na seção sobre modelos estacionários. Esses métodos são bem
@@ -650,5 +650,4 @@ Que podem ser interpretadas da seguinte forma
 Observa-se que ruído branco é um caso específico de estacionariedade, se
 diferenciando pela especificação do valor esperado e autocorrelação entre
 quaisquer amostras em zero. A compreensão da definição e capacidade de
-identificação de ruído branco é importante para análise de resíduos, detalhado
-na seção~\ref{sec:residual_analysis}.
+identificação de ruído branco é importante para análise de resíduos.
