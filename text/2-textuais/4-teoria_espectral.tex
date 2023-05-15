@@ -165,8 +165,7 @@ A introdução de raízes unitárias no polinômio de média móvel ou autoregre
 de um processo ARMA tem claros efeitos em seu conteúdo espectral, como
 mencionado na subseção~\ref{ssec:ma_roots}. O impacto dessas operações no
 espectro de um processo pode ser compreendido pelas alterações resultantes ao
-gráfico de polos e zeros, pela modificação da série temporal ou por uma análise
-da expressão espectral resultante.
+gráfico de polos e zeros ou pela modificação da série temporal.
 
 Uma análise do gráfico de polos e zeros de um sistema ARMA torna evidente o
 efeito de integração na função de transferência do sistema: um polo é
@@ -185,129 +184,115 @@ frequências. O recíproco também é verdadeiro: integral um sinal tende seu
 conteúdo espectral para baixas frequências por meio da introdução de tendências
 estocásticas.
 
-TODO: complete this !!!
+Apresenta-se agora uma versão diferenciada do espectro do processo MA(1) da
+figura~\ref{fig:ma_1_spectrum}. Note que o sinal passa por uma filtragem
+passa altas, como mencionado.
 
-Finally the most rigorous understanding is achieved by inspection of equation
-~\ref{eq:arma_spectrum}. From this equation it is evident that an additional
-root on the numerator increases the high frequency content and an additional
-root on the denominator increases the low frequency content.
-
-We now present the differenced version of the MA(1) spectrum from figure
-~\ref{fig:ma_1_spectrum}. Note that the signal is essentially high pass
-filtered, as mentioned.
-
-\subsubsection{Differenced MA(1)}
+\subsubsection{MA(1) Diferenciado}
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{figures/diff_ma_1_spectrum.png}
-    \caption{Spectrum of an differenced MA(1) process with
-    $\protect \beta_1 = -0.5$}
+    \caption{Espectro de um processo MA(1) com $\protect \beta_1 = -0.5$
+    diferenciado.}
     \label{fig:diff_ma_1_spectrum}
 \end{figure}
 
+\section{Representações Não Estacionárias}
 
-\section{Linear Non-Stationary Analysis}
+O fato da grande maioria dos sinais produzidos por fontes reais serem não
+estacionários leva à necessidade de desenvolver algum tipo de representação
+espectral não estacionária. A densidade de potência espectral, definida pela
+transformada de Wiener-Khinchin, é incapaz de representar variações espectrais
+ao longo do tempo. Uma ideia natural para gerar uma ``densidade de potência
+espectral variante no tempo'' é tomar a transformada de Fourier de uma função
+de autocorrelação variante no tempo. Tal função é chamada de função de
+autocorrelação instantânea. A representação resultante é não linear, gerando
+termos cruzados prejudiciais para o objetivo da transformada.
 
-From the previous section we can conclude that if a time series is stationary
-its spectral representation via power spectral density is uniquely determined
-by the Fourier transform of its autocorrelation function. The natural extension
-for a spectral representation of non-stationary processes is a time-varying
-power spectral density since its autocorrelation function is also time-varying.
+\subsection{Função de Autocorrelação Instantânea}
 
-The idea of a time-varying spectral representation gives rise to the so called
-time-frequency analysis methods. We initially explore methods that maintain
-linearity.
-
-\section{Non-Linear Representations}
-
-There is, indeed, a way to maximize the time-frequency resolution trade-off
-inherent to time-frequency representations (TFR). This is done by the
-introduction of non linearity through the Fourier transform of the
-instantaneous autocorrelation function. As will be seen presence of non
-linearity results in cross terms that limit the quality of the representation.
-Attempts to dampen these cross terms lead to the more general Cohen's class of
-distributions.
-
-\subsection{Instantaneous autocorrelation function}
-
-The instantaneous autocorrelation function is actually just the autocorrelation
-function of a non stationary signal written in a specific format.
-Interestingly the term autocorrelation function has become strongly understood
-as a function of sample lag $\tau$, which is the case for stationary signals,
-instead of a function of $t_1$ and $t_2$. We initially rewrite the general
-autocorrelation function $R_{xx}$ of a signal $x(t)$
+A função de autocorrelação instantânea é, na realidade, só a função de
+autocorrelação de um sinal não estacionário escrita em uma forma específica.
+Interessantemente o termo função de autocorrelação passou a denominar uma
+função dependente apenas de um atraso $\tau$, como é o caso da autocorrelação
+para sinais estacionários, ao invés de uma função dependente de dois
+instantes no tempo $t_1$ e $t_2$. Inicialmente reescrevemos a função de
+autocorrelação geral $R_{xx}$ de um sinal $x(t)$ como
 
 $$ R_{xx}(t_1, t_2) = E[x(t_1)x(t_2)] $$
 
-We can also write $R_xx$ as a function of a single moment $t$ and a lag $\tau$
+Que também pode ser escrita em função de um instante de tempo $t$ e um atraso
+$\tau$ como
 
 $$ R_{x}(t, \tau) = E[x(t)x(t-\tau)] $$
 
-Which is slightly more natural for computations. Note that if $x(t)$ is
-stationary the dependence on time is removed because $R_{xx}$ has the same
-value for all $t$.
+Que é ligeiramente mais conveniente para computações. Note que se $x(t)$ é
+estacionário a dependência no tempo é removida porque $R_{xx}$ possui o
+mesmo valor para todo $t$.
 
-A small adjustment in notation leads to
+Um pequeno ajuste de notação nos leva a
 
 $$ \mathcal{R}_{x}(t, \tau) = E\left[x\left(t - \frac{\tau}{2}\right)x\left(t + \frac{\tau}{2}\right)\right] $$
 
-With a new symbol to indicate that we have finally arrived at the instantaneous
-autocorrelation function $\mathcal{R}_{xx}$.
+Usando um novo símbolo para indicar que enfim chegamos à função de
+autocorrelação instantânea $\mathcal{R}_{x}$.
 
-A non stationary TFR is now natural. Since the
-Wiener-Khinchin theorem states that the spectrum of a stationary signal is the
-Fourier transform of its autocorrelation function we can in an analogous manner
-assume that a spectral representation of a non stationary process will be given
-by the Fourier transform along the $\tau$ axis of the instantaneous
-autocorrelation function. This leads to the Wigner-Ville distribution.
+Uma representação em tempo frequência agora é natural. Já que o
+teorema de Wiener-Khinchin afirma que o espectro de um sinal estacionário é
+a transformada de Fourier de sua função de autocorrelação podemos de forma
+análoga assumir que a representação espectral de um sinal não estacionário
+será dado pela transformada de Fourier ao longo do eixo $\tau$ da função de
+autocorrelação instantânea. Isso nos leva à distribuição de Wigner Ville.
 
-\subsection{Wigner-Ville Distribution}
+\subsection{Distribuição de Wigner-Ville}
 
-We define the Wigner-Ville distribution (WVD) as
+Definimos a distribuição de Wigner-Ville (WVD) como
 
 $$ \mathcal{W}_{x}(t, f) =  \int_{-\infty}^{\infty} \mathcal{R}_{x}(t, \tau) e^{-j\omega \tau}d\tau$$
 
 $$ \mathcal{W}_{x}(t, f) =  \int_{-\infty}^{\infty} x\left(t - \frac{\tau}{2}\right)x\left(t + \frac{\tau}{2}\right) e^{-j\omega \tau}d\tau$$
 
-This natural representation can be thought of as an instantaneous power density
-spectrum. It is known that the WVD optimizes the time-frequency resolution
-trade-off\cite{tfr_comparison} which is exactly our goal in the development of
-more elaborated TFRs. We will now see that this is not without its problems.
+Essa representação natural pode ser considerada uma densidade de potência
+espectral instantânea. Sabe-se que a WVD otimiza a resolução tempo frequência
+~\cite{tfr_comparison}, uma propriedade desejável de representações tempo
+frequência (TFRs). Veremos agora que isso não ocorre sem problemas.
 
-\subsubsection{Cross-terms}
+\subsubsection{Termos cruzados}
 
-By construction the Wigner-Ville distribution is a quadratic representation. By
-the quadratic superposition principle~\cite{quadratic_freq_representation} we
-know that if $x(t) = \mu x_1(t) + \lambda x_2(t)$ the WVD representation of
-$x(t)$ will be given by
+Por construção a WVD é uma representação quadrática. Pelo princípio de
+superposição quadrática~\cite{quadratic_freq_representation} sabemos que se
+$x(t) = \mu x_1(t) + \lambda x_2(t)$ a representação $WVD$ de $x(t)$ é dada
+por
 
-$$ \mathcal{W}_{x} = \mu^2\mathcal{W}_{x_1} + \lambda^2\mathcal{W}_{x_2} + 2(\lambda\mu)^2(\mathcal{W}_{x_1 , x_2})$$
+$$ \mathcal{W}_{x} = \mu^2\mathcal{W}_{x_1} + \lambda^2\mathcal{W}_{x_2} + 2(\lambda\mu)^2(\mathcal{W}_{x_1 , x_2}) $$
 
-Where $\mathcal{W}_{z, y}$ represents the cross-WVD from $z$ to $y$. Since any
-real signal of relevant complexity is a linear combination of the $cos(t)$
-$sin(t)$ basis we can expect a considerable introduction of unwanted
-information from the cross-WVD components, referred to as cross-terms. This is
-the infamous cross-terms problem attributed to the WVD and is one of the
-reasons that despite its precision in time and frequency resolution it is not
-an ideal choice for the TFR for most signals.
+Onde $\mathcal{W}_{z, y}$ representa a WVD cruzada entre $x$ e $y$. Já que todo
+sinal de complexidade relevante é uma combinação linear na base de $cos(t)$ e
+$sin(t)$ esperamos que uma quantidade considerável de componentes cruzados seja
+introduzida. Esse é conhecido como o problema de termos cruzados das
+representações de Wigner Ville e é um dos motivos da transformada não ser a
+melhor escolha para grande parte de sinais reais apesar de sua ótima resolução
+tempo-frequência.
 
-The cross-terms are known to exhibit high frequency patterns~\cite{martin_lol},
-leading to the idea that the WVD could be filtered in order to be more
-representative of its auto-terms. The different ways in which it is possible
-and useful to filter the WVD generates what is known as the Cohen's class of
-distributions.
+É conhecido que os termos cruzados possuem padrões de alta frequência
+~\cite{martin_lol}, levando à possibilidade de tornar a WVD mais representativa
+de seus auto termos por meio de filtragem. As diferentes formas possíveis e
+úteis de filtrar a WVD leva a um subconjunto da classe de distribuição de
+Cohen.
 
-\subsection{Smoothed Pseudo Wigner Ville Distributions}
+\subsection{\emph{Smoothed Pseudo Wigner Ville Distributions}}
 
-Most members of Cohen's class of distributions are essentially filtered
-versions of the WVD~\cite{}. A particularly useful case is known as the
-Smoothed Pseudo Wigner Ville Distribution (SPWVD)
+A maioria dos membros da classe de distribuições de Cohen são essencialmente
+versões filtradas da WVD~\cite{tfr_comparison}. Um caso particularmente útil
+é conhecido como a \emph{Smoothed Pseudo Wigner Ville Distribution}
+(Smoothed Pseudo Wigner Ville Distribution).
 
-$$ SPWVD(t, f) = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} h_t (t - \tau) h_f(f - \phi)d\tau d\phi$$
+$$ SPWVD(t, f) = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} h_t (t - \tau) h_f(f - \phi)d\tau d\phi $$
 
-in which $h_t$ denotes the filter applied along time and $h_f$ along frequency.
+em que $h_t$ representa o filtro aplicado ao longo do tempo e $h_f$ ao longo
+da frequência.
 
-If the filters are well designed, which is a data-driven process in some
-cases~\cite{}, cross-term suppression is sufficiently successful such that
-the use of the SPWVD over simpler non-stationary TFR is justified.
+Se o projeto dos filtros for bem sucedido a supressão de termos cruzados é
+suficientemente bem sucedida a ponto de justificar o uso da SPWVD ao invés de
+métodos mais simples de representação em tempo frequência.
