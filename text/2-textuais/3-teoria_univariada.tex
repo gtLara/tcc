@@ -821,7 +821,7 @@ Uma realização desse processo para os parâmetros
 $$\alpha_1 = -0.5, \alpha_2 = 0.25, \beta_1 = 0.8$$
 
 é ilustrada pela figura~\ref{fig:ARMA2-1} e seu diagrama de polos e zeros
-no plano $L$ pela figura~\ref{fig:ARMA2-1pzp}.
+no plano $L$ pela figura~\ref{fig:ARMA2-1-pzp}.
 
 \begin{figure}[H]
     \centering
@@ -834,8 +834,7 @@ no plano $L$ pela figura~\ref{fig:ARMA2-1pzp}.
     \centering
     \includegraphics[scale=0.7]{figures/arma_21_pzp.png}
     \caption{Visualização de posicionamento de polos e zeros de processo
-    ARMA(2, 1) em relação ao
-    círculo unitário no plano L}
+    ARMA(2, 1) em relação ao círculo unitário no plano L}
     \label{fig:ARMA2-1-pzp}
 \end{figure}
 
@@ -868,7 +867,7 @@ corretamente que um processo $I(d)$, $d > 0$, não é estacionário, já que a
 condição de estacionariadade para processos ARMA é pontualmente violada.
 
 Analisando uma realização do processo $z_t$, por meio da
-figura~\ref{fig:ARMA-2-1-integrated}, observamos um típico processo de raiz
+figura~\ref{fig:ARMA2-1-integrated}, observamos um típico processo de raiz
 unitária, cuja não estacionariedade não é tão óbvia quanto nos casos de um
 filtro ARMA instável ou presença de tendência determinística. Processos com
 raíz unitária são diferença estacionários e possuem tendência determinística,
@@ -1129,7 +1128,7 @@ períodos dos padrões que se deseja modelar. $M$ é simplesmente o número de
 padrões. A determinação de $m_i$ pode ser realizada por conhecimento a priori
 do fenômeno em questão ou métodos quantitativos como análise espectral dos
 dados amostrais. Já $K$ é melhor determinado por métodos de seleção de modelo
-como AIC e BIC, discutidos na seção~\ref{sec:validacao}.
+como AIC e BIC~\cite{aic}.
 
 A série exógena pode então ser incluída como informação auxiliar em um modelo
 ARIMA resultando em um modelo sazonal $y_t$ em função de $(p, d, q, m_i, k)$:
