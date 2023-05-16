@@ -123,9 +123,9 @@ ajuste da tendência mais sinuosa.
     \label{fig:loess}
 \end{figure}
 
-\subsection{Filtro de Kalman}
+% \subsection{Filtro de Kalman}
 
-TODO: talk (and research about !) the use of kalman filter for moving average
+% TODO: talk (and research about !) the use of kalman filter for moving average
 
 \subsection{Modelagem de Sazonalidade(Ajuste de Sazonalidade)}
 
@@ -326,9 +326,6 @@ $$ y_t = \varepsilon_t(1 + \psi_1 L + \psi_2 L^2 + ... + \psi L^m)$$
 
 onde $\psi(L)$ é um polinômio mônico em $L$.
 
-Tikz Here
-
-
 A interpretação de modelos estacionários como filtros tem suas limitações no
 que diz respeito às possibilidades de herança de conhecimento da área de
 processamento de sinais. Inicialmente podemos constatar que filtros lineares no
@@ -461,8 +458,6 @@ $$\gamma_{MA(q)}(\tau) = E\left[\left(\varepsilon_t + \sum^{m}_{k=1} \beta_k \va
 observando que para $\tau > q$ temos $\gamma_{MA(q)}(\tau) = 0$, concluímos de
 forma análoga à dedução da autocorrelação do processo linear generalizado a
 seguinte forma
-
-TODO: make case
 
 $$\gamma_{MA(q)}(\tau) = \sigma_{\varepsilon_t}^2 \sum^{m}_{k=1} \beta_k\beta_{k-\tau} $$
 
@@ -629,10 +624,7 @@ Denotemos as raízes reais de $\alpha(L)$ por $R_h$ e as complexas conjugadas
 por $C_j, C_k$. Observamos que sob a forma~\ref{eq:rho_solution} as raízes
 reais $R_h$, assumindo que $|R_h| < 1$, contribuem para a autocorrelação como
 exponenciais amortecidas $A_h^{\tau} R_h$. Raízes complexas conjugadas $C_j,
-C_k$ contribuem com UM SENOIDE AMORTECIDO. DEDUZIR COMO!
-TODO
-
-$$ A_j^{\tau}C_j + A_k^{\tau}C_k $$
+C_k$ contribuem com um senóide amortecido.
 
 Concluímos então que a autocorrelação de um processo $AR(p)$ é uma combinação
 de $N$ exponenciais e senóides amortecidos tal que $N \leq p$.
@@ -644,7 +636,18 @@ $$ \rho_{AR(1)}(\tau) = \alpha \rho_{AR(1)}(\tau - 1)$$
 
 $$ \rho_{AR(1)}(\tau) = \alpha^{\tau}$$
 
-TODO: add AR figures here !!
+A imagem~\ref{fig:ar_corr} demonstra a visualização dos correlalogramas
+correspondentes aos modelos ilustrados no tempo pela
+figura~\ref{fig:ar_time_visualization}. Observe que as autocorrelações são
+misturas de exponenciais e senóides amortecidas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/ar_corr.png}
+    \caption{Visualização do correlalograma de processos autoregressivos de
+    ordens diferentes.}
+    \label{fig:ar_corr}
+\end{figure}
 
 \subsubsection{Equações de Yule Walker}
 
@@ -918,14 +921,11 @@ As figuras~\ref{fig:ARMA2-1-diff} e~\ref{fig:ARMA2-1-diff-pzp} ilustram uma
 realização do processo $y_t$ com adição de raiz unitária de média móvel e o
 diagrama de polos e zeros resultante, respectivamente.
 
-TODO: check this @ later time !!
-
 Observamos que a série com raiz de média móvel adicional aparenta ter uma
 distribuição de potência mais enviesada para altas frequências, de forma
 recíproca ao de raiz unitária autoregressiva, em que há introdução de
 componentes de baixa frequência. Isso será discutido apropriadamente no
 capítulo ~\ref{chap:spectral_analysis}.
-
 
 \begin{figure}[H]
     \centering
