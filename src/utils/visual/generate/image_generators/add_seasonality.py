@@ -11,10 +11,10 @@ def add_seasonality(color, dpi, image_path, extension):
     plt.plot(trend, label="Tendência", color="black", linewidth=1, linestyle="--")
     plt.xlabel("Tempo")
     plt.ylabel("Magnitude")
-    plt.title("Exemplo de série com sazonalidade multiplicativa")
+    plt.title("Exemplo de série com sazonalidade aditiva")
     plt.legend()
 
-    path=f"{image_path}.{extension}"
+    path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
 
     plt.close()
