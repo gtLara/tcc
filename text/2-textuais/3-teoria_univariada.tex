@@ -47,9 +47,9 @@ decomposição:
     série sob análise. A operação é frequentemente usada para fins de análise
     exploratória.
 
-    \item Indução de estacionariedade: Como tendência sempre é e sazonalidade pode ser
-    um padrão cuja presença qualifica não estacionariedade~\ref{sec:stationarity}
-    sua remoção pode tornar uma série ``mais estacionária" ou pelo menos mais
+    \item Indução de estacionariedade: Como tendência sempre é e sazonalidade
+    pode ser um padrão cuja presença qualifica não estacionariedade sua
+    remoção pode tornar uma série ``mais estacionária" ou pelo menos mais
     apropriada para modelagem por meio de modelos não estacionários.
 
     \item Detecção de Anomalias: Eventos anômalos são tipicamente dissociados
@@ -64,23 +64,6 @@ decomposição:
     para a série original, se existir.
 
 \end{enumerate}
-
-A imagem~\ref{fig:add_decomp} ilustra o resultado do processo de
-decomposição aditiva de uma serie temporal sintética da forma que é tipicamente
-apresentado: quatro linhas contendo a série original, componente de tendência ,
-componente sazonal e componente residual em aparição decrescente. A operação
-descrita pela equação~\ref{eq:add_decomp} equivale à constatação que a
-imagem da primeira linha corresponde à soma das imagens das três linhas
-inferiores.
-
-TODO put add figure here
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[scale=0.6]{figures/add_decomposition.png}
-%     \caption{Exemplo de decomposição de série sintética}
-%     \label{fig:add_decomp}
-% \end{figure}
 
 \subsection{Modelagem de Tendência}
 
@@ -105,7 +88,6 @@ A operação é visualizada pela figura~\ref{fig:MA}.
     \label{fig:MA}
 \end{figure}
 
-TODO: talk (and research about !) the use of kalman filter for moving average
 
 \subsubsection{Regressão Localizada/Filtro de Savitzky-Golay}
 
@@ -141,52 +123,19 @@ ajuste da tendência mais sinuosa.
     \label{fig:loess}
 \end{figure}
 
+\subsection{Filtro de Kalman}
+
+TODO: talk (and research about !) the use of kalman filter for moving average
+
 \subsection{Modelagem de Sazonalidade(Ajuste de Sazonalidade)}
 
 A operação fundamental de decomposição é a modelagem ou ajuste de sazonalidade.
 Esse processo se preocupa em identificar estruturas fortemente periódicas em
 uma série temporal.
 
-TODO: como fazer isso?
-
-\subsection{Decomposição Clássica (Aditiva)}
-
-TODO: ver se isso entra mesmo
-
-O algoritmo de decomposição clássica é simples e capaz de identificar períodos
-arbitrários de sazonalidade. O procedimento é apresentado passo a passo
-acompanhando a decomposição de uma série temporal de corrente elétrica.
-
-TODO: colocar a decomposição da corrente elétrica aqui ou na seção de aplicações
-
-\subsubsection{Passo 1}
-
-\textbf{Identificar o período de sazonalidade que se deseja modelar.}
-
-O período $m$ de sazonalidade corresponde à duração de um ciclo de um padrão
-periódico observável nos dados. A determinação da duração desse ciclo não é
-necessariamente trivial, especialmente tratando de séries de alta frequência,
-sendo interessante inclusive usar métodos automáticos para determinação da
-distância entre amostras iniciais dos períodos de sazonalidade.
-
-TODO: incluir algum método de detecção de período? seria bom!
-
-\subsubsection{Passo 2}
-
-\textbf{Modelar tendência }$\mathbf{T_t}$\textbf{ por meio de média móvel}
-
-A tendência $T_t$ é modelada calculando a média móvel de ordem $m$ da série.
-
-\subsubsection{Passo 3}
-
-\textbf{Remover tendência da série}
-
-A componente sem tendência é dada por $y_t - T_t$. A série resultante deve
-possuir média aproximadamente nula.
-
-\subsubsection{Passo 4}
-
-\textbf{Estimar componente sazonal}
+TODO: list some forms of seasonality modelling (high level) point to the
+subsection in the next chapter in which this is the case and cite just the
+simples pattern repeat algorithm here
 
 A estimativa da componente sazonal é realizada calculando o ``padrão sazonal
 médio'' da série sem tendência. A série de tamanho $n$ sem tendência é divida
@@ -204,7 +153,45 @@ $S'_t$
 
 $$ S_t = \overbrace{S'_t, S'_t, \hdots, S'_t}^{s\text{ vezes}} $$
 
-e posterior remoção de sua tendência.
+\subsection{Decomposição Clássica (Aditiva)}\label{ssec:classical_decomposition}
+
+O algoritmo de decomposição clássica aditiva é simples e capaz de identificar
+períodos arbitrários de sazonalidade. O procedimento é apresentado passo a
+passo.
+
+\subsubsection{Passo 1}
+
+\textbf{Identificar o período de sazonalidade que se deseja modelar.}
+
+O período $m$ de sazonalidade corresponde à duração de um ciclo de um padrão
+periódico observável nos dados. A determinação da duração desse ciclo não é
+necessariamente trivial, especialmente tratando de séries de alta frequência,
+sendo interessante inclusive usar métodos automáticos para determinação da
+distância entre amostras iniciais dos períodos de sazonalidade. Uma
+possibilidade, por exemplo,  é analisar os picos da função de autocorrelação e
+acusar a distância entre os picos como um período amostral.
+
+\subsubsection{Passo 2}
+
+\textbf{Modelar tendência }$\mathbf{T_t}$
+
+A tendência $T_t$ é modelada por meio de algum dos métodos mencionados, por
+exemplo, um filtro média móvel com tamanho de janela $w$.
+
+\subsubsection{Passo 3}
+
+\textbf{Remover tendência da série}
+
+A componente sem tendência é dada por $y_t - T_t$. A série resultante deve
+possuir média aproximadamente nula.
+
+\subsubsection{Passo 4}
+
+\textbf{Estimar componente sazonal}
+
+A componente sazonal de $S_t$ é estimada por meio de algum dos métodos
+mencionados. Para a maioria dos métodos precisamos informar o período sazonal
+$m$.
 
 \subsubsection{Passo 5}
 
@@ -218,22 +205,15 @@ A série está enfim descomposta
 
 $$ y_t = R_t + T_t + S_t $$
 
-\subsection{Decomposição STL}
-
-TODO: será que isso entra?
-
 \subsection{Qualificação de tendência e sazonalidade}
 
-A presenta de tendência ou sazonalidade é tipicamente visível imediatamente.
+A presença de tendência ou sazonalidade é tipicamente visível imediatamente.
 Dúvida sobre a presença ou não dessas propriedades pode surgir se o sinal
 estiver imerso em ruído. Se houver presença de raízes unitárias curtos
 intervalos de tempo podem ser ambíguos quanto ao determinismo de sua tendência,
 isso é, uma tendência estocástica pode ser confundida com tendência
-determinística. A figura~\ref{fig:ambiguous_trend} exemplifica um sinal com
-esse tipo de ambiguidade.
-
-Nesses cenários é interessante detectar a presença desses componentes.
-TODO: como? testes estatisticos, análise de correlalograma
+determinística. Nesses cenários é interessante detectar a presença desses
+componentes por meio de testes estatísticos ou análise de correlalograma.
 
 \subsection{Quantificação de tendência e sazonalidade}
 
@@ -259,8 +239,7 @@ uma série como
 
 $$ F_T = max\left(0, 1 - \frac{Var(R_t)}{Var(T_t + R_t)}\right) $$
 
-TODO: Formalize $F_T$ é um número real limitado entre 0 e 1.
-TODO: Observe que $F_T \in real$ limitado entre 0 e 1.
+Observe que $F_T \in real$ limitado entre 0 e 1.
 
 De forma identicamente análoga podemos definir a força da sazonalidade de uma
 série como
@@ -291,13 +270,15 @@ digitais podemos pensar em um plano $L$, em analogia com o plano $Z$, e chegar �
 exatas mesmas conclusões sobre o efeito do posicionamento de polos e zeros na
 estabilidade (inclusive marginal), invertibilidade e resposta em frequência do
 filtro. A diferença relevante é que o operador de atraso no domínio $Z$,
-$z^{-1}$ é definido de forma inversa à referência do plano. Essa inversão não
+$z^{-1}$, é definido de forma inversa à referência do plano. Essa inversão não
 acontece no plano $L$, levando a uma inversão das propriedades conhecidas.
 
 É possível também descrever certos tipos de modelos-filtros como \emph{Finite
-Impulse Response}(FIR) ou \emph{Infinite Impulse Response}(IIR) dependendo
+Impulse Response}(FIR) ou \emph{Infinite Impulse Response}(IIR), dependendo
 a equação de recorrência, levando às propriedades conhecidas desses tipos de
 filtros.
+
+TODO: create tikz figure
 
 A figura TODO torna clara a interpretação traçada. Para tornar o paralelo mais
 claro podemos inicialmente pensar em um sinal de entrada $\varepsilon[n]$ (
@@ -379,7 +360,7 @@ onde $\psi(L) = 1 + L + L^2 + L^3 ...$
 A literatura estatística frequentemente se refere ao vetor de ruído branco
 $\varepsilon_t$ como ``choques'' ou ``inovações''. O teorema de Wold
 ~\cite{wold} estabelece que qualquer série estacionária tem uma representação
-dada pela equação~\ref{eq:glm} tal que $\sum^{\infty}_{0} \psi_k^2 > \infty$. Esse
+dada pela equação~\ref{eq:glm} tal que $\sum^{\infty}_{0} \psi_k^2 < \infty$. Esse
 resultado é equivalente à constatação que qualquer sinal estacionário pode ser
 representado pelo processamento de ruído branco por um filtro com resposta ao
 impulso quadrado somável. Outro ponto de vista do teorema do Wold pode ser
@@ -487,7 +468,7 @@ móvel tende a apresentar a mesma propriedade, apesar de ser perfeitamente
 possível da autocorrelação amostral de um processo $MA(q)$ cair para zero
 \emph{antes} do lag $q$~\cite{chatfield}.
 
-A imagem~\ref{fig:ma_autocorr} demonstra a visualização dos correlalogramas
+A imagem~\ref{fig:ma_corr} demonstra a visualização dos correlalogramas
 correspondentes aos modelos ilustrados no tempo pela figura~\ref{fig:ma_time}.
 Observe que as autocorrelações são distintas de zero apenas para atrasos
 iguais ou inferiores à ordem $q$ do processo.
@@ -519,7 +500,7 @@ frequentemente chamado de $AR(p)$.
    y_t = \sum^{i=p}_{i=1} y_{t-i} \alpha_i + \varepsilon_t
 \end{equation}
 
-Um processo autoregressivo de ordem $p$ é caraterizado por uma dependência
+Um processo autoregressivo de ordem $p$ é caracterizado por uma dependência
 entre uma amostra de instante de tempo $t$ e as amostras de instantes de tempo
 $t-1$, $t-2$, ..., $t-p$. Como sugerido pelo nome a equação de diferenças
 estabelece uma relação de regressão entre uma série temporal e suas versões
@@ -715,7 +696,7 @@ $\alpha_{\tau_{\tau}}$ para $\tau = 1, 2, 3 ...$, isso é, o último coeficiente
 autoregressivo $\alpha_p$ de processos autoregressivos de ordem $p$ crescentes.
 
 A solução desses valores em função das autocorrelações de cada processo de
-ordem crescente, dada por~\cite{balba}, é generalizada como
+ordem crescente, dada por~\cite{morettin}, é generalizada como
 
 $$ \alpha_{\tau_{\tau}} = \frac{\norm{\mathbf{P}^*_{\tau}}}{\norm{\mathbf{P}_{\tau}}} $$
 
@@ -726,8 +707,7 @@ $\mathbf{P}$ pelo vetor de autocorrelações $\mathbf{\rho}$.
 
 Essa definição de autocorrelação parcial é bem definida para processos
 autoregressivos e para esse tipo de processo seu valor claramente se torna
-igual a zero a partir do atraso $\tau = p$. Esse fato será retomado com mais
-atenção no capítulo sobre modelagem de processos estacionários.
+igual a zero a partir do atraso $\tau = p$.
 
 A autocorrelação parcial amostral é calculada da mesma forma partindo da
 autocorrelação amostral como definida pela equação~\ref{eq:autocorr}. A
@@ -740,8 +720,7 @@ atraso $\tau$.
 Como estamos interessados em trabalhar com séries temporais a definição acima
 de autocorrelação parcial amostral é o suficiente para generalizar o conceito
 definido sobre processos autoregressivos para realizações únicas (séries
-temporais) de processos estocásticos arbitrários. Autocorrelação parcial
-de processos MA e ARMA serão abordadas em seções apropriadas.
+temporais) de processos estocásticos arbitrários.
 
 \subsection{ARMA}
 \label{ssec:ARMA}

@@ -19,10 +19,10 @@ probabilidade. Para propósitos desse trabalho podemos tomar o conjunto
 $\mathcal{T}$ como $\mathbb{R}$, resultando em processos de tempo contínuo, e
 $\mathbb{Z}$, resultando em processos de tempo discreto.
 
-Para cada $t \in \mathcal{T}$ temos uma função de densidade de probabilidade
+Para cada $t_k \in \mathcal{T}$ temos uma função de densidade de probabilidade
 associada à variável aleatória $X(t_k, \omega)$ (assumindo que essa função exista).
 Na prática um processo aleatório no mundo real é observado ao longo de $t$, tal que
-$\omega$ seja fixado ao universo em que a observação ocorre. Sob essa condição
+$\omega_k$ seja fixado ao universo em que a observação ocorre. Sob essa condição
 $X(t, \omega_k)$ é considerada uma realização do processo estocástico. Realizações também
 são chamadas de \emph{sample record} em alguns livros de engenharia
 e séries temporais na literatura estatística.
@@ -57,10 +57,10 @@ temporal será feita quando necessário.
 Uma série temporal é um conjunto de observações realizadas sequencialmente no
 tempo, indexadas de acordo com o momento em que foram observadas. As
 observações representam a realização de um processo estocástico. Em alguns
-contextos, como análise de processos industriai, a natureza do processo
+contextos, como análise de processos industriais, a natureza do processo
 subjacente é relevante para análise e modelagem de qualquer série temporal. Em
 outros, como análise de séries financeiras, o sistema gerador das séries é tão
-complexo que dificilmente conhecimento sobre sua dinâmica seja útil.
+complexo que conhecimento sobre sua dinâmica dificilmente seria útil.
 
 Assume-me, na linguagem de~~\cite{hamilton}, que um conjunto de amostras
 $\mathbf{y}_t = (y_1, y_2, y_3 \dots y_T)$ pode ser interpretado como um
@@ -233,7 +233,7 @@ figura~\ref{fig:seasonality}.
 
 Na presença de tendência sazonalidade pode ser considerada aditiva, se sua
 variação for constante em torno da tendência, e multiplicativa, se sua variação
-depender o valor da tendência. Exemplos de sazonalidade aditiva e
+depender do valor da tendência. Exemplos de sazonalidade aditiva e
 multiplicativa são dados pelas figuras~\ref{fig:add_seasonality} e
 ~\ref{fig:mult_seasonality}, respectivamente. Discernir entre os dois tipos de
 sazonalidade é importante para modelagem.
@@ -255,27 +255,24 @@ sazonalidade é importante para modelagem.
 
 \section{Autocorrelação}
 
-TODO: later analogy with convolution would be cool
-TODO: list properties of autocorrelation function !
-
 A função de autocorrelação é definida para processos estocásticos como a
 correlação de Pearson entre valores do processo em instantes de tempo
 diferentes. A função de autocovariância entre os instantes de tempo $t_1$ e
 $t_2$ é dada pela seguinte equação
 
 \begin{equation}\label{eq:raw_autocorr}
-    gamma_{xx}(t_1, t_2) = E[(X_{t_1} - \mu_{t_1})(X_{t_2} -\mu_{t_2})]
+    \gamma_{xx}(t_1, t_2) = E[(X_{t_1} - \mu_{t_1})(X_{t_2} -\mu_{t_2})]
 \end{equation}
 
 Normalizando a autocovariância obtemos a autocorrelação
 
-$$\rho_{xx}(t_1, t_2) =\frac{K_{xx}(t_1, t_2)}{\sigma_{t_1}\sigma_{t_2}}$$
+$$\rho_{xx}(t_1, t_2) =\frac{\gamma_{xx}(t_1, t_2)}{\sigma_{t_1}\sigma_{t_2}}$$
 
 Para processos estacionários (seção~\ref{sec:stationarity}) a autocovariância,
 e consequentemente a autocorrelação, é função apenas do atraso $\tau = |t_1 -
 t_2|$. Temos então que
 
-$$\rho_{xx}(\tau) =\frac{K_{xx}(\tau)}{\sigma_{t_1}\sigma_{t_2}}$$
+$$\rho_{xx}(\tau) =\frac{\gamma_{xx}(\tau)}{\sigma_{t_1}\sigma_{t_2}}$$
 
 Para uma série temporal, isso é, uma única  realização de um processo
 estocástico, a função de autocorrelação estacionária (tipicamente chamada
@@ -361,7 +358,7 @@ sombreamento vermelho. Qualquer valor de autocorrelação dentro desse intervalo
 O correlalograma é uma ferramenta indispensável em análise de séries temporais
 para tarefas como detecção de estacionariedade, identificação de sazonalidade,
 análise de resíduo, engenharia de características, escolha de modelo e
-identificação de ruído branco(seção~\ref{sec:white_noise}), entre outros. No
+identificação de ruído branco (seção~\ref{sec:white_noise}), entre outros. No
 contexto de identificação de sistemas autocovariância e autocorrelação e
 portanto o correlalograma desempenham um importante papel na identificação de
 propriedades de sinais e sistemas imersos em ruído devido à robustez ao ruído
@@ -397,8 +394,6 @@ autocovariância com valores lentamente decrescentes e um mínimo local indica q
 o sinal pode estar superamostrado, propriedade indesejável que pode resultar em
 problemas computacionais além de desperdício de memória.
 
-TODO: add sampling analysis of silica series? later maybe
-
 \section{Estacionariedade}\label{sec:stationarity}
 
 Um processo estocástico $\mathbf{X}(t)$ é considerado estacionário no
@@ -425,7 +420,7 @@ representada por um processo estocástico. Uma definição de estacionariedade
 para realizações únicas de um processo estocástico, isso é, séries temporais,
 demanda o estabelecimento de resquisitos amostrais. Podemos dizer que uma
 série temporal é estacionária se suas propriedades amostrais de esperança,
-variância e covariância sejam apropriadamente invariantes de forma que
+variância e autocovariância sejam apropriadamente invariantes de forma que
 flutuações em seu valor sob diferentes janelas de tempo sejam explicáveis por
 variações resultantes de amostragem. Sob essa perspectiva podemos traduzir
 os requisitos de estacionariedade para uma série $\mathbf{x}_t$ como a seguir
@@ -446,7 +441,7 @@ os requisitos de estacionariedade para uma série $\mathbf{x}_t$ como a seguir
 
 Um bom exemplo de graus de estacionariedade em séries temporais dado por
 Athanasopoulos e Hyndman~~\cite{athana} é ilustrado pela
-figura~\ref{fig:stationarity}. As séries das figures~\ref{fig:stationarity}.a,
+figura~\ref{fig:stationarity}. As séries das figuras~\ref{fig:stationarity}.a,
 ~\ref{fig:stationarity}.e e~\ref{fig:stationarity}.i demonstram clara
 tendência, sendo portanto não estacionárias. As séries das figures
 ~\ref{fig:stationarity}.d, ~\ref{fig:stationarity}.h, ~\ref{fig:stationarity}.i
@@ -626,8 +621,6 @@ nessa seção assim como suas implicações como segue:
 \end{enumerate}
 
 \section{Ruído Branco}\label{sec:white_noise}
-
-TODO: inserir propriedades de ruído branco
 
 Uma série temporal $\mathbf{x}_t$ gerada por um processo $\mathbf{X}(t)$ é
 considerada ruído branco ou um processo puramente aleatório se atender às
