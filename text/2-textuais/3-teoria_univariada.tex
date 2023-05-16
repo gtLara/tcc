@@ -130,23 +130,23 @@ TODO: talk (and research about !) the use of kalman filter for moving average
 \subsection{Modelagem de Sazonalidade(Ajuste de Sazonalidade)}
 
 A operação fundamental de decomposição é a modelagem ou ajuste de sazonalidade.
-Esse processo se preocupa em identificar estruturas fortemente periódicas em
-uma série temporal.
+Esse processo se preocupa em identificar estruturas periódicas em uma série
+temporal. Modelagem de sazonalidade em séries temporais é de fato uma área em
+si~\cite{seasonal_modelling}. A seção~\ref{sec:seasonality_models} é dedicada
+à uma pequena exploração desses métodos. Abordamos a seguir sua versão mais
+simples, tipicamente implementada no processo de decomposição de séries
+temporais.
 
-TODO: list some forms of seasonality modelling (high level) point to the
-subsection in the next chapter in which this is the case and cite just the
-simples pattern repeat algorithm here
-
-A estimativa da componente sazonal é realizada calculando o ``padrão sazonal
-médio'' da série sem tendência. A série de tamanho $n$ sem tendência é divida
-em $s$ segmentos de $m$ amostras, no qual $s = \frac{n}{m}$. Usando livremente
-a vírgula como símbolo para concatenação podemos enumerar os segmentos como
-$$\chi_1, \chi_2, ... \chi_s$$ onde um segmento arbitrário $$\chi_i =
-\chi_{i_{1}}, \chi_{i_{1}} ... \chi_{i_{m}}$$
+Uma possibilidade para estimativa da componente sazonal é determinar o ``padrão
+sazonal médio'' da série sem tendência. A série de tamanho $n$ sem tendência é
+divida em $s$ segmentos de $m$ amostras, no qual $s = \frac{n}{m}$. Usando
+livremente a vírgula como símbolo para concatenação podemos enumerar os
+segmentos como $$\chi_1, \chi_2, ... \chi_s$$ onde um segmento arbitrário
+$$\chi_i = \chi_{i_{1}}, \chi_{i_{1}} ... \chi_{i_{m}}$$
 
 O padrão sazonal modelado $S'_t$ corresponde ao segmento médio, isso é,
 
-$$ S'_t = \left(\frac{1}{s} \sum_{k=1}^{k=capcas} \chi_{1_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{2_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{3_{k}}\right) \hdots \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{m_{k}}\right)$$
+$$ S'_t = \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{1_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{2_{k}}\right), \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{3_{k}}\right) \hdots \left(\frac{1}{s} \sum_{k=1}^{k=s} \chi_{m_{k}}\right)$$
 
 A componente sazonal $S_t$ é então dada pela concatenação de $m$ cópias de
 $S'_t$
@@ -278,12 +278,29 @@ Impulse Response}(FIR) ou \emph{Infinite Impulse Response}(IIR), dependendo
 a equação de recorrência, levando às propriedades conhecidas desses tipos de
 filtros.
 
-TODO: create tikz figure
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[node distance=4.5cm,
+        every node/.style={fill=white, font=\sffamily}, align=center]
 
-A figura TODO torna clara a interpretação traçada. Para tornar o paralelo mais
-claro podemos inicialmente pensar em um sinal de entrada $\varepsilon[n]$ (
-ruído branco) transformado por uma resposta ao impulso $h[n]$, causal de
-tamanho $m$, no sinal $y[n]$ pela seguinte soma de convolução
+        \node (system)      [activityStarts]              {Sistema LTI\\$\psi(t)$};
+        \node (input)       [process, left of=system]     {$\varepsilon_t$};
+        \node (output)      [process, right of=system]    {$y_t$};
+
+        \draw[->]     (input) -- (system);
+        \draw[->]     (system) -- (output);
+
+    \end{tikzpicture}
+    \vspace{.6cm}
+    \caption{Representação de série temporal como modelo linear generalizado}
+    \label{fig:white_noise_LTI}
+\end{figure}
+
+
+A figura~\ref{fig:white_noise_LTI} torna clara a interpretação traçada. Para
+tornar o paralelo mais claro podemos inicialmente pensar em um sinal de entrada
+$\varepsilon[n]$ ( ruído branco) transformado por uma resposta ao impulso
+$h[n]$, causal de tamanho $m$, no sinal $y[n]$ pela seguinte soma de convolução
 
 $$ y[n] = \sum^{m}_{k=0} h[n-k]\varepsilon[k] =  \sum^{m}_{k=0} \varepsilon[n-k]h[k]$$
 
@@ -1002,7 +1019,7 @@ $ARIMA(p, 0, q)$ corresponde a um modelo $ARMA(p, q)$.
 O leitar agora reconhece o sistema da figura~\ref{fig:ARMA2-1-integrated-pzp}
 como ARIMA(2, 1, 1).
 
-\section{Modelos de Sazonalidade}
+\section{Modelos de Sazonalidade}\label{sec:seasonality_models}
 
 \subsection{Diferenciação Sazonal}
 
