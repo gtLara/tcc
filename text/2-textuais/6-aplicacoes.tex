@@ -1,3 +1,60 @@
-\chapter{Aplicações}
+\chapter{Aplicação}
 \label{chap:aplicacoes}
 
+\section{Definição de Problema}
+
+- Não pode falar muito devido ao sigilo
+- Deixar claro que a intenção é a extração de características
+
+\subsection{Problemas de operacionalização}
+
+- Tem que funcionar em tempo real, qualquer modelo envolvido tem que evoluir
+no tempo. Mencionar filtragrem bayesiana como solução. Mencionar que modelos
+complexos como os SOTA da literatura dificilmente vão funcionar. linearidade
+seria melhor
+- Processamento do sinal deve ser facilmente reprodutível. Mencionar DVC como
+solução.
+
+\section{Descrição dos Dados}
+
+Mencionar alta frequência, multiplicidade de séries e sla
+
+\section{Análise de Propriedades das Séries Temporais}
+
+Aplicar testes de sazonalidade, tendência, estacionariedade.
+
+Levantar hipóteses sobre possível resolução:
+    - decomposição
+    - representação tempo frequêcia por meio de DWT?
+
+\section{Decomposição Linear}
+
+\subsection{Modelagem de Tendência}
+
+\subsection{Modelagem de Sazonalidade}
+
+\subsubsection{Padrão Sazonal Médio}
+
+\subsubsection{Variáveis de Fourier}
+
+\subsubsection{Análise de Resíduos}
+
+\subsubsection{Modelagem de Resíduos}
+
+\section{Representação em Tempo Frequência}
+
+\subsection{Espectrograma}
+
+\subsection{Distribuição de Wigner Ville}
+
+\subsection{Transformada Contínua de Ondaletas}
+
+\subsection{Transformada Discreta de Ondaletas}
+
+\section{\emph{Pipeline} de Processamento de Modelagem}
+
+mostrar pipeline dvc, talvez até montar um tikz legal e tal
+
+\section{Resultados}
+
+\section{Análise de Estabilidade Residual por meio Diagrama de Polos e Zeros}
