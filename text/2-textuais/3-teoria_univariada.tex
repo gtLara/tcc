@@ -353,8 +353,6 @@ saída ${Y(t)}$, qualificando a saída em si como um processo estocástico.
 Conforme discutido na seção~\ref{sec:process} abordaremos as propriedades de
 realizações específicas do processo ${Y(t)}$.
 
-
-
 \subsection{Modelo Linear Generalizado}
 \label{sec:glm}
 
@@ -554,8 +552,9 @@ como uma inversão do polinômio $\alpha(L)$, de forma que
 
 $$ y_t\alpha(L) = \varepsilon_t = y_t = \alpha^{-1}(L)\varepsilon_t$$
 
-$\alpha^{-1}(L)$ é bem definido sobre certas condições que serão discutidas na
-seção~\ref{ssec:stability_invertibility}.
+$\alpha^{-1}(L)$ é bem definido se o sistema linear definido pela função de
+transferência $\alpha(L)$ for inversível, isso é, se suas raízes em $L$
+estiverem localizadas fora do círculo unitário.
 
 Uma visualização do comportamento temporal de processos autoregressivos é dada
 pela figura~\ref{fig:ar_time_visualization}. Observa-se que as séries temporais
@@ -787,9 +786,10 @@ Uma propriedade interessante de modelos ARMA é que processos estacionários
 frequentemente podem ser modelados por modelos ARMA com menos parâmetros que
 modelos AR ou MA.
 
-\subsection{Estabilidade e Invertibilidade}
-\label{ssec:stability_invertibility}
-TODO: preencher isso !
+% \subsection{Estabilidade e Invertibilidade}
+% \label{ssec:stability_invertibility}
+
+% Central ao estudo de séries temporais é compreender sob quais parâmetros
 
 \section{Raízes Unitárias}
 \label{sec:unit_roots}
