@@ -3,21 +3,74 @@
 
 \section{Definição de Problema}
 
-- Não pode falar muito devido ao sigilo
-- Deixar claro que a intenção é a extração de características
+O problema abordado é definido de maneira propositalmente vaga devido à
+limitações impostas por sigilo industrial.
+
+No seguinte capítulo é realizada uma análise de correntes de motores elétricos
+a fim de detectar anomalias em sua operação. Na situação estudada múltiplos
+motores de indução são responsáveis pelo funcionamento de uma esteira
+industrial que transporta um produto em uma das etapas de sua fabricação. Os
+motores estão acoplados à mesma esteira e a corrente é medida de forma
+monofásica na barra de uma de suas gaiolas (TODO: confirmar onde é medida a
+corrente e se descrição de medição está ok). Detalhes sobre o processo de
+fabricação e produto em si não podem ser compartilhadas e não são
+particularmente interessantes para a abordagem deste trabalho, que se limita
+aos sinais de corrente. Basta esclarecer que em operação normal a esteira opera
+em velocidade constante, enquanto sob operação anômala um acúmulo indesejado do
+material transportado gera uma diminuição irregular de sua velocidade.
+
+A partir dessa breve descrição do problema podemos delimitar o escopo do
+material utilizado na seguinte análise como exclusivamente os sinais de
+corrente dos motores. Nota-se que considerável progresso pode ser feito a
+partir de análises dos sistemas de controle de motores de indução, como em
+~\cite{}. Quanto à fundamentação teórica, serão utilizados conceitos discutidos
+ao longo dos últimos capítulos.
+
+A limitação da análise às correntes leva à necessidade da definição de um
+evento anômalo a nível deste sinal para que seja possível gerar algum tipo de
+procedimento para sua identificação. Essa definição é realizada \emph{a priori}
+por meio de uma rotulação do momento em que a anomalia foi percebida pelos
+operadores do processo. Dessa maneira o problema pode ser considerado como
+supervisionado.
+
+O desenvolvimento a seguir analisa dois grupos de intervalos de correntes
+correspondentes aos modos de operação normal e anômalo. Os procedimentos
+terão como objetivo expor tendências indicativas dos eventos anômalos.
+
+\subsection{Descrição dos Dados}
+
+- Visualizações bonitinhas
+- informações sobre taxa de amostragem
+- estatísticas descritivas genéricas?
+- comentários sobre tendências e sucatas óbvias
+- comentários sobre dificuldade de adquirir os dados
 
 \subsection{Problemas de operacionalização}
 
-- Tem que funcionar em tempo real, qualquer modelo envolvido tem que evoluir
-no tempo. Mencionar filtragrem bayesiana como solução. Mencionar que modelos
-complexos como os SOTA da literatura dificilmente vão funcionar. linearidade
-seria melhor
-- Processamento do sinal deve ser facilmente reprodutível. Mencionar DVC como
-solução.
+A resolução do problema abordado será desenvolvida levando em conta fatores que
+dificultariam a implementação de seus procedimentos em tempo real. Supondo que
+seja desenvolvida uma aplicação capaz de distinguir entre as classes descritas
+no início deste capítulo, sua operacionalização requer que seus procedimentos
+sejam capazes de funcionar em tempo real e de forma contínua. Além disso sua
+infraestrutura deve ser interpretável, documentada e reprodutível. A partir
+destas considerações enumera-se três grandes problemas de operacionalização
+que serão abordados neste trabalho:
 
-\section{Descrição dos Dados}
+\begin{enumerate}
+    \item \textbf{Funcionamento em tempo real e contínuo}: Quaisquer modelos
+    envolvidos devem não somente realizar inferência em tempo hábil mas também
+    se adaptar a mudanças nas características dos sinais como regime de
+    operação e conteúdo espectral.
+    \item \textbf{Reprodutibilidade}: A infraestrutura de processamento de
+    sinais, fluxo de dados, modelagem e inferência deve ser absolutamente
+    reprodutível para que a solução seja implementável e passível a manuntenção
+    ao longo do tempo
+    \item \textbf{Documentação}: O código utilizado nos procedimentos
+    envolvidos na solução devem ser apropriadamente documentados pelas mesmas
+    motivações do anterior.
+\end{enumerate}
 
-Mencionar alta frequência, multiplicidade de séries e sla
+TODO: como mencionar soluções para os problemas acima?
 
 \section{Análise de Propriedades das Séries Temporais}
 
@@ -37,9 +90,12 @@ Levantar hipóteses sobre possível resolução:
 
 \subsubsection{Variáveis de Fourier}
 
-\subsubsection{Análise de Resíduos}
+\subsection{Análise de Resíduos}
 
 \subsubsection{Modelagem de Resíduos}
+
+manter isso? fazer alguma piração de geração de sinal original a partir de
+estímulo de ruído branco?? isso seria massa
 
 \section{Representação em Tempo Frequência}
 
@@ -53,7 +109,7 @@ Levantar hipóteses sobre possível resolução:
 
 \section{\emph{Pipeline} de Processamento de Modelagem}
 
-mostrar pipeline dvc, talvez até montar um tikz legal e tal
+mostrar pipeline dvc%, talvez até montar um tikz legal e tal
 
 \section{Resultados}
 
