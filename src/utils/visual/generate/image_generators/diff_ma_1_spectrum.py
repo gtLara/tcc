@@ -11,7 +11,7 @@ def diff_ma_1_spectrum(color, dpi, image_path, extension):
     freqs, spectrum = get_arma_spectrum(ar_poly, ma_poly, half_spectrum=False)
 
     plt.plot(freqs, spectrum, color="k")
-    plt.title("PSD of differenced MA(1) process")
+    plt.title("Densidade de Potência Espectral do Processo MA(1)")
 
     path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)

@@ -10,7 +10,7 @@ def ar_2_spectrum(color, dpi, image_path, extension):
     freqs, spectrum = get_arma_spectrum(ar_poly, ma_poly, half_spectrum=False)
 
     plt.plot(freqs, spectrum, color="k")
-    plt.title("PSD of AR(2) process")
+    plt.title("Densidade de Potência Espectral de Processo AR(2)")
 
     path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
