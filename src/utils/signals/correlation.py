@@ -78,3 +78,8 @@ def get_autocorrelation(signal: np.ndarray | pd.Series,
         autocorrelation = autocorrelation[center:]
 
     return autocorrelation
+
+
+def get_instantaneous_crosscorrelation_matrix(signals: pd.DataFrame):
+
+    return signals.corr()

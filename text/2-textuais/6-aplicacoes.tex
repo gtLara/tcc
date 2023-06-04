@@ -37,14 +37,6 @@ O desenvolvimento a seguir analisa dois grupos de intervalos de correntes
 correspondentes aos modos de operação normal e anômalo. Os procedimentos
 terão como objetivo expor tendências indicativas dos eventos anômalos.
 
-\subsection{Descrição dos Dados}
-
-- Visualizações bonitinhas
-- informações sobre taxa de amostragem
-- estatísticas descritivas genéricas?
-- comentários sobre tendências e sucatas óbvias
-- comentários sobre dificuldade de adquirir os dados
-
 \subsection{Problemas de operacionalização}
 
 A resolução do problema abordado será desenvolvida levando em conta fatores que
@@ -63,24 +55,273 @@ que serão abordados neste trabalho:
     operação e conteúdo espectral.
     \item \textbf{Reprodutibilidade}: A infraestrutura de processamento de
     sinais, fluxo de dados, modelagem e inferência deve ser absolutamente
-    reprodutível para que a solução seja implementável e passível a manuntenção
+    reprodutível para que a solução seja implementável e passível a manutenção
     ao longo do tempo
     \item \textbf{Documentação}: O código utilizado nos procedimentos
     envolvidos na solução devem ser apropriadamente documentados pelas mesmas
     motivações do anterior.
 \end{enumerate}
 
-TODO: como mencionar soluções para os problemas acima?
+A fim de endereçar cada uma dessas preocupações as seguintes considerações são
+estabelecidas.
+
+\subsubsection{Funcionamento em tempo real e contínuo}
+
+A necessidade de modelagem adaptativa sugere o uso de modelos
+estruturais~\cite{structural}, também chamados de bayesianos ou de espaço de
+estados, para a representação de qualquer dinâmica de interesse das séries
+temporais. A formulação dos modelos abordados nesse trabalho de forma
+estrutural permite a atualização bayesiana de seus parâmetros de acordo com
+novas amostras da variável prevista, essencialmente representando uma
+formulação \emph{online} de modelos lineares. O algoritmo canônico para
+atualização dos parâmetros de um modelo estrutural é o filtro de
+Kalman~\cite{kalman}.
+
+Em particular podem ser desenvolvidos modelos estruturais para as componentes
+de tendência e sazonalidade de uma série periódica. Modelos de sazonalidade
+estruturais exigem parametrizações mais complexas para o filtro de Kalman
+quando comparados aos de tendência. Como consequência, nesse trabalho será
+usado um modelo estrutural apenas para a tendência.
+
+\subsubsection{Reprodutibilidade}
+
+O requisito de reprodutibilidade do \emph{pipeline} de processamento de dados
+pode ser atendido por uma série de programas auxiliares. É indispensável,
+antes de tudo, que o código seja desenvolvida em um sistema de
+versionamento \emph{git}, para que haja um claro histórico, isolamento de
+tarefas e desenvolvimento incremental. A nível de infraestrutura em si
+é interessante que seja usado algum programa análogo ao \verb+make+. O
+\verb+DVC+, abreviação de \emph{Data Version Control}, é uma aplicação que
+busca atender a diversas necessidades de projetos de dados, uma delas sendo
+justamente a estruturação de \emph{pipelines} reprodutíveis e orientados por
+\emph{Dynamic Acyclic Graphs}, semelhante ao \verb+make+. A solução
+desenvolvida será então organizada como um \emph{pipeline} DVC.
+
+\subsubsection{Documentação}
+
+A demanda de documentação será atendida seguindo o princípio de evitar códigos
+em comentários~\cite{clean_code}. Usando do recurso de \emph{docstrings} da
+linguagem \verb+Python+, na qual a aplicação será desenvolvida, a documentação
+será escrita a nível de funções seguindo o padrão do projeto Sphinx
+~\cite{sphinx}, no intuito de gerar um texto automaticamente a partir do código.
+
+\subsection{Descrição dos Dados}
+
+Os sinais representam as correntes individuais das gaiolas de dezessete
+motores, configurando uma série temporal multivariada. A série é sincronizada,
+isso é, suas amostras entre componentes distintas são realizadas em instantes
+idênticos no tempo.
+
+O fornecedor dos sinais oferece duas taxas de amostragem: $100Hz$,
+representando a taxa de amostragem real dos instrumentos de medição, e $1Hz$,
+resultado de uma subamostragem do sinal original para maior facilidade de
+transmissão. Os sinais originais, amostrados a $100Hz$, não são fáceis de se
+obter. Como consequência o presente estudo é limitado no que tange à quantidade
+de dados. Uma propriedade positiva da abordagem empregada é sua validade mesmo
+na presença de poucos dados. Dessa forma, uma das contribuições desse trabalho
+é justamente a extração de padrões úteis a partir de poucos dados.
+
+A seguinte figura ilustra um grupo de nove séries temporais sob um intervalo
+de tempo de três minutos em operação normal.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/current_signal_demos.png}
+    \caption{Exemplo de nove dos dezessete sinais de corrente em um intervalo
+    arbitrário de três minutos em operação normal.}
+    \label{fig:demo}
+\end{figure}
+
+Observamos pela imagem~\ref{fig:demo} que as correntes enumeradas exibem um
+perfil muito semelhante entre si: forte estrutura sazonal, interjeições de alta
+frequência em instantes semelhantes e uma tendência com pequenas variações em
+torno de um nível fixo. Note que a intensidade das correntes é indicada em
+porcentagem da intensidade máxima.
+
+A seguinte figura é semelhante à figura~\ref{fig:demo}, agora representando os
+três minutos antecedentes ao evento anômalo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/sucata_current_signal_demos.png}
+    \caption{Exemplo de nove dos dezessete sinais de corrente em um intervalo
+    arbitrário de três minutos em operação anômala.}
+    \label{fig:demo_anomalous}
+\end{figure}
+
+Comparando as imagens~\ref{fig:demo} e~\ref{fig:demo_anomalous} é conclusivo
+que, no caso dessa anomalia em específico, não há sinais visuais claros de sua
+ocorrência.
+
+TODO: pegar uma sucara com tendência descarada e falar que nesse caso é visível
+hehe
+
+A semelhança entre os sinais enumerados  sugere que o seu uso em conjunto pode
+ser redundante. A seção~\ref{ssec:ccorr} avalia essa hipótese de forma
+quantitativa.
+
+Na seguinte seção a estrutura observada nos sinais será analisada em maior
+profundidade.
+
+
+\subsubsection{Sumarização}
+
+Inserir tabelas aqui, listando número de sucatas, etc
 
 \section{Análise de Propriedades das Séries Temporais}
 
-Aplicar testes de sazonalidade, tendência, estacionariedade.
+Nessa seção as propriedades de correlação cruzada, tendência e sazonalidade
+das séries temporais são analisadas. Por fim possíveis soluções são propostas.
 
-Levantar hipóteses sobre possível resolução:
-    - decomposição
-    - representação tempo frequêcia por meio de DWT?
+\subsection{Correlação Cruzada}\label{ssec:ccorr}
+
+Uma análise de correlação cruzada instantânea, isso é, desconsiderando
+correlações em função de atrasos, é interessante para determinar quão
+semelhantes os sinais são entre si de forma mais quantitativa do que a
+figura~\ref{fig:demo}. Essa informação é útil por determinar quais séries devem
+ser mantidas na análise a seguir: um subconjunto com alta correlação
+instantânea entre si indica que seu processamento em paralelo é redundante.
+Além disso, o perfil de autocorrelação instantânea pode ser indicador do regime
+de operação: é possível que essa relação seja muito distinta entre os regimes
+de operação anômalos e de normalidade.
+
+As matrizes visualizadas a seguir ilustram as correlações instantâneas entre as
+séries temporais em ambos os regimes de operação. As matrizes foram geradas
+pela amostragem uniforme de segmentos contínuos e disjuntos de dez minutos de
+duração das correntes. Limitado pelo número de eventos anômalos foram
+selecionados cinco intervalos. A estacionariedade das séries, estudada na
+subseção seguinte, permite que essa pequena amostra seja representativa das
+correlações instantâneas gerais.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/correlation_matrix.png}
+    \caption{Matrix de correlação instantânea entre séries temporais sob
+    regime de normalidade.}
+    \label{fig:demo_matrix}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/anomalous_correlation_matrix.png}
+    \caption{Matrix de correlação instantânea entre séries temporais sob
+    regime de anomalia.}
+    \label{fig:demo_matrix_anomaly}
+\end{figure}
+
+Inicialmente observamos que em ambas as figuras há certas regiões de alta
+correlação que indicam grupos de sinais semelhantes entre si. Destacam-se os
+dois grupos formados pelas correntes enumeradas de seis a nove e de dez a
+dezesseis. Esses subconjuntos justificam a exclusão dos sinais enumerados sete
+a nove e onze a dezesseis.
+
+Comparando as figuras~\ref{fig:demo_matrix} e~\ref{fig:demo_matrix_anomaly},
+observamos que sob regime de anomalia há ligeiramente maior correlação cruzada
+entre os sinais, um primeiro sinal de diferença visível entre os dois regimes.
+No entanto, essa diferença não aparenta ser expressiva o suficiente para gerar
+algum tipo de discriminação eficiente.
+
+\subsection{Tendência}
+
+A presença de tendência para além de uma constante é evidenciada pela
+figura~\ref{fig:demo}, característica que se mantém em quaisquer outros
+intervalos válidos das correntes. A figura~\ref{fig:loess} ilustra o uso do
+algoritmo LOESS para aproximar um padrão de tendência subjacente a um curto
+trecho de um dos sinais. Maneiras mais rigorosas de detectar a presença de
+tendência incluem testes estatísticos e análise de autocorrelação, cuja
+aplicação no caso presente é desnecessária devido à aparência da tendência.
+
+\subsection{Estacionariedade}
+
+A consistência na estrutura observada sugere a possibilidade de
+estacionariedade das séries. De fato, ao executar o teste estatístico de
+\emph{Augmented Dickey Fuller} os p-valores observados são consistentemente
+estatisticamente indistinguíveis de zero. Essa conclusão se repete para
+diversos métodos de amostragem de subsegmentos contínuos dos sinais.
+
+Diante desses resultados, é seguro concluir que as séries são estacionárias
+para os regimes de normalidade. Essa observação é essencial para vários passos
+das análises a seguir.
+
+\subsection{Sazonalidade}
+
+O padrão de sazonalidade evidentemente presente nos sinais pode ser melhor
+inspecionado por meio de suas autocorrelações, que são constantes ao longo do
+tempo como consequência de estacionariedade. As figuras~\ref{fig:demo_acorrs}
+e~\ref{fig:anomalous_demo_acorrs} ilustram as autocorrelações correspondentes
+aos sinais das figuras~\ref{fig:demo} e~\ref{fig:demo_anomalous},
+respectivamente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/current_signal_acorrs.png}
+    \caption{Exemplo de autocorrelação de nove dos dezessete sinais de corrente
+    em um intervalo arbitrário de três minutos em operação normal.}
+    \label{fig:demo_acorrs}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/sucata_current_signal_acorrs.png}
+    \caption{Exemplo de autocorrelação de nove dos dezessete sinais de corrente
+    em um intervalo arbitrário de três minutos em operação anômala.}
+    \label{fig:anomalous_demo_acorrs}
+\end{figure}
+
+As imagens demonstram um padrão sazonal coerente com o observado nos sinais no
+domínio do tempo, com um período grande relativo ao de amostragem. Uma
+comparação das imagens~\ref{fig:anomalous_demo_acorrs} e~\ref{fig:demo_acorrs}
+leva à observação de que os primeiros picos de autocorrelação dos sinais em
+regime anômalo ocorrem ligeiramente antes. Essa característica pode ser útil
+para discriminar entre os dois regimes e é estudada de forma quantitativa
+na seção~\ref{ssec:}.
+
+\subsection{Possíveis Soluções}
+
+Com as análises exploratórias realizadas anteriormente há embasamento para
+propor possíveis soluções. Duas propriedades que imediatamente se destacam são
+a presença de tendência e sazonalidade bem definidas, sugerindo a possibilidade
+do uso de decomposição linear~\ref{sec:decomposition} de forma a melhor
+representar a anomalia que se deseja identificar. Nota-se que um dos principais
+usos de decomposição é justamente detecção de anomalia
+~\cite{anomaly_detection_decomposition}.
+
+Outra conclusão notável da análise conduzida é a estacionariedade das séries.
+Essa propriedade permite uma representação espectral simples para cada
+corrente, correspondente à transformada de Fourier de suas autocorrelações.
+O fato das autocorrelações de sinais em regime anômalo apresentarem picos em
+um número inferior de atrasos pode refletir em um conteúdo espectral mais
+enviesado para altas frequências, gerando uma \emph{feature} altamente
+discriminativa.
+
+Dessa forma delimitam-se duas tentativas de detecção do regime de anomalia:
+
+\begin{enumerate}
+    \item Exposição de algum padrão evidentemente anômalo por meio de decomposição linear
+    \item Uso de representação em frequência como característica discriminativa
+\end{enumerate}
 
 \section{Decomposição Linear}
+
+Conforme estabelecido, há motivação para utilizar decomposição linear em uma
+tentativa de extrair sinais mais evidentes do comportamento anômalo nas séries
+temporais, devido à estrutura fortemente sazonal evidentemente presente nas
+séries sob análise e uma visível tendência.
+
+A modelagem de tendência será realizada por meio de um simples modelo
+estrutural com nativa capacidade de adaptação via filtro de Kalman. A modelagem
+da sazonalidade será realizada pelo método do padrão médio devido ao ``custo
+benefício'' associado à sua simplicidade e eficiência, considerando que a
+frequência do padrão sazonal não varia o suficiente para justificar o uso de
+um modelo estrutural como no caso da tendência. TODO: checc this Note
+que a estacionariedade da série permite que o padrão extraído seja utilizado
+por um intervalo não desprezível de tempo. À medida que o padrão
+inevitavelmente se desatualizar devido a variações na frequência é possível
+calculá-lo novamente. Um mecanismo de reajuste do modelo sazonal será então
+desenvolvido a partir de um gatilho de erro. Por fim os resíduos da
+decomposição serão analisados essencialmente como uma nova versão da série
+original. A expectativa é que estes resíduos sejam muito mais representativos
+dos regimes de normalidade e anomalia.
 
 \subsection{Modelagem de Tendência}
 
@@ -97,13 +338,13 @@ Levantar hipóteses sobre possível resolução:
 manter isso? fazer alguma piração de geração de sinal original a partir de
 estímulo de ruído branco?? isso seria massa
 
-\section{Representação em Tempo Frequência}
+\section{Análise Espectral}
+
+\subsection{Densidade de Espectro de Potência}
 
 \subsection{Espectrograma}
 
 \subsection{Distribuição de Wigner Ville}
-
-\subsection{Transformada Contínua de Ondaletas}
 
 \subsection{Transformada Discreta de Ondaletas}
 

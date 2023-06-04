@@ -20,14 +20,16 @@ def current_signal_demos(color, dpi, image_path, extension):
     with open(path/"data_dict.pkl", "rb") as file:
         data = pickle.load(file)
 
-    currents = data[1500][:100*60*3]  # for 16 currents
-    currents = currents.drop(currents.columns[:11], axis=1)
+    interval = 100*60*3
+    currents = data[1500][:interval]
+    currents = currents.drop(currents.columns[9:], axis=1)
 
     series_figure, series_axes = plt.subplots(3, 3)
 
     for i, (current, current_data) in enumerate(currents.iteritems()):
 
         filtered_current_data = current_data.rolling(window=100).mean().dropna()
+        print(len(filtered_current_data))
 
         col = i % 3
         row = int(i/3)
@@ -43,3 +45,4 @@ def current_signal_demos(color, dpi, image_path, extension):
     series_figure.tight_layout()
     path = f"{image_path}.{extension}"
     plt.savefig(path, dpi=dpi, format=extension)
+    plt.close()
