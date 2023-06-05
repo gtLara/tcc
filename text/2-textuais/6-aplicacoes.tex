@@ -237,11 +237,14 @@ A consistência na estrutura observada sugere a possibilidade de
 estacionariedade das séries. De fato, ao executar o teste estatístico de
 \emph{Augmented Dickey Fuller} os p-valores observados são consistentemente
 estatisticamente indistinguíveis de zero. Essa conclusão se repete para
-diversos métodos de amostragem de subsegmentos contínuos dos sinais.
+diversos métodos de amostragem de subsegmentos contínuos dos sinais. Note
+que a estacionariedade foi detectada em intervalos de quinze minutos.
 
-Diante desses resultados, é seguro concluir que as séries são estacionárias
-para os regimes de normalidade. Essa observação é essencial para vários passos
-das análises a seguir.
+Diante desses resultados, é seguro concluir que as séries são localmente
+estacionárias em janelas de no mínimo quinze minutos para ambos regimes. É
+possível que cada sinal seja globalmente estacionário (no escopo de
+funcionamento da planta), mas isso não será presumido nem investigado.
+Essa observação é essencial para vários passos das análises a seguir.
 
 \subsection{Sazonalidade}
 
@@ -281,7 +284,7 @@ na seção~\ref{ssec:}.
 Com as análises exploratórias realizadas anteriormente há embasamento para
 propor possíveis soluções. Duas propriedades que imediatamente se destacam são
 a presença de tendência e sazonalidade bem definidas, sugerindo a possibilidade
-do uso de decomposição linear~\ref{sec:decomposition} de forma a melhor
+do uso de decomposição linear (seção ~\ref{sec:decomposition}) de forma a melhor
 representar a anomalia que se deseja identificar. Nota-se que um dos principais
 usos de decomposição é justamente detecção de anomalia
 ~\cite{anomaly_detection_decomposition}.
@@ -305,15 +308,15 @@ Dessa forma delimitam-se duas tentativas de detecção do regime de anomalia:
 
 Conforme estabelecido, há motivação para utilizar decomposição linear em uma
 tentativa de extrair sinais mais evidentes do comportamento anômalo nas séries
-temporais, devido à estrutura fortemente sazonal evidentemente presente nas
-séries sob análise e uma visível tendência.
+temporais, devido à estrutura fortemente sazonal presente nas séries sob
+análise e uma visível tendência.
 
 A modelagem de tendência será realizada por meio de um simples modelo
 estrutural com nativa capacidade de adaptação via filtro de Kalman. A modelagem
 da sazonalidade será realizada pelo método do padrão médio devido ao ``custo
 benefício'' associado à sua simplicidade e eficiência, considerando que a
 frequência do padrão sazonal não varia o suficiente para justificar o uso de
-um modelo estrutural como no caso da tendência. TODO: checc this Note
+um modelo estrutural como no caso da tendência. Note
 que a estacionariedade da série permite que o padrão extraído seja utilizado
 por um intervalo não desprezível de tempo. À medida que o padrão
 inevitavelmente se desatualizar devido a variações na frequência é possível
@@ -323,22 +326,170 @@ decomposição serão analisados essencialmente como uma nova versão da série
 original. A expectativa é que estes resíduos sejam muito mais representativos
 dos regimes de normalidade e anomalia.
 
+As séries serão modeladas de forma individual. TODO: justificar isso !!
+Logo os exemplos serão univariados
+
 \subsection{Modelagem de Tendência}
+
+O modelo estrutural assumido para a tendência é conhecido como modelo de nível
+local, com equações de estado e saída dadas por~\ref{eq:state} e
+~\ref{eq:measurement}. Nota-se que as inovações $\eta_t$ e $\varepsilon_t$ são
+independentes e identicamente distribuídas por distribuições normais centradas
+em zero com variância $\sigma^2_{\eta}$ e $\sigma^2_{\varepsilon}$
+respectivamente.
+
+\begin{equation}\label{eq:state}
+    \mu_{t+1} = \mu_t + \eta_t
+\end{equation}
+
+\begin{equation}\label{eq:measurement}
+    y_t = \mu_t + \varepsilon_t
+\end{equation}
+
+O filtro de Kalman é usado para estimar a tendência ao longo do sinal.
+
+O estado inicial será definido com média correspondente à média do sinal cuja
+tendência será modelada e variância unitária. As matrizes de covariância de
+transição e saída são, devido ao fato do modelo ser univariado, escalares.
+Esses valores são definidos como unitários.
+
+Define-se por fim $\sigma^2_{\eta} = 1^{-7}$ e $\sigma^2_{\varepsilon} = 1$.
+
+A modelagem da tendência de um segmento de sinal arbitrário por meio destas
+especificações é ilustrada pela figura~\ref{fig:kalman_trend}. Nota-se
+que o sinal é transformado por um filtro média móvel com janela de $50$
+amostras antes de ser submetido à estimativa do filtro de Kalman, a fim de
+garantir que
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/kalman_trend.png}
+    \caption{Exemplo de modelagem de tendência via modelo de nível local e
+    filtro de Kalman}
+    \label{fig:kalman_trend}
+\end{figure}
+
+O uso do filtro de Kalman permite que novas amostras sejam incorporadas em
+tempo real para que a estimativa da tendência seja realizada de forma
+\emph{online}.
 
 \subsection{Modelagem de Sazonalidade}
 
-\subsubsection{Padrão Sazonal Médio}
+A abordagem para modelagem de sazonalidade será o cálculo do padrão sazonal
+médio, conforme a seção~\ref{sec:mean_season}. Essencial para o funcionamento
+desse método é a determinação correta do período do padrão sazonal. É
+indispensável que esse valor seja determinado de forma automática pela
+multiplicidade de séries temporais e pela necessidade de contínuo cálculo de
+padrões sazonais. A forma mais direta de obter esse valor é pelo número de
+atrases necessários para a função de autocorrelação atingir seu primeiro
+máximo local, como ilustrado pela figura~\ref{fig:acorr_peak}.
 
-\subsubsection{Variáveis de Fourier}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/autocorrelation_peak_example.png}
+    \caption{Perfil de autocorrelação de uma janela arbitrária de dez minutos
+    de operação normal. O intervalo entre as linhas vermelhas horizontais
+    corresponde ao período do padrão sazonal.}
+    \label{fig:acorr_peak}
+\end{figure}
+
+Extraído este valor é possível prosseguir com a determinação do padrão sazonal.
+A imagem~\ref{fig:mean_seasonal_pattern} ilustra o cálculo do padrão sazonal
+médio. As linhas em vermelho representam os segmentos do sinal resultantes de
+sua partição em trechos de comprimento correspondente ao período sazonal
+encontrado e o sinal preto representa o padrão sazonal médio entre os sinais em
+vermelho. A componente sazonal é então gerada pela sucessiva concatenação do
+padrão encontrado.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{figures/seasonal_pattern.png}
+    \caption{Visualização de computação de padrão sazonal médio.}
+    \label{fig:mean_seasonal_pattern}
+\end{figure}
+
+A modelagem de tendência e sazonalidade essencialmente conclui o processo de
+decomposição. O produto deste procedimento, denominado por resíduos, resulta da
+substração destas componentes do sinal original.
 
 \subsection{Análise de Resíduos}
 
-\subsubsection{Modelagem de Resíduos}
+Finalizado o processo de decomposição são obtidos os resíduos. A decomposição
+de um trecho arbitrário de um sinal específico correspondendo à oito minutos de
+normalidade é visualizada pela figura~\ref{fig:decomposition} onde, de cima
+para baixo, observamos o sinal original, tendência, sazonalidade e resíduos. A
+figura~\ref{fig:normal_residuo} ilustra apenas os resíduos juntamente de sua
+autocorrelação. Observamos que há permanência de estrutura nos resíduos,
+especificamente de algumas interjeições de alta frequência, mas que de forma
+geral o sinal se aproxima mais a um perfil de autocorrelação de ruído branco
+do que inicialmente.
 
-manter isso? fazer alguma piração de geração de sinal original a partir de
-estímulo de ruído branco?? isso seria massa
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/decomposition.png}
+    \caption{Visualização de decomposição linear de um trecho de oito
+    minutos de sinal em regime de normalidade.}
+    \label{fig:decomposition}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/residuals.png}
+    \caption{Visualização de resíduos de um segmento de oito minutos de sinal
+    em regime de normalidade juntamente de sua autocorrelação.}
+    \label{fig:normal_residue}
+\end{figure}
+
+Podemos realizar visualizações identicamente análogas para um trecho de oito
+minutos em regime anômalo, resultando nas figuras~\ref{fig:anomalous_residue}
+e~\ref{fig:decomposition}. Observamos que, conforme desejado, a presença da
+anomalia se torna evidente por meio de um padrão no resíduos. No caso dessa
+anomalia em específico (e de outras, como será ilustrado) este padrão é uma
+forte tendência ou, de forma equivalente, em uma autocorrelação com valores
+altos que lentamente decaem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/anomalous_decomposition.png}
+    \caption{Visualização de decomposição linear de um trecho de oito
+    minutos de sinal em regime de anomalia. A linha horizontal vermelha
+    indica o momento de ocorrência da falha.}
+    \label{fig:decomposition}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{figures/anomalous_residuals.png}
+    \caption{Visualização de resíduos de um segmento de oito minutos de sinal
+    em regime de anomalia juntamente de sua autocorrelação.}
+    \label{fig:normal_residue}
+\end{figure}
+
+O objetivo intermediário de obter um sinal mais representativo da presença de
+uma anomalia foi atingido. A fim de de fato detectar a anomalia há a
+necessidade do emprego de algum tipo de algoritmo com esse objetivo.
+
+\subsubsection{Detecção de Anomalia}
+
+A força da tendência presente nos resíduos resultantes da decomposição linear
+do sinal anômalo sugere a possibilidade de usar a inclinação da reta
+resultante de uma regressão linear realizada sob uma janela fixa como um
+indicador de anomalia. Uma anomalia seria então acusada quando a inclinação
+da reta ultrapassar um valor manualmente determinado. blalabalba
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/anomaly_detection.png}
+    \caption{Visualização de aplicação do algoritmo de detecção de anomalias
+    nos resíduos da decomposição linear de um trecho anômalo.}
+    \label{fig:normal_residue}
+\end{figure}
+
 
 \section{Análise Espectral}
+
+aguardar papo com Fred
+> motivar novamente análise espectral, fazer PSD da imagem das correntes lá
 
 \subsection{Densidade de Espectro de Potência}
 
@@ -354,4 +505,3 @@ mostrar pipeline dvc%, talvez até montar um tikz legal e tal
 
 \section{Resultados}
 
-\section{Análise de Estabilidade Residual por meio Diagrama de Polos e Zeros}
