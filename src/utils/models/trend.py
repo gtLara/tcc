@@ -23,7 +23,8 @@ def get_polynomial_trend(signal: np.array, degree: int) -> np.array:
 
 
 def get_kalman_trend(signal: np.array,
-                     transition_variance: float = 0.01) -> np.array:
+                     initial_mean: float = 0,
+                     transition_variance: float = 1e-6) -> np.array:
     """
     Fits trend by using Kalman filter to smooth time series according to
     the transition equation noise variance.
@@ -36,13 +37,13 @@ def get_kalman_trend(signal: np.array,
     """
 
     kf = KalmanFilter(transition_matrices=[1],
-                      observartion_matrices=[1],
-                      initial_state_mean=0,
+                      observation_matrices=[1],
+                      initial_state_mean=initial_mean,
                       initial_state_covariance=1,
                       observation_covariance=1,
-                      transition_covarince=transition_variance)
+                      transition_covariance=transition_variance)
 
-    trend = kf.filter(signal.values)
+    trend, _ = kf.filter(signal.values)
 
     return trend
 
