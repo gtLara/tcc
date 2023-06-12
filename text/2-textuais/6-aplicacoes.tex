@@ -56,10 +56,10 @@ que serão abordados neste trabalho:
     \item \textbf{Reprodutibilidade}: A infraestrutura de processamento de
     sinais, fluxo de dados, modelagem e inferência deve ser absolutamente
     reprodutível para que a solução seja implementável e passível a manutenção
-    ao longo do tempo
+    ao longo do tempo.
     \item \textbf{Documentação}: O código utilizado nos procedimentos
     envolvidos na solução devem ser apropriadamente documentados pelas mesmas
-    motivações do anterior.
+    motivações do ponto anterior.
 \end{enumerate}
 
 A fim de endereçar cada uma dessas preocupações as seguintes considerações são
@@ -103,7 +103,8 @@ A demanda de documentação será atendida seguindo o princípio de evitar códi
 em comentários~\cite{clean_code}. Usando do recurso de \emph{docstrings} da
 linguagem \verb+Python+, na qual a aplicação será desenvolvida, a documentação
 será escrita a nível de funções seguindo o padrão do projeto Sphinx
-~\cite{sphinx}, no intuito de gerar um texto automaticamente a partir do código.
+~\cite{sphinx}, no intuito de gerar um texto automaticamente a partir das
+\emph{docstrings}.
 
 \subsection{Descrição dos Dados}
 
@@ -153,9 +154,6 @@ Comparando as imagens~\ref{fig:demo} e~\ref{fig:demo_anomalous} é conclusivo
 que, no caso dessa anomalia em específico, não há sinais visuais claros de sua
 ocorrência.
 
-TODO: pegar uma sucara com tendência descarada e falar que nesse caso é visível
-hehe
-
 A semelhança entre os sinais enumerados  sugere que o seu uso em conjunto pode
 ser redundante. A seção~\ref{ssec:ccorr} avalia essa hipótese de forma
 quantitativa.
@@ -166,7 +164,24 @@ profundidade.
 
 \subsubsection{Sumarização}
 
-Inserir tabelas aqui, listando número de sucatas, etc
+A análise será realizada em um conjunto de sinais que contém uma ocorrência de
+anomalia. A tabela~\ref{tab:summ} informa algumas estatísticas descritivas do
+sinal de um motor em regime de normalidade e em regime de anomalia.
+Considera-se o regime anômalo como os dez minutos anteriores ao momento
+registrado da anomalia.
+
+\begin{table}[H]
+\label{tab:summ}
+\begin{tabular}{|l|l|l|}
+\hline
+           & \textbf{Normalidade} & \textbf{Anomalia} \\ \hline
+Média      & 59.13                &  65.86            \\ \hline
+Variância  & 18.17                &  21.56            \\ \hline
+\emph{Skew}& 0.14                 &  -0.02            \\ \hline
+Duração    & 5 horas              &  10 minutos       \\ \hline
+Amostragem &  100 Hz              &  100 Hz           \\ \hline
+\end{tabular}
+\end{table}
 
 \section{Análise de Propriedades das Séries Temporais}
 
@@ -196,7 +211,7 @@ correlações instantâneas gerais.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{figures/correlation_matrix.png}
-    \caption{Matrix de correlação instantânea entre séries temporais sob
+    \caption{Matriz de correlação instantânea entre séries temporais sob
     regime de normalidade.}
     \label{fig:demo_matrix}
 \end{figure}
@@ -204,7 +219,7 @@ correlações instantâneas gerais.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{figures/anomalous_correlation_matrix.png}
-    \caption{Matrix de correlação instantânea entre séries temporais sob
+    \caption{Matriz de correlação instantânea entre séries temporais sob
     regime de anomalia.}
     \label{fig:demo_matrix_anomaly}
 \end{figure}
@@ -291,11 +306,10 @@ usos de decomposição é justamente detecção de anomalia
 
 Outra conclusão notável da análise conduzida é a estacionariedade das séries.
 Essa propriedade permite uma representação espectral simples para cada
-corrente, correspondente à transformada de Fourier de suas autocorrelações.
-O fato das autocorrelações de sinais em regime anômalo apresentarem picos em
-um número inferior de atrasos pode refletir em um conteúdo espectral mais
-enviesado para altas frequências, gerando uma \emph{feature} altamente
-discriminativa.
+corrente, correspondente à transformada de Fourier de suas autocorrelações. O
+fato das autocorrelações de sinais em regime anômalo apresentarem picos em um
+número inferior de atrasos pode refletir em um conteúdo espectral mais
+enviesado para altas frequências, gerando uma \emph{feature} discriminativa.
 
 Dessa forma delimitam-se duas tentativas de detecção do regime de anomalia:
 
@@ -326,8 +340,9 @@ decomposição serão analisados essencialmente como uma nova versão da série
 original. A expectativa é que estes resíduos sejam muito mais representativos
 dos regimes de normalidade e anomalia.
 
-As séries serão modeladas de forma individual. TODO: justificar isso !!
-Logo os exemplos serão univariados
+As séries serão modeladas de forma individual na esperança que seja possível
+expor a anomalia a partir de uma única série, logo os modelos desenvolvidos
+são univariados.
 
 \subsection{Modelagem de Tendência}
 
@@ -359,7 +374,8 @@ A modelagem da tendência de um segmento de sinal arbitrário por meio destas
 especificações é ilustrada pela figura~\ref{fig:kalman_trend}. Nota-se
 que o sinal é transformado por um filtro média móvel com janela de $50$
 amostras antes de ser submetido à estimativa do filtro de Kalman, a fim de
-garantir que
+garantir que as atualizações realizadas pelo filtro sejam robustas ao ruído
+de alta frequência.
 
 \begin{figure}[H]
     \centering
@@ -418,7 +434,7 @@ Finalizado o processo de decomposição são obtidos os resíduos. A decomposiç
 de um trecho arbitrário de um sinal específico correspondendo à oito minutos de
 normalidade é visualizada pela figura~\ref{fig:decomposition} onde, de cima
 para baixo, observamos o sinal original, tendência, sazonalidade e resíduos. A
-figura~\ref{fig:normal_residuo} ilustra apenas os resíduos juntamente de sua
+figura~\ref{fig:normal_residue} ilustra apenas os resíduos juntamente de sua
 autocorrelação. Observamos que há permanência de estrutura nos resíduos,
 especificamente de algumas interjeições de alta frequência, mas que de forma
 geral o sinal se aproxima mais a um perfil de autocorrelação de ruído branco
@@ -459,10 +475,10 @@ altos que lentamente decaem.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/anomalous_residuals.png}
+    \includegraphics[scale=0.7]{figures/anomalous_residuals.png}
     \caption{Visualização de resíduos de um segmento de oito minutos de sinal
     em regime de anomalia juntamente de sua autocorrelação.}
-    \label{fig:normal_residue}
+    \label{fig:anomalous_residue}
 \end{figure}
 
 O objetivo intermediário de obter um sinal mais representativo da presença de
@@ -472,10 +488,17 @@ necessidade do emprego de algum tipo de algoritmo com esse objetivo.
 \subsubsection{Detecção de Anomalia}
 
 A força da tendência presente nos resíduos resultantes da decomposição linear
-do sinal anômalo sugere a possibilidade de usar a inclinação da reta
-resultante de uma regressão linear realizada sob uma janela fixa como um
-indicador de anomalia. Uma anomalia seria então acusada quando a inclinação
-da reta ultrapassar um valor manualmente determinado. blalabalba
+do sinal anômalo sugere a possibilidade de usar a inclinação da reta resultante
+de uma regressão linear realizada sob uma janela fixa como um indicador de
+anomalia. Uma anomalia seria então acusada quando a inclinação da reta
+ultrapassar um valor manualmente determinado. Nota-se que logo antes da
+ocorrência da tendência há uma trecho do sinal que apresenta média
+consideravelmente inferior a de suas redondezas, de forma que a aplicação do
+algoritmo proposto resultaria na detecção de uma anomalia ao retomar a
+tendência anterior. Esse trecho do sinal representa um outro regime de operação
+rotulado, isso é, cuja ocorrência é conhecida. A fim de evitar o falso positivo
+decorrente da presença desse outro regime de operação o algoritmo proposto
+ignora a transição entre regimes rotulados.
 
 \begin{figure}[H]
     \centering
@@ -485,23 +508,30 @@ da reta ultrapassar um valor manualmente determinado. blalabalba
     \label{fig:normal_residue}
 \end{figure}
 
+Como observado na figura acima a aplicação do algoritmo é bem sucedida na
+detecção dessa anomalia específica.
 
 \section{Análise Espectral}
 
-aguardar papo com Fred
-> motivar novamente análise espectral, fazer PSD da imagem das correntes lá
+A estacionariedade local dos sinais de corrente permite que sejam computadas
+suas densidades de potência espectral. Como na seção anterior serão
+visualizadas essas funções para janelas em regimes de anomalia e normalidade na
+expectativa de gerar uma característica discriminativa. Em seguida uma breve
+análise linear de tempo frequência será realizada.
 
 \subsection{Densidade de Espectro de Potência}
 
+A figura~\ref{fig:psd_comparison} ilustra uma comparação
+
+
 \subsection{Espectrograma}
 
-\subsection{Distribuição de Wigner Ville}
+\subsubsection{Centróide Espectral}
 
-\subsection{Transformada Discreta de Ondaletas}
 
 \section{\emph{Pipeline} de Processamento de Modelagem}
 
-mostrar pipeline dvc%, talvez até montar um tikz legal e tal
+
 
 \section{Resultados}
 
