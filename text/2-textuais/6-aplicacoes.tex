@@ -485,7 +485,7 @@ O objetivo intermediário de obter um sinal mais representativo da presença de
 uma anomalia foi atingido. A fim de de fato detectar a anomalia há a
 necessidade do emprego de algum tipo de algoritmo com esse objetivo.
 
-\subsubsection{Detecção de Anomalia}
+\subsubsection{Detecção de Anomalia}\label{ssec:algorithm}
 
 A força da tendência presente nos resíduos resultantes da decomposição linear
 do sinal anômalo sugere a possibilidade de usar a inclinação da reta resultante
@@ -511,6 +511,9 @@ ignora a transição entre regimes rotulados.
 Como observado na figura acima a aplicação do algoritmo é bem sucedida na
 detecção dessa anomalia específica.
 
+TODO: mencionar sobre detecção de anomalia multivariada aqui !! Colocar imagem
+de decomposição múltipla e etc.
+
 \section{Análise Espectral}
 
 A estacionariedade local dos sinais de corrente permite que sejam computadas
@@ -519,19 +522,75 @@ visualizadas essas funções para janelas em regimes de anomalia e normalidade n
 expectativa de gerar uma característica discriminativa. Em seguida uma breve
 análise linear de tempo frequência será realizada.
 
+A figura~\ref{fig:psd_signals} ilustra os segmentos de sinais de normalidade e
+anomalia que serão analisados. Como já constatado, não há diferença visível
+entre os sinais.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/psd_comparison_signals.png}
+    \caption{Visualização no tempo de sinais analisados em frequência.}
+    \label{fig:psd_signals}
+\end{figure}
+
 \subsection{Densidade de Espectro de Potência}
 
-A figura~\ref{fig:psd_comparison} ilustra uma comparação
+A figura~\ref{fig:psd_comparison} ilustra uma comparação das funções de
+densidade de espectro de potência dos sinais ilustrados pela figura
+~\ref{fig:psd_signals}. Essas funções foram estimadas pelo método de Welch
+~\cite{welch}. Observa-se pouca diferença entre as densidades, além de um
+aparente viés do sinal anômalo para distribuição de potência em altas
+frequências.
 
+É possível que a janela de observação de dez minutos utilizada seja grande
+demais para capturar a variação local de frequência dos sinais. Nesse caso
+se torna necessário a utilização de um método capaz de representar o conteúdo
+espectral dos sinais de forma variável ao longo do tempo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/psd_comparison.png}
+    \caption{Visualização comparativa de densidade de potência espectral de
+    sinais em regime de normalidade e anomalia.}
+    \label{fig:psd_comparison}
+\end{figure}
 
 \subsection{Espectrograma}
 
-\subsubsection{Centróide Espectral}
+Uma forma natural de analisar a variação temporal instantânea do conteúdo dos
+sinais é por meio de um espectrograma. A figura~\ref{fig:spectrograms}
+visualiza os espectrogramas dos sinais da figura~\ref{fig:psd_signals}.
+Observa-se que, como nos resíduos do sinal decomposto, há visível tendência na
+distribuição do conteúdo espectral do sinal anômalo. A extração de alguma
+característica espectral pode ser útil para detectar a anomalia. A figura
+~\ref{fig:spectrograms_max} visualiza o cálculo do valor máximo de cada
+\emph{frame}, sugerindo que esta característica pode ser discriminativa.
 
+Gerada uma característica representativa da anomalia no domínio da frequência
+é necessário usá-la para a tarefa de detecção. Como a exposição da anomalia
+se deu por meio de uma tendência o algoritmo proposto na seção
+~\ref{ssec:algorithm} pode ser empregado a este fim. Alternativamente
+algoritmos de classificação de imagem como redes neurais
+convolucionais~\ref{cnns} podem ser usadas a partir de qualquer representação
+tempo frequência. Nenhuma desses métodos e detecção serão empregados nos
+espectrogramas produzidos.
 
-\section{\emph{Pipeline} de Processamento de Modelagem}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{figures/spectrogram_comparison.png}
+    \caption{Visualização comparativa de espectrogramas de sinais em regime de
+    normalidade e anomalia.}
+    \label{fig:spectrograms}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{figures/max_spectrogram_comparison.png}
+    \caption{Visualização comparativa valor máximo dos \emph{frames} de
+    espectrogramas de sinais em regime de normalidade e anomalia.}
+    \label{fig:spectrograms_max}
+\end{figure}
 
+\section{\emph{Pipeline} de Processamento e Modelagem}
 
 \section{Resultados}
-
