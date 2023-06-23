@@ -10,21 +10,20 @@ No seguinte capítulo é realizada uma análise de correntes de motores elétric
 a fim de detectar anomalias em sua operação. Na situação estudada múltiplos
 motores de indução são responsáveis pelo funcionamento de uma esteira
 industrial que transporta um produto em uma das etapas de sua fabricação. Os
-motores estão acoplados à mesma esteira e a corrente é medida de forma
-monofásica na barra de uma de suas gaiolas (TODO: confirmar onde é medida a
-corrente e se descrição de medição está ok). Detalhes sobre o processo de
-fabricação e produto em si não podem ser compartilhadas e não são
-particularmente interessantes para a abordagem deste trabalho, que se limita
-aos sinais de corrente. Basta esclarecer que em operação normal a esteira opera
-em velocidade constante, enquanto sob operação anômala um acúmulo indesejado do
-material transportado gera uma diminuição irregular de sua velocidade.
+motores estão acoplados à mesma esteira e a corrente é medida na barra de uma
+de suas gaiolas. Detalhes sobre o processo de fabricação e produto em si não
+podem ser compartilhadas e não são particularmente interessantes para a
+abordagem deste trabalho, que se limita aos sinais de corrente. Basta
+esclarecer que em operação normal a esteira opera em velocidade constante,
+enquanto sob operação anômala um acúmulo indesejado do material transportado
+gera uma diminuição irregular de sua velocidade.
 
 A partir dessa breve descrição do problema podemos delimitar o escopo do
 material utilizado na seguinte análise como exclusivamente os sinais de
 corrente dos motores. Nota-se que considerável progresso pode ser feito a
-partir de análises dos sistemas de controle de motores de indução, como em
-~\cite{}. Quanto à fundamentação teórica, serão utilizados conceitos discutidos
-ao longo dos últimos capítulos.
+partir de análises dos sistemas de controle de motores de indução. Quanto à
+fundamentação teórica, serão utilizados conceitos discutidos ao longo dos
+últimos capítulos.
 
 A limitação da análise às correntes leva à necessidade da definição de um
 evento anômalo a nível deste sinal para que seja possível gerar algum tipo de
@@ -117,10 +116,12 @@ O fornecedor dos sinais oferece duas taxas de amostragem: $100Hz$,
 representando a taxa de amostragem real dos instrumentos de medição, e $1Hz$,
 resultado de uma subamostragem do sinal original para maior facilidade de
 transmissão. Os sinais originais, amostrados a $100Hz$, não são fáceis de se
-obter. Como consequência o presente estudo é limitado no que tange à quantidade
-de dados. Uma propriedade positiva da abordagem empregada é sua validade mesmo
-na presença de poucos dados. Dessa forma, uma das contribuições desse trabalho
-é justamente a extração de padrões úteis a partir de poucos dados.
+obter e os sinais de $1Hz$ não possuem conteúdo espectral detalhado o
+suficiente para acomodar as análises deste trabalho. Como consequência o
+presente estudo é limitado no que tange à quantidade de dados. Uma propriedade
+positiva da abordagem empregada é sua validade mesmo na presença de poucos
+dados. Dessa forma, uma das contribuições desse trabalho é justamente a
+extração de padrões úteis a partir de poucos dados.
 
 A seguinte figura ilustra um grupo de nove séries temporais sob um intervalo
 de tempo de três minutos em operação normal.
@@ -171,7 +172,7 @@ Considera-se o regime anômalo como os dez minutos anteriores ao momento
 registrado da anomalia.
 
 \begin{table}[H]
-\label{tab:summ}
+\centering
 \begin{tabular}{|l|l|l|}
 \hline
            & \textbf{Normalidade} & \textbf{Anomalia} \\ \hline
@@ -181,6 +182,8 @@ Variância  & 18.17                &  21.56            \\ \hline
 Duração    & 5 horas              &  10 minutos       \\ \hline
 Amostragem &  100 Hz              &  100 Hz           \\ \hline
 \end{tabular}
+\caption{Sumarização dos dados.}
+\label{tab:summ}
 \end{table}
 
 \section{Análise de Propriedades das Séries Temporais}
@@ -292,7 +295,7 @@ comparação das imagens~\ref{fig:anomalous_demo_acorrs} e~\ref{fig:demo_acorrs}
 leva à observação de que os primeiros picos de autocorrelação dos sinais em
 regime anômalo ocorrem ligeiramente antes. Essa característica pode ser útil
 para discriminar entre os dois regimes e é estudada de forma quantitativa
-na seção~\ref{ssec:}.
+na seção~\ref{sec:spectral}.
 
 \subsection{Possíveis Soluções}
 
@@ -302,7 +305,7 @@ a presença de tendência e sazonalidade bem definidas, sugerindo a possibilidad
 do uso de decomposição linear (seção ~\ref{sec:decomposition}) de forma a melhor
 representar a anomalia que se deseja identificar. Nota-se que um dos principais
 usos de decomposição é justamente detecção de anomalia
-~\cite{anomaly_detection_decomposition}.
+~\cite{anomaly_detection}.
 
 Outra conclusão notável da análise conduzida é a estacionariedade das séries.
 Essa propriedade permite uma representação espectral simples para cada
@@ -392,12 +395,12 @@ tempo real para que a estimativa da tendência seja realizada de forma
 \subsection{Modelagem de Sazonalidade}
 
 A abordagem para modelagem de sazonalidade será o cálculo do padrão sazonal
-médio, conforme a seção~\ref{sec:mean_season}. Essencial para o funcionamento
+médio, conforme a seção~\ref{ssec:mean_season}. Essencial para o funcionamento
 desse método é a determinação correta do período do padrão sazonal. É
 indispensável que esse valor seja determinado de forma automática pela
 multiplicidade de séries temporais e pela necessidade de contínuo cálculo de
 padrões sazonais. A forma mais direta de obter esse valor é pelo número de
-atrases necessários para a função de autocorrelação atingir seu primeiro
+atrasos necessários para a função de autocorrelação atingir seu primeiro
 máximo local, como ilustrado pela figura~\ref{fig:acorr_peak}.
 
 \begin{figure}[H]
@@ -459,10 +462,9 @@ do que inicialmente.
 Podemos realizar visualizações identicamente análogas para um trecho de oito
 minutos em regime anômalo, resultando nas figuras~\ref{fig:anomalous_residue}
 e~\ref{fig:decomposition}. Observamos que, conforme desejado, a presença da
-anomalia se torna evidente por meio de um padrão no resíduos. No caso dessa
-anomalia em específico (e de outras, como será ilustrado) este padrão é uma
-forte tendência ou, de forma equivalente, em uma autocorrelação com valores
-altos que lentamente decaem.
+anomalia se torna evidente por meio de um padrão nos resíduos. No caso dessa
+anomalia em específico este padrão é uma forte tendência ou, de forma
+equivalente, em uma autocorrelação com valores altos que lentamente decaem.
 
 \begin{figure}[H]
     \centering
@@ -511,10 +513,30 @@ ignora a transição entre regimes rotulados.
 Como observado na figura acima a aplicação do algoritmo é bem sucedida na
 detecção dessa anomalia específica.
 
-TODO: mencionar sobre detecção de anomalia multivariada aqui !! Colocar imagem
-de decomposição múltipla e etc.
+\subsubsection{Detecção de Anomalia Multivariada}
 
-\section{Análise Espectral}
+O processo anterior foi realizado de forma univariada e os resultados
+comunicados por meio de seus resultados em uma série específica. A eficiência
+do algoritmo de detecção usando apenas esta série demonstra que o uso do
+conjunto completo ou parcialmente completo das correntes pode ser redundante.
+
+A solução desenvolvida executa os procedimentos em todas as séries, no entanto.
+O resultado da decomposição é visualizada para múltiplas séries por meio da
+figura~\ref{fig:multiple_decomp}. Observa-se que em todas as correntes
+visualizadas houve o surgimento da tendência sinalizadora da anomalia.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{figures/multiple_decomp.png}
+    \caption{Visualização de aplicação do algoritmo de decomposição para
+    múltiplas correntes.}
+    \label{fig:multiple_decomp}
+\end{figure}
+
+Os resultados sugerem que, na prática, um conjunto pequeno ou até mesmo uma
+única corrente pode ser usada para a detecção de anomalia.
+
+\section{Análise Espectral}\label{sec:spectral}
 
 A estacionariedade local dos sinais de corrente permite que sejam computadas
 suas densidades de potência espectral. Como na seção anterior serão
@@ -571,7 +593,7 @@ Gerada uma característica representativa da anomalia no domínio da frequência
 se deu por meio de uma tendência o algoritmo proposto na seção
 ~\ref{ssec:algorithm} pode ser empregado a este fim. Alternativamente
 algoritmos de classificação de imagem como redes neurais
-convolucionais~\ref{cnns} podem ser usadas a partir de qualquer representação
+convolucionais\cite{cnn} podem ser usadas a partir de qualquer representação
 tempo frequência. Nenhuma desses métodos e detecção serão empregados nos
 espectrogramas produzidos.
 
@@ -591,6 +613,4 @@ espectrogramas produzidos.
     \label{fig:spectrograms_max}
 \end{figure}
 
-\section{\emph{Pipeline} de Processamento e Modelagem}
-
-\section{Resultados}
+% \section{\emph{Pipeline} de Processamento e Modelagem}
