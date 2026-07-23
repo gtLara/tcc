@@ -7,8 +7,6 @@ import pandas as pd
 import numpy as np
 
 
-# TODO: work out significance level (tolerance) : this may not be so trivial
-# after all
 def get_crosscorrelation(signal_a: np.ndarray | pd.Series,
                          signal_b: np.ndarray | pd.Series,
                          normalize: bool = True,
@@ -45,8 +43,7 @@ def get_crosscorrelation(signal_a: np.ndarray | pd.Series,
         center = len(cross_correlation)//2
         cross_correlation = cross_correlation[center-n_lags+1:center+n_lags]
 
-    # TODO: work out lags
-    return cross_correlation#, lags
+    return cross_correlation
 
 
 def get_autocorrelation(signal: np.ndarray | pd.Series,

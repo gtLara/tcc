@@ -3,7 +3,6 @@ import warnings
 from typing import Optional
 
 
-# TODO: fix cases in which poles are close to 1
 def is_arma_stationary(ar_coef: np.ndarray) -> bool:
     """
     Determines wether ARMA process is stationary based on AR coefficients.
@@ -26,7 +25,6 @@ def generate_arma(n_samples: int, ar_coef: Optional[list[float]] = None,
                   seed: int = 42,
                   noise_params: tuple = ("white", -1, 1)) -> np.ndarray:
 
-    # TODO: add gaussian noise support
     """
     Generates an arbitrarily long realization of an ARMA(p, q) process with
     either white or Gaussian innovations (noise).
@@ -51,7 +49,6 @@ def generate_arma(n_samples: int, ar_coef: Optional[list[float]] = None,
 
     np.random.seed(seed)
 
-    # TODO: extract noise generation
     noise = np.random.uniform(low=min(noise_params[1:]),
                               high=max(noise_params[1:]),
                               size=n_samples)
@@ -60,8 +57,6 @@ def generate_arma(n_samples: int, ar_coef: Optional[list[float]] = None,
 
     for n in range(n_samples):
 
-        # TODO: extract these loops
-        # TODO: add stationarity warning
         if ar_coef is not None:
             for k in range(len(ar_coef)):
                 if n - k > 0:

@@ -33,7 +33,6 @@ def get_seasonal_difference(signal: pd.Series | np.ndarray, period: int,
     return diffed_signal.values
 
 
-# TODO: remove visual from here !! move to visual funcs
 def get_stochastic_seasonal_component(signal: np.ndarray | pd.Series,
                                       period: int,
                                       visual: False) -> np.ndarray:

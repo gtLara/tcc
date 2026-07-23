@@ -63,6 +63,3 @@ def get_detrended_signal(signal: np.array, trend_degree: int = 0) -> np.array:
     trend = get_polynomial_trend(signal, trend_degree)
 
     return signal - trend
-
-
-# TODO: implement LOWESS and MA trend definition

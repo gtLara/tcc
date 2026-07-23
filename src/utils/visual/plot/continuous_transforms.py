@@ -31,7 +31,7 @@ def plot_cwt(coef: np.ndarray, freqs: np.ndarray,
 
     scales = np.arange(1, 21, 1)
 
-    plt.imshow(abs(coef), cmap=cmap, extent=[0, n_samples, freqs[-1],  # TODO: add time
+    plt.imshow(abs(coef), cmap=cmap, extent=[0, n_samples, freqs[-1],
                freqs[0]], interpolation="bilinear", aspect="auto")
     plt.gca().invert_yaxis()
 

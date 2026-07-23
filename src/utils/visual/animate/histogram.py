@@ -46,8 +46,6 @@ def iterate_signal_animation(iterator: int, bars: Line2D, axis: Axes,
 
     return bars
 
-# TODO: debug this! and rewrite docstrings after
-
 
 def animate_histogram_across_time(signal: np.ndarray, win_size: int, bins: int,
                                   step: int,

@@ -9,9 +9,6 @@ sys.path.append("/home/gala/tcc/")
 from src.utils.visual.plot.pole_zero_diagram import pole_zero_plot
 
 
-# @todo: Refactor image generation code
-# @body: common data generation functions should be included into src and synthetic data generated appropriately
-
 sys.dont_write_bytecode = True  # Impede de produzir __pycache__
 
 # Definição de parâmetros universais
@@ -46,8 +43,6 @@ if __name__ == "__main__":
             generate = getattr(generator_class, generator_name)
 
             # Generates image
-            # @todo: Fix pickle loading issue
-            # @body: pickled motor current data is crashing on load, for some reason. fix!
             generate(ihm_navy, dpi, image_path, extension)
             # except Exception as e:
             #     print(f"{generator_name} is not working ;(\n{e}")
