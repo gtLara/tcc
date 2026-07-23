@@ -128,7 +128,7 @@ de tempo de três minutos em operação normal.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{figures/current_signal_demos.png}
+    \includegraphics[width=0.85\textwidth]{figures/current_signal_demos.png}
     \caption{Exemplo de nove dos dezessete sinais de corrente em um intervalo
     arbitrário de três minutos em operação normal.}
     \label{fig:demo}
@@ -145,7 +145,7 @@ três minutos antecedentes ao evento anômalo.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{figures/sucata_current_signal_demos.png}
+    \includegraphics[width=0.85\textwidth]{figures/sucata_current_signal_demos.png}
     \caption{Exemplo de nove dos dezessete sinais de corrente em um intervalo
     arbitrário de três minutos em operação anômala.}
     \label{fig:demo_anomalous}
@@ -213,7 +213,7 @@ correlações instantâneas gerais.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/correlation_matrix.png}
+    \includegraphics[width=0.85\textwidth]{figures/correlation_matrix.png}
     \caption{Matriz de correlação instantânea entre séries temporais sob
     regime de normalidade.}
     \label{fig:demo_matrix}
@@ -221,7 +221,7 @@ correlações instantâneas gerais.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/anomalous_correlation_matrix.png}
+    \includegraphics[width=0.85\textwidth]{figures/anomalous_correlation_matrix.png}
     \caption{Matriz de correlação instantânea entre séries temporais sob
     regime de anomalia.}
     \label{fig:demo_matrix_anomaly}
@@ -275,7 +275,7 @@ respectivamente.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{figures/current_signal_acorrs.png}
+    \includegraphics[width=0.85\textwidth]{figures/current_signal_acorrs.png}
     \caption{Exemplo de autocorrelação de nove dos dezessete sinais de corrente
     em um intervalo arbitrário de três minutos em operação normal.}
     \label{fig:demo_acorrs}
@@ -283,7 +283,7 @@ respectivamente.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{figures/sucata_current_signal_acorrs.png}
+    \includegraphics[width=0.85\textwidth]{figures/sucata_current_signal_acorrs.png}
     \caption{Exemplo de autocorrelação de nove dos dezessete sinais de corrente
     em um intervalo arbitrário de três minutos em operação anômala.}
     \label{fig:anomalous_demo_acorrs}
@@ -382,7 +382,7 @@ de alta frequência.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{figures/kalman_trend.png}
+    \includegraphics[width=0.85\textwidth]{figures/kalman_trend.png}
     \caption{Exemplo de modelagem de tendência via modelo de nível local e
     filtro de Kalman}
     \label{fig:kalman_trend}
@@ -405,7 +405,7 @@ máximo local, como ilustrado pela figura~\ref{fig:acorr_peak}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{figures/autocorrelation_peak_example.png}
+    \includegraphics[width=0.85\textwidth]{figures/autocorrelation_peak_example.png}
     \caption{Perfil de autocorrelação de uma janela arbitrária de dez minutos
     de operação normal. O intervalo entre as linhas vermelhas horizontais
     corresponde ao período do padrão sazonal.}
@@ -422,7 +422,7 @@ padrão encontrado.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.8]{figures/seasonal_pattern.png}
+    \includegraphics[width=0.85\textwidth]{figures/seasonal_pattern.png}
     \caption{Visualização de computação de padrão sazonal médio.}
     \label{fig:mean_seasonal_pattern}
 \end{figure}
@@ -445,7 +445,7 @@ do que inicialmente.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/decomposition.png}
+    \includegraphics[width=0.85\textwidth]{figures/decomposition.png}
     \caption{Visualização de decomposição linear de um trecho de oito
     minutos de sinal em regime de normalidade.}
     \label{fig:decomposition}
@@ -453,7 +453,7 @@ do que inicialmente.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/residuals.png}
+    \includegraphics[width=0.85\textwidth]{figures/residuals.png}
     \caption{Visualização de resíduos de um segmento de oito minutos de sinal
     em regime de normalidade juntamente de sua autocorrelação.}
     \label{fig:normal_residue}
@@ -461,23 +461,23 @@ do que inicialmente.
 
 Podemos realizar visualizações identicamente análogas para um trecho de oito
 minutos em regime anômalo, resultando nas figuras~\ref{fig:anomalous_residue}
-e~\ref{fig:decomposition}. Observamos que, conforme desejado, a presença da
+e~\ref{fig:anomalous_decomposition}. Observamos que, conforme desejado, a presença da
 anomalia se torna evidente por meio de um padrão nos resíduos. No caso dessa
 anomalia em específico este padrão é uma forte tendência ou, de forma
 equivalente, em uma autocorrelação com valores altos que lentamente decaem.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/anomalous_decomposition.png}
+    \includegraphics[width=0.85\textwidth]{figures/anomalous_decomposition.png}
     \caption{Visualização de decomposição linear de um trecho de oito
     minutos de sinal em regime de anomalia. A linha horizontal vermelha
     indica o momento de ocorrência da falha.}
-    \label{fig:decomposition}
+    \label{fig:anomalous_decomposition}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{figures/anomalous_residuals.png}
+    \includegraphics[width=0.85\textwidth]{figures/anomalous_residuals.png}
     \caption{Visualização de resíduos de um segmento de oito minutos de sinal
     em regime de anomalia juntamente de sua autocorrelação.}
     \label{fig:anomalous_residue}
@@ -504,10 +504,10 @@ ignora a transição entre regimes rotulados.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{figures/anomaly_detection.png}
+    \includegraphics[width=0.85\textwidth]{figures/anomaly_detection.png}
     \caption{Visualização de aplicação do algoritmo de detecção de anomalias
     nos resíduos da decomposição linear de um trecho anômalo.}
-    \label{fig:normal_residue}
+    \label{fig:anomaly_detection}
 \end{figure}
 
 Como observado na figura acima a aplicação do algoritmo é bem sucedida na
@@ -527,7 +527,7 @@ visualizadas houve o surgimento da tendência sinalizadora da anomalia.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{figures/multiple_decomp.png}
+    \includegraphics[width=0.85\textwidth]{figures/multiple_decomp.png}
     \caption{Visualização de aplicação do algoritmo de decomposição para
     múltiplas correntes.}
     \label{fig:multiple_decomp}
@@ -550,7 +550,7 @@ entre os sinais.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{figures/psd_comparison_signals.png}
+    \includegraphics[width=0.85\textwidth]{figures/psd_comparison_signals.png}
     \caption{Visualização no tempo de sinais analisados em frequência.}
     \label{fig:psd_signals}
 \end{figure}
@@ -571,7 +571,7 @@ espectral dos sinais de forma variável ao longo do tempo.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{figures/psd_comparison.png}
+    \includegraphics[width=0.85\textwidth]{figures/psd_comparison.png}
     \caption{Visualização comparativa de densidade de potência espectral de
     sinais em regime de normalidade e anomalia.}
     \label{fig:psd_comparison}
@@ -599,7 +599,7 @@ espectrogramas produzidos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.8]{figures/spectrogram_comparison.png}
+    \includegraphics[width=0.85\textwidth]{figures/spectrogram_comparison.png}
     \caption{Visualização comparativa de espectrogramas de sinais em regime de
     normalidade e anomalia.}
     \label{fig:spectrograms}
@@ -607,7 +607,7 @@ espectrogramas produzidos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.8]{figures/max_spectrogram_comparison.png}
+    \includegraphics[width=0.85\textwidth]{figures/max_spectrogram_comparison.png}
     \caption{Visualização comparativa valor máximo dos \emph{frames} de
     espectrogramas de sinais em regime de normalidade e anomalia.}
     \label{fig:spectrograms_max}
